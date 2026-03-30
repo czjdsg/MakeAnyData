@@ -1,0 +1,13 @@
+serverAddr = "222.223.112.209"
+serverPort = 7000
+
+auth.method = "token"
+auth.tokenSource.type = "file"
+auth.tokenSource.file.path = "/opt/frp/frp.token"
+
+[[proxies]]
+name = "makeanydata_showcase"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 8080
+remotePort = 18080

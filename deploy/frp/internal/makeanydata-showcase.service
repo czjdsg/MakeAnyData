@@ -1,0 +1,15 @@
+[Unit]
+Description=Make Any Data Showcase Static Server
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=cone
+WorkingDirectory=/data0/cone/MakeAnyData/showcase-template
+ExecStart=/bin/bash /data0/cone/MakeAnyData/showcase-template/deploy/frp/internal/serve-showcase.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

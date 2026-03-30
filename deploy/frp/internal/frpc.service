@@ -1,0 +1,15 @@
+[Unit]
+Description=FRP Client for Make Any Data Showcase
+After=network.target makeanydata-showcase.service
+Wants=network.target makeanydata-showcase.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/frp
+ExecStart=/opt/frp/frpc -c /opt/frp/frpc.toml
+Restart=always
+RestartSec=3
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=multi-user.target

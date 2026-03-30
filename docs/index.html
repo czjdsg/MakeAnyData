@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Make Any Data | Case Showcase Template</title>
+    <meta
+      name="description"
+      content="A fancy case-focused showcase template for the Make Any Data project."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="site-nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark"></span>
+        <span class="brand-text">Make Any Data</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#cases">Cases</a>
+        <a href="#story">Story</a>
+        <a href="#pipeline">Pipeline</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Case-Focused Showcase Template</p>
+          <h1 class="hero-title">
+            把论文展示页做成
+            <span>可滚动浏览的 Case Gallery</span>
+          </h1>
+          <p class="hero-text">
+            这版模板不走传统论文海报布局，而是把核心内容压缩成统一的
+            `素材输入 → 自动构造 → 标准化输出` 叙事，并用动态卡片、滚动切换和高亮面板来强化 case 展示。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#cases">Explore Cases</a>
+            <a class="button button-ghost" href="#pipeline">See Pipeline</a>
+          </div>
+          <div class="hero-stats">
+            <article class="stat-card">
+              <strong>7+</strong>
+              <span>case domains</span>
+            </article>
+            <article class="stat-card">
+              <strong>0</strong>
+              <span>manual annotation</span>
+            </article>
+            <article class="stat-card">
+              <strong>1</strong>
+              <span>unified data grammar</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="hero-stage reveal">
+          <div class="stage-backdrop"></div>
+          <div class="hero-panel hero-panel-large">
+            <p class="panel-kicker">Raw Material</p>
+            <h3>Video / GUI / Ego / Robot / Drawing</h3>
+            <p>普通素材不是终点，而是自动构造数据的起点。</p>
+          </div>
+          <div class="hero-panel hero-panel-small hero-panel-top">
+            <p class="panel-kicker">Reasoning Layer</p>
+            <p>筛选关键帧、定位卡点、拼接长程任务、生成训练样本。</p>
+          </div>
+          <div class="hero-panel hero-panel-small hero-panel-mid">
+            <p class="panel-kicker">Output Format</p>
+            <p>Interleaved tutorial / temporal QA / world model / GUI task.</p>
+          </div>
+          <div class="hero-ring hero-ring-one"></div>
+          <div class="hero-ring hero-ring-two"></div>
+          <div class="hero-chip hero-chip-left">Case-First</div>
+          <div class="hero-chip hero-chip-right">Motion Driven</div>
+        </div>
+      </section>
+
+      <section class="section thesis-section reveal">
+        <div class="section-head">
+          <p class="eyebrow">What This Page Should Say</p>
+          <h2>展示重点不是算法细节，而是泛化后的 case 能力。</h2>
+        </div>
+        <div class="thesis-grid">
+          <article class="thesis-card">
+            <p class="card-label">Pain Point 01</p>
+            <h3>纯 VLM 端到端生成不稳定</h3>
+            <p>幻觉严重、对齐失效，生成结果很难直接变成可训练样本。</p>
+          </article>
+          <article class="thesis-card">
+            <p class="card-label">Pain Point 02</p>
+            <h3>规则脚本方案太重</h3>
+            <p>流程硬编码、复用性差、跨场景扩展成本高。</p>
+          </article>
+          <article class="thesis-card">
+            <p class="card-label">System Claim</p>
+            <h3>Make Any Data</h3>
+            <p>无需人工标注、无需仿真环境，用统一流程把常规素材转成标准化训练数据。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section showcase-section" id="cases">
+        <div class="section-head reveal">
+          <p class="eyebrow">Case Gallery</p>
+          <h2>先用卡片扫清全局，再用右侧面板进入重点 case。</h2>
+        </div>
+
+        <div class="showcase-shell">
+          <div class="showcase-panel reveal" id="case-spotlight">
+            <div class="spotlight-meta">
+              <span class="spotlight-index" id="spotlight-index">01</span>
+              <span class="spotlight-domain" id="spotlight-domain">生活教程</span>
+            </div>
+            <h3 id="spotlight-title">Cooking to Interleaved Tutorial</h3>
+            <p id="spotlight-summary">
+              从做饭视频里抽取关键动作和用户真实提问，输出可直接训练的图文交错教程数据。
+            </p>
+            <div class="spotlight-grid">
+              <div>
+                <p class="spotlight-label">Input</p>
+                <p id="spotlight-input">短视频素材、关键帧、自然语言问题</p>
+              </div>
+              <div>
+                <p class="spotlight-label">Output</p>
+                <p id="spotlight-output">`step_id + images + text` 的教程型 JSON</p>
+              </div>
+            </div>
+            <div class="spotlight-tags" id="spotlight-tags"></div>
+          </div>
+
+          <div class="case-grid">
+            <button class="case-card is-active reveal" data-case="cooking" type="button">
+              <span class="case-number">01</span>
+              <p class="case-domain">生活教程</p>
+              <h3>Cooking Cleanup Tutorial</h3>
+              <p>把烹饪和收尾清理过程压缩成图文交错的步骤教学数据。</p>
+            </button>
+            <button class="case-card reveal" data-case="geometry" type="button">
+              <span class="case-number">02</span>
+              <p class="case-domain">学科教育</p>
+              <h3>Geometry Stuck-Point Reasoning</h3>
+              <p>不做整题复述，只做学生最容易卡住的一步。</p>
+            </button>
+            <button class="case-card reveal" data-case="editing" type="button">
+              <span class="case-number">03</span>
+              <p class="case-domain">通用生成编辑</p>
+              <h3>Ego Image Editing</h3>
+              <p>输入图像和动作指令，生成符合场景约束的编辑目标。</p>
+            </button>
+            <button class="case-card reveal" data-case="temporal" type="button">
+              <span class="case-number">04</span>
+              <p class="case-domain">时空理解</p>
+              <h3>Temporal QA Builder</h3>
+              <p>构造时空定位、先后顺序、状态变化和多事件联合推理。</p>
+            </button>
+            <button class="case-card reveal" data-case="gui" type="button">
+              <span class="case-number">05</span>
+              <p class="case-domain">人机交互</p>
+              <h3>GUI Long-Horizon Tasks</h3>
+              <p>把零散操作片段自动拼成长链任务，适合 agent 训练。</p>
+            </button>
+            <button class="case-card reveal" data-case="embodied" type="button">
+              <span class="case-number">06</span>
+              <p class="case-domain">具身智能</p>
+              <h3>Fault Recovery World Model</h3>
+              <p>从成功操作反推故障场景，训练机器人决策和修正能力。</p>
+            </button>
+            <button class="case-card reveal" data-case="commerce" type="button">
+              <span class="case-number">07</span>
+              <p class="case-domain">直播电商</p>
+              <h3>Hand-Object Segments</h3>
+              <p>筛选复杂手物交互片段，为视频生成或动作理解提供数据。</p>
+            </button>
+            <button class="case-card reveal" data-case="drawing" type="button">
+              <span class="case-number">08</span>
+              <p class="case-domain">逐步生成</p>
+              <h3>Stepwise Digital Painting</h3>
+              <p>从绘画序列中筛出关键递进节点，形成图文交错生成教程。</p>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section story-section" id="story">
+        <div class="section-head reveal">
+          <p class="eyebrow">Deep Dive</p>
+          <h2>用 sticky scrollytelling 展示最能打的 4 个核心 case。</h2>
+        </div>
+
+        <div class="story-layout">
+          <div class="story-steps">
+            <article class="story-step reveal is-current" data-story="cooking">
+              <span class="story-index">01</span>
+              <h3>生活教程</h3>
+              <p>视频中的烹饪和收尾清理动作，被重组为真实用户会提问的教程步骤。</p>
+            </article>
+            <article class="story-step reveal" data-story="geometry">
+              <span class="story-index">02</span>
+              <h3>学科卡点</h3>
+              <p>只截取学生最需要引导的关键一帧，把“卡壳”变成高价值训练样本。</p>
+            </article>
+            <article class="story-step reveal" data-story="gui">
+              <span class="story-index">03</span>
+              <h3>GUI 长程任务</h3>
+              <p>将碎片化 App 操作拼成长链流程，用于 price comparison 与 route planning。</p>
+            </article>
+            <article class="story-step reveal" data-story="embodied">
+              <span class="story-index">04</span>
+              <h3>具身故障修正</h3>
+              <p>从成功视频反演异常状态，训练模型学会回溯、判断和继续执行。</p>
+            </article>
+          </div>
+
+          <div class="story-panel">
+            <div class="story-progress">
+              <span id="story-progress-bar"></span>
+            </div>
+            <div class="story-preview reveal" id="story-preview">
+              <div class="preview-badge" id="story-badge">01 / Featured Case</div>
+              <h3 id="story-title">Cooking tutorial with interleaved steps</h3>
+              <p id="story-text">
+                页面右侧是可切换的大面板，用来展示某个 case 的输入、自动推理方式和最终产出格式。
+              </p>
+              <div class="preview-visual">
+                <div class="visual-frame visual-frame-large"></div>
+                <div class="visual-frame visual-frame-small"></div>
+                <div class="visual-frame visual-frame-tiny"></div>
+              </div>
+              <div class="preview-list">
+                <article>
+                  <p class="preview-label">Input</p>
+                  <p id="story-input">做饭视频、关键动作、自然提问</p>
+                </article>
+                <article>
+                  <p class="preview-label">Reasoning</p>
+                  <p id="story-reasoning">识别步骤边界、选关键帧、生成教程语气的问题与回答。</p>
+                </article>
+                <article>
+                  <p class="preview-label">Output</p>
+                  <p id="story-output">图文交错教程数据，可直接进入训练。</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section pipeline-section" id="pipeline">
+        <div class="section-head reveal">
+          <p class="eyebrow">Unified Pipeline</p>
+          <h2>无论 case 如何变化，页面里都保持一套一致的数据语法。</h2>
+        </div>
+        <div class="pipeline-grid">
+          <article class="pipeline-card reveal">
+            <span class="pipeline-index">01</span>
+            <h3>Raw Inputs</h3>
+            <p>视频、图像、GUI 片段、机器人操作、绘画序列等普通素材。</p>
+          </article>
+          <article class="pipeline-card reveal">
+            <span class="pipeline-index">02</span>
+            <h3>Automatic Reasoning</h3>
+            <p>识别关键帧、筛选有效片段、定位卡点、拼接长程逻辑、构造自然问题。</p>
+          </article>
+          <article class="pipeline-card reveal">
+            <span class="pipeline-index">03</span>
+            <h3>Structured Outputs</h3>
+            <p>教程类、时空类、GUI 类、具身智能类、世界模型类标准化样本。</p>
+          </article>
+          <article class="pipeline-card reveal">
+            <span class="pipeline-index">04</span>
+            <h3>Trainable Cases</h3>
+            <p>所有结果都回到统一目标：直接服务训练，而不是停留在演示层。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section cta-section reveal">
+        <div class="cta-panel">
+          <p class="eyebrow">Template Ready</p>
+          <h2>这版已经能作为论文项目展示页的第一版骨架。</h2>
+          <p>
+            你后面只需要替换实际图片、视频封面和真实 JSON 片段，就可以把它升级成正式版本。
+          </p>
+          <a class="button button-primary" href="#top">Back to Top</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
