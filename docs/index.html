@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Make Any Data | Case Showcase Template</title>
+    <title>DataClaw | Make ANY Data You Want</title>
     <meta
       name="description"
-      content="A fancy case-focused showcase template for the Make Any Data project."
+      content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -15,278 +15,271 @@
     <div class="page-noise" aria-hidden="true"></div>
 
     <header class="site-nav">
-      <a class="brand" href="#top">
+      <a class="brand" href="#intro">
         <span class="brand-mark"></span>
-        <span class="brand-text">Make Any Data</span>
+        <span class="brand-text">DataClaw</span>
       </a>
       <nav class="nav-links">
+        <a href="#intro">Intro</a>
+        <a href="#method">Method</a>
         <a href="#cases">Cases</a>
-        <a href="#story">Story</a>
-        <a href="#pipeline">Pipeline</a>
+        <a href="#validation">Validation</a>
       </nav>
     </header>
 
-    <main id="top">
-      <section class="hero section">
+    <main>
+      <section class="section hero" id="intro">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Case-Focused Showcase Template</p>
+          <p class="eyebrow">User-Intent-Driven Data Construction</p>
           <h1 class="hero-title">
-            把论文展示页做成
-            <span>可滚动浏览的 Case Gallery</span>
+            DataClaw:
+            <span>Make ANY Data You Want</span>
           </h1>
+          <p class="hero-subtitle">
+            Turn raw inputs into user-intent-aligned, trainable multimodal data.
+          </p>
           <p class="hero-text">
-            这版模板不走传统论文海报布局，而是把核心内容压缩成统一的
-            `素材输入 → 自动构造 → 标准化输出` 叙事，并用动态卡片、滚动切换和高亮面板来强化 case 展示。
+            DataClaw is built around a simple premise: users do not want a fixed dataset recipe.
+            They want the exact data form that matches their downstream goal. From videos, images,
+            GUI traces, robot trajectories, and more, DataClaw infers intent and composes the right
+            trainable output.
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#cases">Explore Cases</a>
-            <a class="button button-ghost" href="#pipeline">See Pipeline</a>
+            <a class="button button-ghost" href="#method">See Method</a>
           </div>
           <div class="hero-stats">
             <article class="stat-card">
-              <strong>7+</strong>
-              <span>case domains</span>
+              <strong>Multi-Domain</strong>
+              <span>tutorials, education, GUI, robotics, generation</span>
             </article>
             <article class="stat-card">
-              <strong>0</strong>
-              <span>manual annotation</span>
+              <strong>Intent-Driven</strong>
+              <span>construct data based on what the user actually wants</span>
             </article>
             <article class="stat-card">
-              <strong>1</strong>
-              <span>unified data grammar</span>
+              <strong>Trainable</strong>
+              <span>outputs are structured for downstream training rather than demo-only generation</span>
             </article>
           </div>
         </div>
 
         <div class="hero-stage reveal">
-          <div class="stage-backdrop"></div>
-          <div class="hero-panel hero-panel-large">
-            <p class="panel-kicker">Raw Material</p>
-            <h3>Video / GUI / Ego / Robot / Drawing</h3>
-            <p>普通素材不是终点，而是自动构造数据的起点。</p>
-          </div>
-          <div class="hero-panel hero-panel-small hero-panel-top">
-            <p class="panel-kicker">Reasoning Layer</p>
-            <p>筛选关键帧、定位卡点、拼接长程任务、生成训练样本。</p>
-          </div>
-          <div class="hero-panel hero-panel-small hero-panel-mid">
-            <p class="panel-kicker">Output Format</p>
-            <p>Interleaved tutorial / temporal QA / world model / GUI task.</p>
-          </div>
-          <div class="hero-ring hero-ring-one"></div>
-          <div class="hero-ring hero-ring-two"></div>
-          <div class="hero-chip hero-chip-left">Case-First</div>
-          <div class="hero-chip hero-chip-right">Motion Driven</div>
+          <div class="hero-backdrop"></div>
+          <div class="hero-orbit hero-orbit-one"></div>
+          <div class="hero-orbit hero-orbit-two"></div>
+          <article class="hero-panel hero-panel-wide">
+            <p class="panel-kicker">Raw Inputs</p>
+            <h3>Video, image, GUI trace, robot demo, drawing sequence</h3>
+            <p>Ordinary materials enter the system without being pre-shaped into a single dataset template.</p>
+          </article>
+          <article class="hero-panel hero-panel-top">
+            <p class="panel-kicker">User Intent</p>
+            <p>What kind of data does the user actually want to build from this material?</p>
+          </article>
+          <article class="hero-panel hero-panel-mid">
+            <p class="panel-kicker">Constructed Outputs</p>
+            <p>Interleaved tutorials, temporal QA, long-horizon GUI tasks, world-model samples, editing data.</p>
+          </article>
+          <div class="hero-chip hero-chip-left">Intent First</div>
+          <div class="hero-chip hero-chip-right">Case Scalable</div>
         </div>
       </section>
 
-      <section class="section thesis-section reveal">
-        <div class="section-head">
-          <p class="eyebrow">What This Page Should Say</p>
-          <h2>展示重点不是算法细节，而是泛化后的 case 能力。</h2>
+      <section class="section method-section" id="method">
+        <div class="section-head reveal">
+          <p class="eyebrow">Method</p>
+          <h2>One pipeline, four stages, many data forms.</h2>
         </div>
-        <div class="thesis-grid">
-          <article class="thesis-card">
-            <p class="card-label">Pain Point 01</p>
-            <h3>纯 VLM 端到端生成不稳定</h3>
-            <p>幻觉严重、对齐失效，生成结果很难直接变成可训练样本。</p>
-          </article>
-          <article class="thesis-card">
-            <p class="card-label">Pain Point 02</p>
-            <h3>规则脚本方案太重</h3>
-            <p>流程硬编码、复用性差、跨场景扩展成本高。</p>
-          </article>
-          <article class="thesis-card">
-            <p class="card-label">System Claim</p>
-            <h3>Make Any Data</h3>
-            <p>无需人工标注、无需仿真环境，用统一流程把常规素材转成标准化训练数据。</p>
-          </article>
+
+        <div class="method-layout">
+          <div class="method-visual reveal" id="method-visual">
+            <div class="method-visual-badge" id="method-badge">01 / Observe</div>
+            <h3 id="method-title">Observe raw inputs</h3>
+            <p id="method-text">
+              Take videos, images, GUI traces, robot trajectories, or other ordinary materials as the starting point.
+            </p>
+            <div class="method-visual-stage">
+              <div class="method-glow method-glow-one"></div>
+              <div class="method-glow method-glow-two"></div>
+              <div class="method-window method-window-large"></div>
+              <div class="method-window method-window-small"></div>
+              <div class="method-window method-window-tiny"></div>
+            </div>
+          </div>
+
+          <div class="method-steps">
+            <article class="method-step reveal is-current" data-step="observe">
+              <span class="method-index">01</span>
+              <h3>Observe Raw Inputs</h3>
+              <p>Start from ordinary materials instead of requiring a single pre-defined dataset format.</p>
+            </article>
+            <article class="method-step reveal" data-step="intent">
+              <span class="method-index">02</span>
+              <h3>Understand User Intent</h3>
+              <p>Infer what the user actually wants to build, rather than applying a fixed conversion rule.</p>
+            </article>
+            <article class="method-step reveal" data-step="compose">
+              <span class="method-index">03</span>
+              <h3>Compose the Right Data Form</h3>
+              <p>Select key evidence, organize reasoning, and map the material into the appropriate schema.</p>
+            </article>
+            <article class="method-step reveal" data-step="output">
+              <span class="method-index">04</span>
+              <h3>Output Trainable Samples</h3>
+              <p>Produce structured, reusable samples that can be consumed directly by downstream training pipelines.</p>
+            </article>
+          </div>
         </div>
       </section>
 
-      <section class="section showcase-section" id="cases">
+      <section class="section cases-section" id="cases">
         <div class="section-head reveal">
           <p class="eyebrow">Case Gallery</p>
-          <h2>先用卡片扫清全局，再用右侧面板进入重点 case。</h2>
+          <h2>One system, many kinds of data users may ask for.</h2>
         </div>
 
-        <div class="showcase-shell">
-          <div class="showcase-panel reveal" id="case-spotlight">
+        <div class="case-filter reveal" id="case-filter">
+          <button class="filter-pill is-active" type="button" data-filter="all">All</button>
+          <button class="filter-pill" type="button" data-filter="tutorial">Everyday Tutorials</button>
+          <button class="filter-pill" type="button" data-filter="education">Education</button>
+          <button class="filter-pill" type="button" data-filter="agent">GUI Agents</button>
+          <button class="filter-pill" type="button" data-filter="embodied">Embodied</button>
+          <button class="filter-pill" type="button" data-filter="generation">Generation</button>
+        </div>
+
+        <div class="cases-layout">
+          <div class="cases-grid" id="cases-grid">
+            <button class="case-card reveal is-active" type="button" data-case="cooking" data-group="tutorial">
+              <span class="case-number">01</span>
+              <p class="case-domain">Everyday Tutorials</p>
+              <h3>Cooking Tutorial</h3>
+              <p>Rebuild a cooking video into interleaved, user-facing tutorial steps.</p>
+            </button>
+            <button class="case-card reveal" type="button" data-case="geometry" data-group="education">
+              <span class="case-number">02</span>
+              <p class="case-domain">Education</p>
+              <h3>Geometry Stuck Point</h3>
+              <p>Focus only on the step where a student is most likely to get stuck.</p>
+            </button>
+            <button class="case-card reveal" type="button" data-case="temporal" data-group="tutorial">
+              <span class="case-number">03</span>
+              <p class="case-domain">Temporal Understanding</p>
+              <h3>Temporal QA</h3>
+              <p>Construct localization, ordering, state-change, and multi-event reasoning queries.</p>
+            </button>
+            <button class="case-card reveal" type="button" data-case="gui" data-group="agent">
+              <span class="case-number">04</span>
+              <p class="case-domain">GUI Agents</p>
+              <h3>Long-Horizon GUI Tasks</h3>
+              <p>Compose short app traces into coherent, goal-driven long tasks.</p>
+            </button>
+            <button class="case-card reveal" type="button" data-case="embodied" data-group="embodied">
+              <span class="case-number">05</span>
+              <p class="case-domain">Embodied Intelligence</p>
+              <h3>Fault Recovery</h3>
+              <p>Turn successful robot trajectories into abnormal-state recovery samples.</p>
+            </button>
+            <button class="case-card reveal" type="button" data-case="editing" data-group="generation">
+              <span class="case-number">06</span>
+              <p class="case-domain">Generation / Editing</p>
+              <h3>Ego Image Editing</h3>
+              <p>Generate edit targets that stay aligned with the current scene and instruction.</p>
+            </button>
+          </div>
+
+          <aside class="case-spotlight reveal" id="case-spotlight">
             <div class="spotlight-meta">
               <span class="spotlight-index" id="spotlight-index">01</span>
-              <span class="spotlight-domain" id="spotlight-domain">生活教程</span>
+              <span class="spotlight-domain" id="spotlight-domain">Everyday Tutorials</span>
             </div>
-            <h3 id="spotlight-title">Cooking to Interleaved Tutorial</h3>
+            <h3 id="spotlight-title">Cooking Tutorial from Raw Video</h3>
             <p id="spotlight-summary">
-              从做饭视频里抽取关键动作和用户真实提问，输出可直接训练的图文交错教程数据。
+              Turn a cooking-and-cleanup video into interleaved instructional data that feels like a real tutorial page.
             </p>
-            <div class="spotlight-grid">
-              <div>
-                <p class="spotlight-label">Input</p>
-                <p id="spotlight-input">短视频素材、关键帧、自然语言问题</p>
-              </div>
-              <div>
-                <p class="spotlight-label">Output</p>
-                <p id="spotlight-output">`step_id + images + text` 的教程型 JSON</p>
-              </div>
+            <div class="spotlight-block">
+              <p class="spotlight-label">Raw Input</p>
+              <p id="spotlight-input">Cooking video with multi-step actions and cleanup stages.</p>
+            </div>
+            <div class="spotlight-block">
+              <p class="spotlight-label">User Intent</p>
+              <p id="spotlight-intent">Build interleaved tutorial data that teaches procedural understanding.</p>
+            </div>
+            <div class="spotlight-block">
+              <p class="spotlight-label">Constructed Data</p>
+              <p id="spotlight-output">Stepwise image-text instruction samples with natural user questions and answers.</p>
+            </div>
+            <div class="spotlight-block">
+              <p class="spotlight-label">Why It Matters</p>
+              <p id="spotlight-why">It shows that DataClaw does not just summarize content; it constructs the exact supervision format the user wants.</p>
             </div>
             <div class="spotlight-tags" id="spotlight-tags"></div>
-          </div>
-
-          <div class="case-grid">
-            <button class="case-card is-active reveal" data-case="cooking" type="button">
-              <span class="case-number">01</span>
-              <p class="case-domain">生活教程</p>
-              <h3>Cooking Cleanup Tutorial</h3>
-              <p>把烹饪和收尾清理过程压缩成图文交错的步骤教学数据。</p>
-            </button>
-            <button class="case-card reveal" data-case="geometry" type="button">
-              <span class="case-number">02</span>
-              <p class="case-domain">学科教育</p>
-              <h3>Geometry Stuck-Point Reasoning</h3>
-              <p>不做整题复述，只做学生最容易卡住的一步。</p>
-            </button>
-            <button class="case-card reveal" data-case="editing" type="button">
-              <span class="case-number">03</span>
-              <p class="case-domain">通用生成编辑</p>
-              <h3>Ego Image Editing</h3>
-              <p>输入图像和动作指令，生成符合场景约束的编辑目标。</p>
-            </button>
-            <button class="case-card reveal" data-case="temporal" type="button">
-              <span class="case-number">04</span>
-              <p class="case-domain">时空理解</p>
-              <h3>Temporal QA Builder</h3>
-              <p>构造时空定位、先后顺序、状态变化和多事件联合推理。</p>
-            </button>
-            <button class="case-card reveal" data-case="gui" type="button">
-              <span class="case-number">05</span>
-              <p class="case-domain">人机交互</p>
-              <h3>GUI Long-Horizon Tasks</h3>
-              <p>把零散操作片段自动拼成长链任务，适合 agent 训练。</p>
-            </button>
-            <button class="case-card reveal" data-case="embodied" type="button">
-              <span class="case-number">06</span>
-              <p class="case-domain">具身智能</p>
-              <h3>Fault Recovery World Model</h3>
-              <p>从成功操作反推故障场景，训练机器人决策和修正能力。</p>
-            </button>
-            <button class="case-card reveal" data-case="commerce" type="button">
-              <span class="case-number">07</span>
-              <p class="case-domain">直播电商</p>
-              <h3>Hand-Object Segments</h3>
-              <p>筛选复杂手物交互片段，为视频生成或动作理解提供数据。</p>
-            </button>
-            <button class="case-card reveal" data-case="drawing" type="button">
-              <span class="case-number">08</span>
-              <p class="case-domain">逐步生成</p>
-              <h3>Stepwise Digital Painting</h3>
-              <p>从绘画序列中筛出关键递进节点，形成图文交错生成教程。</p>
-            </button>
-          </div>
+          </aside>
         </div>
       </section>
 
-      <section class="section story-section" id="story">
+      <section class="section validation-section" id="validation">
         <div class="section-head reveal">
-          <p class="eyebrow">Deep Dive</p>
-          <h2>用 sticky scrollytelling 展示最能打的 4 个核心 case。</h2>
+          <p class="eyebrow">Validation</p>
+          <h2>We validate alignment, structure, and downstream usefulness.</h2>
         </div>
 
-        <div class="story-layout">
-          <div class="story-steps">
-            <article class="story-step reveal is-current" data-story="cooking">
-              <span class="story-index">01</span>
-              <h3>生活教程</h3>
-              <p>视频中的烹饪和收尾清理动作，被重组为真实用户会提问的教程步骤。</p>
+        <div class="validation-grid">
+          <article class="validation-card reveal">
+            <span class="validation-index">01</span>
+            <h3>Intent Alignment</h3>
+            <p>Does the constructed data match what the user actually asked for, instead of merely following visual content?</p>
+          </article>
+          <article class="validation-card reveal">
+            <span class="validation-index">02</span>
+            <h3>Structural Quality</h3>
+            <p>Are the outputs well-formed, consistent, and reusable as standardized training samples?</p>
+          </article>
+          <article class="validation-card reveal">
+            <span class="validation-index">03</span>
+            <h3>Training Utility</h3>
+            <p>Can the constructed data improve downstream models rather than staying at the level of pretty demos?</p>
+          </article>
+          <article class="validation-card reveal">
+            <span class="validation-index">04</span>
+            <h3>Cross-Domain Generality</h3>
+            <p>Can one intent-driven pipeline support many domains without redesigning the entire workflow?</p>
+          </article>
+        </div>
+
+        <div class="validation-summary reveal">
+          <div class="summary-copy">
+            <p class="eyebrow">Evaluation Logic</p>
+            <h3>DataClaw is evaluated by what matters for data construction.</h3>
+            <p>
+              The core question is not whether outputs look plausible in isolation. The core question is
+              whether the system constructs the right data form for the right user intention, and whether
+              that data is actually useful for training.
+            </p>
+          </div>
+          <div class="summary-bars">
+            <article>
+              <div class="summary-label-row">
+                <span>Intent alignment</span>
+                <span>High priority</span>
+              </div>
+              <span class="summary-bar"><span style="width: 94%"></span></span>
             </article>
-            <article class="story-step reveal" data-story="geometry">
-              <span class="story-index">02</span>
-              <h3>学科卡点</h3>
-              <p>只截取学生最需要引导的关键一帧，把“卡壳”变成高价值训练样本。</p>
+            <article>
+              <div class="summary-label-row">
+                <span>Data structure quality</span>
+                <span>High priority</span>
+              </div>
+              <span class="summary-bar"><span style="width: 90%"></span></span>
             </article>
-            <article class="story-step reveal" data-story="gui">
-              <span class="story-index">03</span>
-              <h3>GUI 长程任务</h3>
-              <p>将碎片化 App 操作拼成长链流程，用于 price comparison 与 route planning。</p>
-            </article>
-            <article class="story-step reveal" data-story="embodied">
-              <span class="story-index">04</span>
-              <h3>具身故障修正</h3>
-              <p>从成功视频反演异常状态，训练模型学会回溯、判断和继续执行。</p>
+            <article>
+              <div class="summary-label-row">
+                <span>Downstream training value</span>
+                <span>Critical</span>
+              </div>
+              <span class="summary-bar"><span style="width: 96%"></span></span>
             </article>
           </div>
-
-          <div class="story-panel">
-            <div class="story-progress">
-              <span id="story-progress-bar"></span>
-            </div>
-            <div class="story-preview reveal" id="story-preview">
-              <div class="preview-badge" id="story-badge">01 / Featured Case</div>
-              <h3 id="story-title">Cooking tutorial with interleaved steps</h3>
-              <p id="story-text">
-                页面右侧是可切换的大面板，用来展示某个 case 的输入、自动推理方式和最终产出格式。
-              </p>
-              <div class="preview-visual">
-                <div class="visual-frame visual-frame-large"></div>
-                <div class="visual-frame visual-frame-small"></div>
-                <div class="visual-frame visual-frame-tiny"></div>
-              </div>
-              <div class="preview-list">
-                <article>
-                  <p class="preview-label">Input</p>
-                  <p id="story-input">做饭视频、关键动作、自然提问</p>
-                </article>
-                <article>
-                  <p class="preview-label">Reasoning</p>
-                  <p id="story-reasoning">识别步骤边界、选关键帧、生成教程语气的问题与回答。</p>
-                </article>
-                <article>
-                  <p class="preview-label">Output</p>
-                  <p id="story-output">图文交错教程数据，可直接进入训练。</p>
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section pipeline-section" id="pipeline">
-        <div class="section-head reveal">
-          <p class="eyebrow">Unified Pipeline</p>
-          <h2>无论 case 如何变化，页面里都保持一套一致的数据语法。</h2>
-        </div>
-        <div class="pipeline-grid">
-          <article class="pipeline-card reveal">
-            <span class="pipeline-index">01</span>
-            <h3>Raw Inputs</h3>
-            <p>视频、图像、GUI 片段、机器人操作、绘画序列等普通素材。</p>
-          </article>
-          <article class="pipeline-card reveal">
-            <span class="pipeline-index">02</span>
-            <h3>Automatic Reasoning</h3>
-            <p>识别关键帧、筛选有效片段、定位卡点、拼接长程逻辑、构造自然问题。</p>
-          </article>
-          <article class="pipeline-card reveal">
-            <span class="pipeline-index">03</span>
-            <h3>Structured Outputs</h3>
-            <p>教程类、时空类、GUI 类、具身智能类、世界模型类标准化样本。</p>
-          </article>
-          <article class="pipeline-card reveal">
-            <span class="pipeline-index">04</span>
-            <h3>Trainable Cases</h3>
-            <p>所有结果都回到统一目标：直接服务训练，而不是停留在演示层。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section cta-section reveal">
-        <div class="cta-panel">
-          <p class="eyebrow">Template Ready</p>
-          <h2>这版已经能作为论文项目展示页的第一版骨架。</h2>
-          <p>
-            你后面只需要替换实际图片、视频封面和真实 JSON 片段，就可以把它升级成正式版本。
-          </p>
-          <a class="button button-primary" href="#top">Back to Top</a>
         </div>
       </section>
     </main>
