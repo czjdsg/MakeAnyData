@@ -82,14 +82,11 @@ const caseData = {
 
 const revealItems = document.querySelectorAll(".reveal");
 const cursorGlow = document.querySelector(".cursor-glow");
-const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const methodArchitecture = document.getElementById("method-architecture");
-const archCandidates = Array.from(document.querySelectorAll(".arch-candidate"));
-const archLanes = Array.from(document.querySelectorAll(".arch-lane"));
-const archSequence = ["tutorial", "temporal", "gui"];
-let archIndex = 0;
-let archTimer = null;
+const flowFocusables = Array.from(document.querySelectorAll("[data-flow-focus]"));
+const flowNodes = Array.from(document.querySelectorAll("[data-flow-group]"));
+const flowPaths = Array.from(document.querySelectorAll("[data-flow-path]"));
 
 const spotlightIndex = document.getElementById("spotlight-index");
 const spotlightDomain = document.getElementById("spotlight-domain");
@@ -103,53 +100,180 @@ const spotlightTags = document.getElementById("spotlight-tags");
 const caseCards = Array.from(document.querySelectorAll(".case-card"));
 const filterPills = Array.from(document.querySelectorAll(".filter-pill"));
 
-function setArchFocus(key) {
-  if (!methodArchitecture) {
-    return;
+function unique(list) {
+  return [...new Set(list)];
+}
+
+if (methodArchitecture) {
+  const allGroups = unique(flowNodes.map((node) => node.dataset.flowGroup));
+  const allPathKeys = unique(flowPaths.map((path) => path.dataset.flowPath));
+
+  const flowRelations = {
+    overview: {
+      groups: allGroups,
+      paths: allPathKeys,
+    },
+    video: {
+      groups: [
+        "video",
+        "intent-agent",
+        "video-rail",
+        "tutorial",
+        "temporal",
+        "gui",
+        "output-tutorial",
+        "output-temporal",
+        "output-gui",
+      ],
+      paths: [
+        "video-intent",
+        "video-bus",
+        "video-tutorial",
+        "video-temporal",
+        "video-gui",
+      ],
+    },
+    "source-intent": {
+      groups: ["source-intent", "intent-agent"],
+      paths: ["user-intent"],
+    },
+    "intent-agent": {
+      groups: [
+        "video",
+        "source-intent",
+        "intent-agent",
+        "video-rail",
+        "intent-rail",
+        "tutorial",
+        "temporal",
+        "gui",
+        "output-tutorial",
+        "output-temporal",
+        "output-gui",
+      ],
+      paths: [
+        "video-intent",
+        "user-intent",
+        "intent-root",
+        "intent-bus",
+        "intent-tutorial",
+        "intent-temporal",
+        "intent-gui",
+        "tutorial-output",
+        "temporal-output",
+        "gui-output",
+      ],
+    },
+    tutorial: {
+      groups: [
+        "video",
+        "source-intent",
+        "intent-agent",
+        "video-rail",
+        "intent-rail",
+        "tutorial",
+        "output-tutorial",
+      ],
+      paths: [
+        "video-intent",
+        "user-intent",
+        "video-bus",
+        "video-tutorial",
+        "intent-root",
+        "intent-bus",
+        "intent-tutorial",
+        "tutorial-output",
+      ],
+    },
+    temporal: {
+      groups: [
+        "video",
+        "source-intent",
+        "intent-agent",
+        "video-rail",
+        "intent-rail",
+        "temporal",
+        "output-temporal",
+      ],
+      paths: [
+        "video-intent",
+        "user-intent",
+        "video-bus",
+        "video-temporal",
+        "intent-root",
+        "intent-bus",
+        "intent-temporal",
+        "temporal-output",
+      ],
+    },
+    gui: {
+      groups: [
+        "video",
+        "source-intent",
+        "intent-agent",
+        "video-rail",
+        "intent-rail",
+        "gui",
+        "output-gui",
+      ],
+      paths: [
+        "video-intent",
+        "user-intent",
+        "video-bus",
+        "video-gui",
+        "intent-root",
+        "intent-bus",
+        "intent-gui",
+        "gui-output",
+      ],
+    },
+  };
+
+  function setFlowFocus(key = "overview") {
+    const relation = flowRelations[key] || flowRelations.overview;
+    const activeGroups = new Set(relation.groups);
+    const activePaths = new Set(relation.paths);
+    const isOverview = key === "overview";
+
+    methodArchitecture.dataset.focus = key;
+    methodArchitecture.classList.toggle("is-focused", !isOverview);
+
+    flowNodes.forEach((node) => {
+      const match = isOverview || activeGroups.has(node.dataset.flowGroup);
+      node.classList.toggle("is-dimmed", !match);
+      node.classList.toggle("is-highlighted", !isOverview && match);
+    });
+
+    flowPaths.forEach((path) => {
+      const match = isOverview || activePaths.has(path.dataset.flowPath);
+      path.classList.toggle("is-dimmed", !match);
+      path.classList.toggle("is-highlighted", !isOverview && match);
+    });
   }
 
-  methodArchitecture.dataset.active = key;
+  flowFocusables.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      setFlowFocus(item.dataset.flowFocus);
+    });
 
-  archCandidates.forEach((item) => {
-    item.classList.toggle("is-active", item.dataset.archKey === key);
+    item.addEventListener("focus", () => {
+      setFlowFocus(item.dataset.flowFocus);
+    });
   });
 
-  archLanes.forEach((item) => {
-    item.classList.toggle("is-active", item.dataset.archKey === key);
+  methodArchitecture.addEventListener("mouseleave", () => {
+    setFlowFocus("overview");
   });
-}
 
-function stopArchCycle() {
-  if (archTimer) {
-    window.clearInterval(archTimer);
-    archTimer = null;
-  }
-}
+  methodArchitecture.addEventListener("focusout", () => {
+    window.requestAnimationFrame(() => {
+      if (!methodArchitecture.contains(document.activeElement)) {
+        setFlowFocus("overview");
+      }
+    });
+  });
 
-function startArchCycle() {
-  if (!methodArchitecture || reduceMotionQuery.matches) {
-    return;
-  }
-
-  stopArchCycle();
-  archTimer = window.setInterval(() => {
-    archIndex = (archIndex + 1) % archSequence.length;
-    setArchFocus(archSequence[archIndex]);
-  }, 2200);
-}
-
-function nudgeArchFocus(key) {
-  const nextIndex = archSequence.indexOf(key);
-  if (nextIndex === -1) {
-    return;
-  }
-
-  archIndex = nextIndex;
-  setArchFocus(key);
-
-  if (methodArchitecture && methodArchitecture.classList.contains("is-live")) {
-    startArchCycle();
-  }
+  setFlowFocus("overview");
 }
 
 function setSpotlight(caseKey) {
@@ -194,34 +318,6 @@ function applyCaseFilter(filterKey) {
   if (!activeVisible && visibleCards[0]) {
     setSpotlight(visibleCards[0].dataset.case);
   }
-}
-
-if (methodArchitecture) {
-  const architectureObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          methodArchitecture.classList.add("is-live");
-          startArchCycle();
-        } else {
-          methodArchitecture.classList.remove("is-live");
-          stopArchCycle();
-        }
-      });
-    },
-    {
-      threshold: 0.35,
-    },
-  );
-
-  architectureObserver.observe(methodArchitecture);
-  setArchFocus(archSequence[0]);
-
-  [...archCandidates, ...archLanes].forEach((item) => {
-    item.addEventListener("mouseenter", () => {
-      nudgeArchFocus(item.dataset.archKey);
-    });
-  });
 }
 
 caseCards.forEach((card) => {

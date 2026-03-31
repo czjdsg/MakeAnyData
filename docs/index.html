@@ -89,152 +89,105 @@
       <section class="section method-section" id="method">
         <div class="section-head reveal">
           <p class="eyebrow">Method</p>
-          <h2>Two agents turn one raw video into the exact data the user wants.</h2>
+          <h2>Raw video and user intent flow through one planner, then fan out into parallel synthesis routes.</h2>
           <p class="section-copy">
-            DataClaw first interprets the user intent, then fans out into one or more specialized synthesis
-            models. If the original request is broad, multiple task types remain alive and are synthesized
-            in parallel instead of being collapsed into a single schema.
+            The planner resolves ambiguous intent into task types plus clear instructions. The source video then feeds both
+            the intent agent and every specialized synthesis model.
           </p>
         </div>
 
         <div class="method-architecture reveal" id="method-architecture">
-          <div class="arch-column arch-column-input">
-            <div class="arch-column-head">
-              <p class="arch-stage-kicker">Inputs</p>
-              <h3>Raw material + user goal</h3>
-            </div>
-            <article class="arch-node arch-node-video">
-              <span class="arch-node-label">Raw Video</span>
-              <p>Untrimmed source video with the full temporal evidence preserved.</p>
-            </article>
-            <article class="arch-node arch-node-intent-source">
-              <span class="arch-node-label">User Intent</span>
-              <p>A natural request that may still be broad, vague, or underspecified.</p>
-            </article>
-          </div>
-
-          <div class="arch-column arch-column-stage-one">
-            <div class="arch-stage-tag">Stage 1</div>
-            <article class="arch-agent arch-agent-intent" data-arch-focus="intent">
-              <div class="arch-agent-header">
-                <span class="arch-agent-index">Agent 1</span>
-                <h3>User Intent Agent</h3>
-              </div>
-              <p>
-                Parse the original request, enumerate all plausible task types, and rewrite each one into a
-                clear synthesis instruction.
-              </p>
-              <div class="arch-agent-footprint">
-                <span>Intent parsing</span>
-                <span>Task typing</span>
-                <span>Instruction rewriting</span>
-              </div>
-            </article>
-
-            <div class="arch-candidate-strip">
-              <article class="arch-candidate is-active" data-arch-key="tutorial">
-                <span class="arch-candidate-title">Candidate A</span>
-                <p>Tutorial data</p>
-                <small>"Convert the clip into stepwise instructional supervision."</small>
-              </article>
-              <article class="arch-candidate" data-arch-key="temporal">
-                <span class="arch-candidate-title">Candidate B</span>
-                <p>Temporal reasoning data</p>
-                <small>"Generate event-order and state-change queries from the video."</small>
-              </article>
-              <article class="arch-candidate" data-arch-key="gui">
-                <span class="arch-candidate-title">Candidate C</span>
-                <p>Agent task data</p>
-                <small>"Compose a goal-driven interaction trajectory from the source video."</small>
-              </article>
-            </div>
-          </div>
-
-          <div class="arch-column arch-column-stage-two">
-            <div class="arch-stage-tag">Stage 2</div>
-            <div class="arch-column-head arch-parallel-head">
-              <p class="arch-stage-kicker">Parallel Routing</p>
-              <h3>Specialized synthesis agents</h3>
-              <p>If several task types match the intent, DataClaw routes them side by side instead of forcing one schema.</p>
-            </div>
-
-            <div class="arch-parallel-lanes">
-              <article class="arch-lane is-active" data-arch-key="tutorial">
-                <div class="arch-lane-prompt">
-                  <span class="arch-lane-type">Task Type</span>
-                  <p>Interleaved tutorial construction</p>
-                  <small>Clear instruction + raw video</small>
-                </div>
-                <div class="arch-lane-model">
-                  <span class="arch-model-name">Tutorial Synthesis Model</span>
-                  <p>Specialized for procedural steps, frame selection, and instructional labels.</p>
-                </div>
-              </article>
-
-              <article class="arch-lane" data-arch-key="temporal">
-                <div class="arch-lane-prompt">
-                  <span class="arch-lane-type">Task Type</span>
-                  <p>Temporal reasoning construction</p>
-                  <small>Clear instruction + raw video</small>
-                </div>
-                <div class="arch-lane-model">
-                  <span class="arch-model-name">Temporal QA Model</span>
-                  <p>Specialized for event localization, ordering, and state-change supervision.</p>
-                </div>
-              </article>
-
-              <article class="arch-lane" data-arch-key="gui">
-                <div class="arch-lane-prompt">
-                  <span class="arch-lane-type">Task Type</span>
-                  <p>Long-horizon agent task construction</p>
-                  <small>Clear instruction + raw video</small>
-                </div>
-                <div class="arch-lane-model">
-                  <span class="arch-model-name">Agent Trajectory Model</span>
-                  <p>Specialized for action continuity, subgoal sequencing, and task descriptions.</p>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <div class="arch-column arch-column-output">
-            <div class="arch-column-head">
-              <p class="arch-stage-kicker">Outputs</p>
-              <h3>Trainable synthesized data</h3>
-            </div>
-            <article class="arch-output-card">
-              <span class="arch-output-label">Task Description</span>
-              <p>Aligned with the chosen task type and the rewritten user instruction.</p>
-            </article>
-            <article class="arch-output-card">
-              <span class="arch-output-label">Image-Text Labels</span>
-              <p>Frames, captions, reasoning cues, and temporal annotations extracted from the source video.</p>
-            </article>
-            <article class="arch-output-card">
-              <span class="arch-output-label">Sample + Label Pair</span>
-              <p>Structured outputs that can be used directly for downstream training.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="method-notes">
-          <article class="method-note reveal">
-            <span class="method-index">01</span>
-            <h3>Intent ambiguity is preserved.</h3>
-            <p>Broad user requests can map to several valid task families, so Stage 2 is explicitly parallel.</p>
+          <div class="flow-stage flow-stage-inputs">Initial Inputs</div>
+          <article class="flow-card flow-card-video" data-flow-focus="video" data-flow-group="video" tabindex="0">
+            <span class="flow-chip">Initial Input</span>
+            <h3>Raw Video</h3>
+            <p>Full source video with frames, actions, and temporal evidence.</p>
           </article>
-          <article class="method-note reveal">
-            <span class="method-index">02</span>
-            <h3>Task type selects the synthesis model.</h3>
-            <p>Each task family is synthesized by a dedicated model trained for that output structure.</p>
+          <article class="flow-card flow-card-query" data-flow-focus="source-intent" data-flow-group="source-intent" tabindex="0">
+            <span class="flow-chip">Initial Input</span>
+            <h3>User Intent</h3>
+            <p>Natural-language request that may still be broad or ambiguous.</p>
           </article>
-          <article class="method-note reveal">
-            <span class="method-index">03</span>
-            <h3>Outputs stay training-ready.</h3>
-            <p>The final result is not a free-form demo artifact, but a task description paired with image-text labels.</p>
+
+          <div class="flow-stage flow-stage-intent">Intent Planning</div>
+          <article class="flow-card flow-card-intent" data-flow-focus="intent-agent" data-flow-group="intent-agent" tabindex="0">
+            <span class="flow-chip">Agent 1</span>
+            <h3>User Intent Agent</h3>
+            <p>Infer candidate task types and rewrite each one into a clear instruction for synthesis.</p>
+            <div class="flow-mini-tags">
+              <span>candidate task types</span>
+              <span>clear instructions</span>
+            </div>
           </article>
+
+          <div class="flow-rail-label flow-rail-label-video" data-flow-group="video-rail">Raw video stream</div>
+          <div class="flow-stage flow-stage-branches">Parallel Synthesis</div>
+          <div class="flow-rail-label flow-rail-label-intent" data-flow-group="intent-rail">Task type + clear instruction</div>
+
+          <article class="flow-card flow-branch flow-branch-tutorial" data-flow-focus="tutorial" data-flow-group="tutorial" tabindex="0">
+            <span class="flow-chip">Task Type A</span>
+            <h3>Tutorial Data</h3>
+            <p>Stepwise instructional samples synthesized from the original clip.</p>
+            <span class="flow-model-tag">Tutorial Synthesis Model</span>
+          </article>
+          <article class="flow-card flow-branch flow-branch-temporal" data-flow-focus="temporal" data-flow-group="temporal" tabindex="0">
+            <span class="flow-chip">Task Type B</span>
+            <h3>Temporal Data</h3>
+            <p>Event ordering, localization, and state-change supervision.</p>
+            <span class="flow-model-tag">Temporal QA Model</span>
+          </article>
+          <article class="flow-card flow-branch flow-branch-gui" data-flow-focus="gui" data-flow-group="gui" tabindex="0">
+            <span class="flow-chip">Task Type C</span>
+            <h3>Agent Data</h3>
+            <p>Goal-driven long-horizon trajectories distilled from the same video.</p>
+            <span class="flow-model-tag">Agent Trajectory Model</span>
+          </article>
+
+          <div class="flow-stage flow-stage-outputs">Outputs</div>
+          <article class="flow-card flow-output flow-output-tutorial" data-flow-focus="tutorial" data-flow-group="output-tutorial" tabindex="0">
+            <span class="flow-chip">Output</span>
+            <h3>Tutorial Sample</h3>
+            <p>Task description + frame-text labels.</p>
+          </article>
+          <article class="flow-card flow-output flow-output-temporal" data-flow-focus="temporal" data-flow-group="output-temporal" tabindex="0">
+            <span class="flow-chip">Output</span>
+            <h3>Temporal Sample</h3>
+            <p>Task description + timestamped image-text labels.</p>
+          </article>
+          <article class="flow-card flow-output flow-output-gui" data-flow-focus="gui" data-flow-group="output-gui" tabindex="0">
+            <span class="flow-chip">Output</span>
+            <h3>Agent Sample</h3>
+            <p>Task description + stepwise action labels.</p>
+          </article>
+
+          <svg class="flow-svg" viewBox="0 0 1000 860" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <marker id="flowArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path class="flow-arrow-head" d="M 0 0 L 10 5 L 0 10 z"></path>
+              </marker>
+            </defs>
+
+            <path class="flow-path" data-flow-path="video-intent" d="M240 176 C240 205 320 216 430 230" marker-end="url(#flowArrow)"></path>
+            <path class="flow-path" data-flow-path="user-intent" d="M760 176 C760 205 680 216 570 230" marker-end="url(#flowArrow)"></path>
+
+            <path class="flow-path flow-path-bus" data-flow-path="video-bus" d="M240 176 L240 420 L830 420"></path>
+            <path class="flow-path" data-flow-path="video-tutorial" d="M170 420 L170 480" marker-end="url(#flowArrow)"></path>
+            <path class="flow-path" data-flow-path="video-temporal" d="M500 420 L500 480" marker-end="url(#flowArrow)"></path>
+            <path class="flow-path" data-flow-path="video-gui" d="M830 420 L830 480" marker-end="url(#flowArrow)"></path>
+
+            <path class="flow-path" data-flow-path="intent-root" d="M500 380 L500 454"></path>
+            <path class="flow-path flow-path-bus" data-flow-path="intent-bus" d="M170 454 L830 454"></path>
+            <path class="flow-path" data-flow-path="intent-tutorial" d="M170 454 L170 480" marker-end="url(#flowArrow)"></path>
+            <path class="flow-path" data-flow-path="intent-temporal" d="M500 454 L500 480" marker-end="url(#flowArrow)"></path>
+            <path class="flow-path" data-flow-path="intent-gui" d="M830 454 L830 480" marker-end="url(#flowArrow)"></path>
+
+            <path class="flow-path" data-flow-path="tutorial-output" d="M170 650 L170 700" marker-end="url(#flowArrow)"></path>
+            <path class="flow-path" data-flow-path="temporal-output" d="M500 650 L500 700" marker-end="url(#flowArrow)"></path>
+            <path class="flow-path" data-flow-path="gui-output" d="M830 650 L830 700" marker-end="url(#flowArrow)"></path>
+          </svg>
         </div>
       </section>
+
 
       <section class="section cases-section" id="cases">
         <div class="section-head reveal">
