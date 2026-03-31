@@ -1,38 +1,3 @@
-const methodData = {
-  observe: {
-    badge: "01 / Observe",
-    title: "Observe raw inputs",
-    text:
-      "Take videos, images, GUI traces, robot trajectories, or other ordinary materials as the starting point.",
-    accent: "rgba(255, 143, 76, 0.22)",
-    secondary: "rgba(152, 219, 255, 0.18)",
-  },
-  intent: {
-    badge: "02 / Intent",
-    title: "Understand user intent",
-    text:
-      "Infer the kind of data the user actually wants, rather than forcing every material into the same template.",
-    accent: "rgba(152, 219, 255, 0.22)",
-    secondary: "rgba(215, 239, 117, 0.18)",
-  },
-  compose: {
-    badge: "03 / Compose",
-    title: "Compose the right data form",
-    text:
-      "Select key evidence, organize reasoning, and map the material into the appropriate schema for the requested goal.",
-    accent: "rgba(215, 239, 117, 0.16)",
-    secondary: "rgba(255, 143, 76, 0.18)",
-  },
-  output: {
-    badge: "04 / Output",
-    title: "Output trainable samples",
-    text:
-      "Produce structured, reusable samples aligned with downstream training rather than isolated demo artifacts.",
-    accent: "rgba(255, 143, 76, 0.18)",
-    secondary: "rgba(152, 219, 255, 0.24)",
-  },
-};
-
 const caseData = {
   cooking: {
     index: "01",
@@ -117,12 +82,14 @@ const caseData = {
 
 const revealItems = document.querySelectorAll(".reveal");
 const cursorGlow = document.querySelector(".cursor-glow");
+const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-const methodBadge = document.getElementById("method-badge");
-const methodTitle = document.getElementById("method-title");
-const methodText = document.getElementById("method-text");
-const methodVisual = document.getElementById("method-visual");
-const methodSteps = Array.from(document.querySelectorAll(".method-step"));
+const methodArchitecture = document.getElementById("method-architecture");
+const archCandidates = Array.from(document.querySelectorAll(".arch-candidate"));
+const archLanes = Array.from(document.querySelectorAll(".arch-lane"));
+const archSequence = ["tutorial", "temporal", "gui"];
+let archIndex = 0;
+let archTimer = null;
 
 const spotlightIndex = document.getElementById("spotlight-index");
 const spotlightDomain = document.getElementById("spotlight-domain");
@@ -136,21 +103,53 @@ const spotlightTags = document.getElementById("spotlight-tags");
 const caseCards = Array.from(document.querySelectorAll(".case-card"));
 const filterPills = Array.from(document.querySelectorAll(".filter-pill"));
 
-function setMethod(stepKey) {
-  const item = methodData[stepKey];
-  if (!item) {
+function setArchFocus(key) {
+  if (!methodArchitecture) {
     return;
   }
 
-  methodBadge.textContent = item.badge;
-  methodTitle.textContent = item.title;
-  methodText.textContent = item.text;
-  methodVisual.style.setProperty("--method-accent", item.accent);
-  methodVisual.style.setProperty("--method-secondary", item.secondary);
+  methodArchitecture.dataset.active = key;
 
-  methodSteps.forEach((step) => {
-    step.classList.toggle("is-current", step.dataset.step === stepKey);
+  archCandidates.forEach((item) => {
+    item.classList.toggle("is-active", item.dataset.archKey === key);
   });
+
+  archLanes.forEach((item) => {
+    item.classList.toggle("is-active", item.dataset.archKey === key);
+  });
+}
+
+function stopArchCycle() {
+  if (archTimer) {
+    window.clearInterval(archTimer);
+    archTimer = null;
+  }
+}
+
+function startArchCycle() {
+  if (!methodArchitecture || reduceMotionQuery.matches) {
+    return;
+  }
+
+  stopArchCycle();
+  archTimer = window.setInterval(() => {
+    archIndex = (archIndex + 1) % archSequence.length;
+    setArchFocus(archSequence[archIndex]);
+  }, 2200);
+}
+
+function nudgeArchFocus(key) {
+  const nextIndex = archSequence.indexOf(key);
+  if (nextIndex === -1) {
+    return;
+  }
+
+  archIndex = nextIndex;
+  setArchFocus(key);
+
+  if (methodArchitecture && methodArchitecture.classList.contains("is-live")) {
+    startArchCycle();
+  }
 }
 
 function setSpotlight(caseKey) {
@@ -195,6 +194,34 @@ function applyCaseFilter(filterKey) {
   if (!activeVisible && visibleCards[0]) {
     setSpotlight(visibleCards[0].dataset.case);
   }
+}
+
+if (methodArchitecture) {
+  const architectureObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          methodArchitecture.classList.add("is-live");
+          startArchCycle();
+        } else {
+          methodArchitecture.classList.remove("is-live");
+          stopArchCycle();
+        }
+      });
+    },
+    {
+      threshold: 0.35,
+    },
+  );
+
+  architectureObserver.observe(methodArchitecture);
+  setArchFocus(archSequence[0]);
+
+  [...archCandidates, ...archLanes].forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      nudgeArchFocus(item.dataset.archKey);
+    });
+  });
 }
 
 caseCards.forEach((card) => {
@@ -246,22 +273,6 @@ const revealObserver = new IntersectionObserver(
 
 revealItems.forEach((item) => revealObserver.observe(item));
 
-const methodObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        setMethod(entry.target.dataset.step);
-      }
-    });
-  },
-  {
-    threshold: 0.55,
-    rootMargin: "-10% 0px -18% 0px",
-  },
-);
-
-methodSteps.forEach((step) => methodObserver.observe(step));
-
 window.addEventListener("pointermove", (event) => {
   if (!cursorGlow) {
     return;
@@ -279,6 +290,5 @@ window.addEventListener("pointerleave", () => {
   cursorGlow.style.opacity = "0";
 });
 
-setMethod("observe");
 setSpotlight("cooking");
 applyCaseFilter("all");
