@@ -491,8 +491,7 @@ a {
 }
 
 .flow-group-frame-intent,
-.flow-group-frame-synthesis,
-.flow-group-frame-outputs {
+.flow-group-frame-synthesis {
   border-color: transparent;
   background: transparent;
   box-shadow: none;
@@ -616,6 +615,15 @@ a {
   left: 50%;
   min-width: 129px;
   transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+
+.flow-group-frame-outputs .flow-stage-label {
+  top: auto;
+  bottom: -1px;
+  left: 50%;
+  min-width: 102px;
+  transform: translate(-50%, 50%);
   transform-origin: center;
 }
 
