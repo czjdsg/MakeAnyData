@@ -407,12 +407,12 @@ a {
   --arch-accent: rgba(255, 143, 76, 0.18);
   --arch-accent-strong: rgba(255, 211, 168, 0.84);
   position: relative;
-  min-height: 1040px;
+  min-height: 1120px;
   padding: 40px 20px 30px;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-rows: 130px 186px 176px 164px 122px;
-  gap: 36px 16px;
+  gap: 56px 16px;
   border-radius: calc(var(--radius-xl) + 6px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
@@ -476,17 +476,17 @@ a {
 }
 
 .flow-group-frame-intent {
-  inset: 194px 84px auto 84px;
+  inset: 214px 84px auto 84px;
   height: 214px;
 }
 
 .flow-group-frame-synthesis {
-  inset: 422px 18px auto 18px;
+  inset: 470px 18px auto 18px;
   height: 344px;
 }
 
 .flow-group-frame-outputs {
-  inset: 780px 18px auto 18px;
+  inset: 914px 18px auto 18px;
   height: 142px;
 }
 
