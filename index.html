@@ -101,16 +101,16 @@
             <span class="flow-stage-label">Initial Inputs</span>
           </div>
 
-          <article class="flow-card flow-card-video" data-flow-focus="video" data-flow-group="video" tabindex="0">
+          <article class="flow-card flow-card-video flow-card-data" data-flow-focus="video" data-flow-group="video" tabindex="0">
             <h3>Raw Video</h3>
             <p>Full source video with actions, frames, and temporal evidence.</p>
           </article>
-          <article class="flow-card flow-card-query" data-flow-focus="source-intent" data-flow-group="source-intent" tabindex="0">
+          <article class="flow-card flow-card-query flow-card-data" data-flow-focus="source-intent" data-flow-group="source-intent" tabindex="0">
             <h3>User Intent</h3>
             <p>Natural-language request that may still be broad or ambiguous.</p>
           </article>
 
-          <article class="flow-card flow-card-intent" data-flow-focus="intent-agent" data-flow-group="intent-agent" tabindex="0">
+          <article class="flow-card flow-card-intent flow-card-agent" data-flow-focus="intent-agent" data-flow-group="intent-agent" tabindex="0">
             <span class="flow-chip">Agent 1</span>
             <h3>User Intent Agent</h3>
             <p>Infer candidate task types and rewrite each candidate into a clear, synthesis-ready instruction.</p>
@@ -121,39 +121,52 @@
             </div>
           </article>
 
-          <article class="flow-card flow-branch flow-branch-tutorial" data-flow-focus="tutorial" data-flow-group="tutorial" tabindex="0">
+          <article class="flow-card flow-task-type flow-task-type-a" tabindex="0">
             <span class="flow-chip">Task Type A</span>
-            <h3>Tutorial Task</h3>
-            <p>Produce stepwise instructional samples from the original clip.</p>
-            <span class="flow-model-tag">Tutorial Synthesis Model</span>
+            <h3>Tutorial</h3>
+            <p>Interleaved tutorial-style supervision.</p>
           </article>
-          <article class="flow-card flow-branch flow-branch-temporal" data-flow-focus="temporal" data-flow-group="temporal" tabindex="0">
+          <article class="flow-card flow-task-type flow-task-type-b" tabindex="0">
             <span class="flow-chip">Task Type B</span>
-            <h3>Temporal Task</h3>
-            <p>Produce event ordering, localization, and state-change supervision.</p>
-            <span class="flow-model-tag">Temporal QA Model</span>
+            <h3>Temporal</h3>
+            <p>Ordering, localization, and state-change reasoning.</p>
           </article>
-          <article class="flow-card flow-branch flow-branch-gui" data-flow-focus="gui" data-flow-group="gui" tabindex="0">
-            <span class="flow-chip">Task Type C</span>
-            <h3>Agent Task</h3>
-            <p>Produce goal-driven long-horizon trajectories from the same source video.</p>
-            <span class="flow-model-tag">Agent Trajectory Model</span>
+          <article class="flow-card flow-task-type flow-task-type-more" tabindex="0">
+            <span class="flow-chip">...</span>
+            <h3>More Types</h3>
+            <p>Additional task classes can be inferred from the same intent.</p>
           </article>
 
-          <article class="flow-card flow-output flow-output-tutorial" data-flow-focus="tutorial" data-flow-group="output-tutorial" tabindex="0">
+          <article class="flow-card flow-task-agent flow-task-agent-a flow-card-agent" tabindex="0">
+            <span class="flow-chip">Task Agent</span>
+            <h3>Tutorial Agent</h3>
+            <p>Use the task-specific synthesis agent selected for tutorial supervision.</p>
+          </article>
+          <article class="flow-card flow-task-agent flow-task-agent-b flow-card-agent" tabindex="0">
+            <span class="flow-chip">Task Agent</span>
+            <h3>Temporal Agent</h3>
+            <p>Use the task-specific synthesis agent selected for temporal reasoning data.</p>
+          </article>
+          <article class="flow-card flow-task-agent flow-task-agent-more flow-card-agent" tabindex="0">
+            <span class="flow-chip">Task Agent</span>
+            <h3>More Agents</h3>
+            <p>Attach more specialized agents for other task types when needed.</p>
+          </article>
+
+          <article class="flow-card flow-output flow-output-tutorial flow-card-data" tabindex="0">
             <span class="flow-chip">Output</span>
-            <h3>Tutorial Output</h3>
+            <h3>Tutorial Data</h3>
             <p>Task description + frame-text labels.</p>
           </article>
-          <article class="flow-card flow-output flow-output-temporal" data-flow-focus="temporal" data-flow-group="output-temporal" tabindex="0">
+          <article class="flow-card flow-output flow-output-temporal flow-card-data" tabindex="0">
             <span class="flow-chip">Output</span>
-            <h3>Temporal Output</h3>
+            <h3>Temporal Data</h3>
             <p>Task description + timestamped image-text labels.</p>
           </article>
-          <article class="flow-card flow-output flow-output-gui" data-flow-focus="gui" data-flow-group="output-gui" tabindex="0">
+          <article class="flow-card flow-output flow-output-more flow-card-data" tabindex="0">
             <span class="flow-chip">Output</span>
-            <h3>Agent Output</h3>
-            <p>Task description + stepwise action labels.</p>
+            <h3>More Task Data</h3>
+            <p>Additional task description + multimodal labels for more task classes.</p>
           </article>
         </div>
       </section>

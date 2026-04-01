@@ -407,11 +407,11 @@ a {
   --arch-accent: rgba(255, 143, 76, 0.18);
   --arch-accent-strong: rgba(255, 211, 168, 0.84);
   position: relative;
-  min-height: 792px;
+  min-height: 980px;
   padding: 40px 20px 30px;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: 130px 186px 176px 122px;
+  grid-template-rows: 130px 186px 116px 164px 122px;
   gap: 36px 16px;
   border-radius: calc(var(--radius-xl) + 6px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -519,6 +519,27 @@ a {
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: left center;
   pointer-events: none;
+}
+
+.flow-card-agent {
+  border-color: rgba(255, 191, 122, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 176, 108, 0.14), rgba(255, 255, 255, 0.03)),
+    rgba(7, 17, 27, 0.94);
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 211, 168, 0.08);
+}
+
+.flow-card-data {
+  border-color: rgba(152, 219, 255, 0.24);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(152, 219, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(152, 219, 255, 0.08), rgba(255, 255, 255, 0.03)),
+    rgba(7, 17, 27, 0.94);
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(152, 219, 255, 0.08);
 }
 
 .flow-card {
@@ -640,30 +661,29 @@ a {
   margin-top: 18px;
 }
 
-.flow-branch {
+.flow-task-type {
   grid-row: 3;
   display: grid;
   align-content: start;
-  border-radius: 20px 36px 20px 20px;
-  border-color: rgba(255, 191, 122, 0.24);
+  min-height: 116px;
+  border-radius: 20px;
+  border-color: rgba(255, 255, 255, 0.12);
   background:
-    linear-gradient(180deg, rgba(255, 191, 122, 0.14), rgba(255, 255, 255, 0.03)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.03)),
     rgba(7, 17, 27, 0.94);
-  box-shadow:
-    0 18px 46px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 211, 168, 0.08);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
 }
 
-.flow-branch-tutorial {
-  grid-column: 1 / 5;
+.flow-task-type-a {
+  grid-column: 2 / 5;
 }
 
-.flow-branch-temporal {
-  grid-column: 5 / 9;
+.flow-task-type-b {
+  grid-column: 5 / 8;
 }
 
-.flow-branch-gui {
-  grid-column: 9 / 13;
+.flow-task-type-more {
+  grid-column: 8 / 11;
 }
 
 .flow-model-tag {
@@ -675,21 +695,28 @@ a {
 }
 
 .flow-output {
-  grid-row: 4;
+  grid-row: 5;
   min-height: 122px;
-  border-radius: 32px;
-  border-style: dashed;
-  border-color: rgba(152, 219, 255, 0.28);
-  background:
-    radial-gradient(circle at 16% 18%, rgba(152, 219, 255, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(152, 219, 255, 0.08), rgba(255, 255, 255, 0.03)),
-    rgba(7, 17, 27, 0.94);
-  box-shadow:
-    0 18px 46px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 1px rgba(152, 219, 255, 0.08);
 }
 
-.flow-branch::after,
+.flow-task-agent {
+  grid-row: 4;
+  min-height: 164px;
+}
+
+.flow-task-agent-a {
+  grid-column: 1 / 5;
+}
+
+.flow-task-agent-b {
+  grid-column: 5 / 9;
+}
+
+.flow-task-agent-more {
+  grid-column: 9 / 13;
+}
+
+.flow-task-agent::after,
 .flow-output::after {
   position: absolute;
   top: 14px;
@@ -700,8 +727,8 @@ a {
   pointer-events: none;
 }
 
-.flow-branch::after {
-  content: "Model";
+.flow-task-agent::after {
+  content: "Agent";
   color: rgba(255, 211, 168, 0.72);
 }
 
@@ -719,6 +746,10 @@ a {
 }
 
 .flow-output-gui {
+  grid-column: 9 / 13;
+}
+
+.flow-output-more {
   grid-column: 9 / 13;
 }
 
