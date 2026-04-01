@@ -521,25 +521,20 @@ a {
   pointer-events: none;
 }
 
-.flow-card-agent {
-  border-color: rgba(255, 191, 122, 0.22);
-  background:
-    linear-gradient(180deg, rgba(255, 176, 108, 0.14), rgba(255, 255, 255, 0.03)),
-    rgba(7, 17, 27, 0.94);
+.flow-card.flow-card-agent {
+  border-color: rgba(255, 191, 122, 0.42);
+  background: linear-gradient(180deg, rgba(86, 46, 17, 0.98), rgba(58, 30, 12, 0.98));
   box-shadow:
     0 18px 46px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 211, 168, 0.08);
+    inset 0 1px 0 rgba(255, 211, 168, 0.12);
 }
 
-.flow-card-data {
-  border-color: rgba(152, 219, 255, 0.24);
-  background:
-    radial-gradient(circle at 16% 18%, rgba(152, 219, 255, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(152, 219, 255, 0.08), rgba(255, 255, 255, 0.03)),
-    rgba(7, 17, 27, 0.94);
+.flow-card.flow-card-data {
+  border-color: rgba(152, 219, 255, 0.42);
+  background: linear-gradient(180deg, rgba(18, 47, 72, 0.98), rgba(12, 31, 50, 0.98));
   box-shadow:
     0 18px 46px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 1px rgba(152, 219, 255, 0.08);
+    inset 0 0 0 1px rgba(152, 219, 255, 0.12);
 }
 
 .flow-card {
@@ -665,6 +660,9 @@ a {
   grid-row: 3;
   display: grid;
   align-content: start;
+  width: 100%;
+  max-width: 292px;
+  justify-self: center;
   min-height: 116px;
   border-radius: 20px;
   border-color: rgba(255, 255, 255, 0.12);
@@ -675,15 +673,15 @@ a {
 }
 
 .flow-task-type-a {
-  grid-column: 2 / 5;
+  grid-column: 1 / 5;
 }
 
 .flow-task-type-b {
-  grid-column: 5 / 8;
+  grid-column: 5 / 9;
 }
 
 .flow-task-type-more {
-  grid-column: 8 / 11;
+  grid-column: 9 / 13;
 }
 
 .flow-model-tag {
