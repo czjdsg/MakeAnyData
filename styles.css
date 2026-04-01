@@ -472,7 +472,7 @@ a {
 
 .flow-group-frame-inputs {
   inset: 24px 18px auto 18px;
-  height: 164px;
+  height: 156px;
 }
 
 .flow-group-frame-intent {
@@ -588,7 +588,7 @@ a {
 }
 
 .flow-group-frame-inputs .flow-stage-label {
-  top: -8px;
+  top: -4px;
   left: 50%;
   z-index: 4;
   padding: 6px 14px;
