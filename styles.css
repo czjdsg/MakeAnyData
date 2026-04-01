@@ -590,7 +590,7 @@ a {
 .flow-group-frame-inputs .flow-stage-label {
   top: -1px;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.5);
+  transform: translate(-50%, -50%);
   transform-origin: center;
 }
 
