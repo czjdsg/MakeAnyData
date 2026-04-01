@@ -404,33 +404,33 @@ a {
 }
 
 .method-architecture {
-  --arch-accent: rgba(255, 143, 76, 0.2);
+  --arch-accent: rgba(255, 143, 76, 0.18);
   --arch-accent-strong: rgba(255, 211, 168, 0.84);
   position: relative;
-  min-height: 860px;
-  padding: 56px 28px 28px;
+  min-height: 932px;
+  padding: 40px 20px 30px;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: 124px 150px 172px 124px;
-  gap: 80px 16px;
+  grid-template-rows: 130px 186px 104px 176px 122px;
+  gap: 36px 16px;
   border-radius: calc(var(--radius-xl) + 6px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
-    radial-gradient(circle at 14% 16%, rgba(255, 143, 76, 0.16), transparent 26%),
-    radial-gradient(circle at 82% 12%, rgba(152, 219, 255, 0.14), transparent 24%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.028));
+    radial-gradient(circle at 14% 16%, rgba(255, 143, 76, 0.14), transparent 26%),
+    radial-gradient(circle at 82% 12%, rgba(152, 219, 255, 0.12), transparent 24%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.024));
   overflow: hidden;
   isolation: isolate;
 }
 
 .method-architecture[data-focus="temporal"] {
-  --arch-accent: rgba(152, 219, 255, 0.2);
-  --arch-accent-strong: rgba(152, 219, 255, 0.86);
+  --arch-accent: rgba(152, 219, 255, 0.18);
+  --arch-accent-strong: rgba(152, 219, 255, 0.84);
 }
 
 .method-architecture[data-focus="gui"] {
-  --arch-accent: rgba(215, 239, 117, 0.2);
-  --arch-accent-strong: rgba(215, 239, 117, 0.86);
+  --arch-accent: rgba(215, 239, 117, 0.16);
+  --arch-accent-strong: rgba(215, 239, 117, 0.82);
 }
 
 .method-architecture::before {
@@ -438,88 +438,79 @@ a {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
   background-size: 32px 32px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.75), transparent 96%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 96%);
   pointer-events: none;
 }
 
 .method-architecture::after {
   content: "";
   position: absolute;
-  inset: -18% -26%;
+  inset: -16% -22%;
   background: linear-gradient(90deg, transparent, var(--arch-accent-strong), transparent);
-  opacity: 0.08;
+  opacity: 0.05;
   transform: rotate(7deg);
-  animation: dataSweep 7s linear infinite;
+  animation: dataSweep 8s linear infinite;
   pointer-events: none;
 }
 
-.flow-stage,
-.flow-rail-label {
+.flow-group-frame {
   position: absolute;
-  z-index: 3;
+  z-index: 1;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.018);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.024);
+  transition:
+    opacity 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.flow-group-frame-inputs {
+  inset: 24px 18px auto 18px;
+  height: 164px;
+}
+
+.flow-group-frame-intent {
+  inset: 194px 84px auto 84px;
+  height: 214px;
+}
+
+.flow-group-frame-synthesis {
+  inset: 422px 18px auto 18px;
+  height: 344px;
+}
+
+.flow-group-frame-outputs {
+  inset: 780px 18px auto 18px;
+  height: 142px;
+}
+
+.flow-stage-label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: fit-content;
-  padding: 6px 12px;
+  min-width: 30px;
+  padding: 6px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  background: rgba(6, 15, 24, 0.76);
-  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(6, 15, 24, 0.82);
   color: var(--accent-soft);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 0.66rem;
-}
-
-.flow-stage-inputs {
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.flow-stage-intent {
-  top: 246px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.flow-stage-branches {
-  top: 444px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.flow-stage-outputs {
-  top: 710px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.flow-rail-label {
-  color: var(--text);
-  letter-spacing: 0.08em;
-  text-transform: none;
-  font-size: 0.72rem;
-  transition:
-    opacity 220ms ease,
-    transform 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease,
-    filter 220ms ease;
-}
-
-.flow-rail-label-video {
-  top: 378px;
-  left: 78px;
-}
-
-.flow-rail-label-intent {
-  top: 410px;
-  left: 398px;
+  font-size: 0.62rem;
+  white-space: nowrap;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left center;
+  pointer-events: none;
 }
 
 .flow-card {
@@ -529,7 +520,7 @@ a {
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.03)),
     rgba(7, 17, 27, 0.94);
   box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
   backdrop-filter: blur(18px);
@@ -557,8 +548,8 @@ a {
 
 .flow-card h3 {
   margin: 12px 0 0;
-  font-size: clamp(1.34rem, 2vw, 2.05rem);
-  line-height: 1.02;
+  font-size: clamp(1.24rem, 1.86vw, 1.88rem);
+  line-height: 1.12;
 }
 
 .flow-card p {
@@ -597,9 +588,26 @@ a {
 }
 
 .flow-card-intent {
-  grid-column: 3 / 11;
+  grid-column: 2 / 12;
   grid-row: 2;
-  padding: 22px 24px;
+  min-height: 186px;
+  padding: 30px 34px 28px;
+}
+
+.flow-card-route {
+  grid-column: 2 / 12;
+  grid-row: 3;
+  min-height: 104px;
+  padding: 20px 28px;
+}
+
+.flow-card-intent p,
+.flow-card-route p {
+  max-width: 54ch;
+}
+
+.flow-card-route h3 {
+  font-size: clamp(1.12rem, 1.56vw, 1.46rem);
 }
 
 .flow-mini-tags {
@@ -612,7 +620,7 @@ a {
 }
 
 .flow-branch {
-  grid-row: 3;
+  grid-row: 4;
   display: grid;
   align-content: start;
 }
@@ -638,7 +646,7 @@ a {
 }
 
 .flow-output {
-  grid-row: 4;
+  grid-row: 5;
   min-height: 122px;
 }
 
@@ -657,7 +665,7 @@ a {
 .flow-svg {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -668,19 +676,19 @@ a {
 }
 
 .flow-arrow-head {
-  fill: rgba(255, 211, 168, 0.82);
+  fill: rgba(255, 211, 168, 0.78);
 }
 
 .flow-path {
   fill: none;
-  stroke: rgba(255, 221, 191, 0.34);
+  stroke: rgba(255, 221, 191, 0.3);
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 6 14;
   vector-effect: non-scaling-stroke;
   animation: flowDash 12s linear infinite;
-  opacity: 0.58;
+  opacity: 0.56;
   transition:
     opacity 220ms ease,
     stroke-width 220ms ease,
@@ -688,30 +696,29 @@ a {
     stroke 220ms ease;
 }
 
-.flow-path-bus {
-  stroke: rgba(255, 221, 191, 0.18);
-  stroke-dasharray: 12 18;
-}
-
 .method-architecture.is-focused .flow-card.is-dimmed,
 .method-architecture.is-focused .flow-path.is-dimmed,
-.method-architecture.is-focused .flow-rail-label.is-dimmed {
+.method-architecture.is-focused .flow-group-frame.is-dimmed {
   opacity: 0.14;
   filter: saturate(0.56);
 }
 
 .method-architecture.is-focused .flow-card.is-highlighted,
-.method-architecture.is-focused .flow-rail-label.is-highlighted {
+.method-architecture.is-focused .flow-group-frame.is-highlighted {
   opacity: 1;
-  transform: translateY(-6px);
-  border-color: rgba(255, 211, 168, 0.36);
-  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.24);
+  transform: translateY(-4px);
+  border-color: rgba(255, 211, 168, 0.26);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.22);
   filter: saturate(1.04);
+}
+
+.method-architecture.is-focused .flow-group-frame.is-highlighted {
+  background: rgba(255, 255, 255, 0.032);
 }
 
 .method-architecture.is-focused .flow-path.is-highlighted {
   opacity: 1;
-  stroke: rgba(255, 232, 208, 0.92);
+  stroke: rgba(255, 232, 208, 0.9);
   stroke-width: 2.5;
   filter: drop-shadow(0 0 10px rgba(255, 211, 168, 0.16));
 }
@@ -1015,20 +1022,20 @@ a {
   }
 
   .method-architecture {
-    min-height: 820px;
-    gap: 76px 14px;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 24px;
   }
 
-  .flow-card-intent {
-    grid-column: 2 / 12;
+  .flow-group-frame,
+  .flow-svg {
+    display: none;
   }
 
-  .flow-rail-label-video {
-    left: 54px;
-  }
-
-  .flow-rail-label-intent {
-    left: 342px;
+  .flow-card {
+    min-height: 0;
   }
 
   .cases-grid {
@@ -1094,31 +1101,8 @@ a {
     padding: 24px;
   }
 
-  .method-architecture {
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .flow-stage,
-  .flow-rail-label {
-    position: static;
-    transform: none;
-    align-self: flex-start;
-  }
-
-  .flow-svg {
-    display: none;
-  }
-
-  .flow-card {
-    min-height: 0;
-  }
-
-  .method-architecture.is-focused .flow-card.is-highlighted,
-  .method-architecture.is-focused .flow-rail-label.is-highlighted {
-    transform: none;
+  .cases-grid {
+    grid-template-columns: 1fr;
   }
 }
 
