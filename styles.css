@@ -471,7 +471,7 @@ a {
 }
 
 .flow-group-frame-inputs {
-  inset: 24px 18px auto 18px;
+  inset: 24px 48px auto 48px;
   height: 156px;
 }
 
@@ -486,8 +486,8 @@ a {
 }
 
 .flow-group-frame-outputs {
-  inset: 914px 18px auto 18px;
-  height: 142px;
+  inset: 900px 8px auto 8px;
+  height: 170px;
 }
 
 .flow-group-frame-intent,
@@ -622,7 +622,7 @@ a {
   top: auto;
   bottom: -1px;
   left: 50%;
-  min-width: 102px;
+  min-width: 136px;
   transform: translate(-50%, 50%);
   transform-origin: center;
 }
