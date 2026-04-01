@@ -407,11 +407,11 @@ a {
   --arch-accent: rgba(255, 143, 76, 0.18);
   --arch-accent-strong: rgba(255, 211, 168, 0.84);
   position: relative;
-  min-height: 932px;
+  min-height: 792px;
   padding: 40px 20px 30px;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: 130px 186px 104px 176px 122px;
+  grid-template-rows: 130px 186px 176px 122px;
   gap: 36px 16px;
   border-radius: calc(var(--radius-xl) + 6px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -641,7 +641,7 @@ a {
 }
 
 .flow-branch {
-  grid-row: 4;
+  grid-row: 3;
   display: grid;
   align-content: start;
 }
@@ -667,7 +667,7 @@ a {
 }
 
 .flow-output {
-  grid-row: 5;
+  grid-row: 4;
   min-height: 122px;
 }
 

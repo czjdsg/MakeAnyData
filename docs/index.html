@@ -97,18 +97,7 @@
         </div>
 
         <div class="method-architecture reveal" id="method-architecture">
-          <div class="flow-group-frame flow-group-frame-inputs" data-flow-group="inputs-frame">
-            <span class="flow-stage-label">Initial Inputs</span>
-          </div>
-          <div class="flow-group-frame flow-group-frame-intent" data-flow-group="intent-frame">
-            <span class="flow-stage-label">Intent Planning</span>
-          </div>
-          <div class="flow-group-frame flow-group-frame-synthesis" data-flow-group="synthesis-frame">
-            <span class="flow-stage-label">Parallel Synthesis</span>
-          </div>
-          <div class="flow-group-frame flow-group-frame-outputs" data-flow-group="outputs-frame">
-            <span class="flow-stage-label">Outputs</span>
-          </div>
+          <div class="flow-group-frame flow-group-frame-inputs"></div>
 
           <article class="flow-card flow-card-video" data-flow-focus="video" data-flow-group="video" tabindex="0">
             <h3>Raw Video</h3>
@@ -128,12 +117,6 @@
               <span>instruction rewriting</span>
               <span>ambiguity preserved</span>
             </div>
-          </article>
-
-          <article class="flow-card flow-card-route" data-flow-focus="route" data-flow-group="route" tabindex="0">
-            <span class="flow-chip">Shared Route</span>
-            <h3>Raw Video Context + Clear Instruction</h3>
-            <p>Merge source video evidence with the rewritten instruction once, then dispatch by task type.</p>
           </article>
 
           <article class="flow-card flow-branch flow-branch-tutorial" data-flow-focus="tutorial" data-flow-group="tutorial" tabindex="0">
@@ -170,40 +153,6 @@
             <h3>Agent Output</h3>
             <p>Task description + stepwise action labels.</p>
           </article>
-
-          <svg class="flow-svg" viewBox="0 0 1000 940" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <marker id="flowArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                <path class="flow-arrow-head" d="M 0 0 L 10 5 L 0 10 z"></path>
-              </marker>
-              <mask id="flowMask">
-                <rect x="0" y="0" width="1000" height="940" fill="white"></rect>
-                <rect x="22" y="40" width="390" height="130" rx="28" fill="black"></rect>
-                <rect x="588" y="40" width="390" height="130" rx="28" fill="black"></rect>
-                <rect x="104" y="216" width="792" height="186" rx="30" fill="black"></rect>
-                <rect x="104" y="438" width="792" height="104" rx="28" fill="black"></rect>
-                <rect x="22" y="580" width="302" height="176" rx="28" fill="black"></rect>
-                <rect x="349" y="580" width="302" height="176" rx="28" fill="black"></rect>
-                <rect x="676" y="580" width="302" height="176" rx="28" fill="black"></rect>
-                <rect x="22" y="798" width="302" height="122" rx="28" fill="black"></rect>
-                <rect x="349" y="798" width="302" height="122" rx="28" fill="black"></rect>
-                <rect x="676" y="798" width="302" height="122" rx="28" fill="black"></rect>
-              </mask>
-            </defs>
-
-            <g class="flow-path-layer" mask="url(#flowMask)">
-              <path class="flow-path" data-flow-path="video-intent" d="M244 170 C256 206 344 224 430 240" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="video-route" d="M160 170 C90 220 70 340 90 394 C104 424 164 436 280 438" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="user-intent" d="M756 170 C744 206 656 224 570 240" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="intent-route" d="M500 402 L500 438" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="route-tutorial" d="M500 542 C410 570 304 584 172 580" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="route-temporal" d="M500 542 L500 580" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="route-gui" d="M500 542 C590 570 696 584 828 580" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="tutorial-output" d="M172 756 L172 798" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="temporal-output" d="M500 756 L500 798" marker-end="url(#flowArrow)"></path>
-              <path class="flow-path" data-flow-path="gui-output" d="M828 756 L828 798" marker-end="url(#flowArrow)"></path>
-            </g>
-          </svg>
         </div>
       </section>
 
