@@ -165,26 +165,41 @@
               <marker id="flowArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
                 <path class="flow-arrow-head" d="M 0 0 L 10 5 L 0 10 z"></path>
               </marker>
+              <mask id="flowMask">
+                <rect x="0" y="0" width="1000" height="860" fill="white"></rect>
+                <rect x="22" y="52" width="390" height="126" rx="28" fill="black"></rect>
+                <rect x="588" y="52" width="390" height="126" rx="28" fill="black"></rect>
+                <rect x="170" y="246" width="660" height="146" rx="28" fill="black"></rect>
+                <rect x="22" y="466" width="302" height="184" rx="28" fill="black"></rect>
+                <rect x="349" y="466" width="302" height="184" rx="28" fill="black"></rect>
+                <rect x="676" y="466" width="302" height="184" rx="28" fill="black"></rect>
+                <rect x="22" y="700" width="302" height="124" rx="28" fill="black"></rect>
+                <rect x="349" y="700" width="302" height="124" rx="28" fill="black"></rect>
+                <rect x="676" y="700" width="302" height="124" rx="28" fill="black"></rect>
+              </mask>
             </defs>
 
-            <path class="flow-path" data-flow-path="video-intent" d="M240 176 C240 205 320 216 430 230" marker-end="url(#flowArrow)"></path>
-            <path class="flow-path" data-flow-path="user-intent" d="M760 176 C760 205 680 216 570 230" marker-end="url(#flowArrow)"></path>
+            <g class="flow-path-layer" mask="url(#flowMask)">
+              <path class="flow-path" data-flow-path="video-intent" d="M244 178 C244 220 346 236 432 246" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="user-intent" d="M756 178 C756 220 654 236 568 246" marker-end="url(#flowArrow)"></path>
 
-            <path class="flow-path flow-path-bus" data-flow-path="video-bus" d="M240 176 L240 420 L830 420"></path>
-            <path class="flow-path" data-flow-path="video-tutorial" d="M170 420 L170 480" marker-end="url(#flowArrow)"></path>
-            <path class="flow-path" data-flow-path="video-temporal" d="M500 420 L500 480" marker-end="url(#flowArrow)"></path>
-            <path class="flow-path" data-flow-path="video-gui" d="M830 420 L830 480" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path flow-path-bus" data-flow-path="video-bus" d="M244 178 L244 412 L828 412"></path>
+              <path class="flow-path" data-flow-path="video-tutorial" d="M172 412 L172 466" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="video-temporal" d="M500 412 L500 466" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="video-gui" d="M828 412 L828 466" marker-end="url(#flowArrow)"></path>
 
-            <path class="flow-path" data-flow-path="intent-root" d="M500 380 L500 454"></path>
-            <path class="flow-path flow-path-bus" data-flow-path="intent-bus" d="M170 454 L830 454"></path>
-            <path class="flow-path" data-flow-path="intent-tutorial" d="M170 454 L170 480" marker-end="url(#flowArrow)"></path>
-            <path class="flow-path" data-flow-path="intent-temporal" d="M500 454 L500 480" marker-end="url(#flowArrow)"></path>
-            <path class="flow-path" data-flow-path="intent-gui" d="M830 454 L830 480" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="intent-root" d="M500 392 L500 446"></path>
+              <path class="flow-path flow-path-bus" data-flow-path="intent-bus" d="M172 446 L828 446"></path>
+              <path class="flow-path" data-flow-path="intent-tutorial" d="M172 446 L172 466" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="intent-temporal" d="M500 446 L500 466" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="intent-gui" d="M828 446 L828 466" marker-end="url(#flowArrow)"></path>
 
-            <path class="flow-path" data-flow-path="tutorial-output" d="M170 650 L170 700" marker-end="url(#flowArrow)"></path>
-            <path class="flow-path" data-flow-path="temporal-output" d="M500 650 L500 700" marker-end="url(#flowArrow)"></path>
-            <path class="flow-path" data-flow-path="gui-output" d="M830 650 L830 700" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="tutorial-output" d="M172 650 L172 700" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="temporal-output" d="M500 650 L500 700" marker-end="url(#flowArrow)"></path>
+              <path class="flow-path" data-flow-path="gui-output" d="M828 650 L828 700" marker-end="url(#flowArrow)"></path>
+            </g>
           </svg>
+
         </div>
       </section>
 

@@ -513,13 +513,13 @@ a {
 }
 
 .flow-rail-label-video {
-  top: 394px;
-  left: 58px;
+  top: 372px;
+  left: 70px;
 }
 
 .flow-rail-label-intent {
-  top: 428px;
-  left: 364px;
+  top: 404px;
+  left: 386px;
 }
 
 .flow-card {
@@ -530,8 +530,9 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028)),
-    rgba(7, 17, 27, 0.78);
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.2);
+    rgba(7, 17, 27, 0.94);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(18px);
   padding: 18px;
   transition:
     opacity 220ms ease,
@@ -662,33 +663,40 @@ a {
   pointer-events: none;
 }
 
+.flow-path-layer {
+  isolation: isolate;
+}
+
 .flow-arrow-head {
-  fill: rgba(255, 211, 168, 0.92);
+  fill: rgba(255, 211, 168, 0.82);
 }
 
 .flow-path {
   fill: none;
-  stroke: rgba(255, 221, 191, 0.72);
-  stroke-width: 2.5;
+  stroke: rgba(255, 221, 191, 0.34);
+  stroke-width: 2.1;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 10 14;
-  animation: flowDash 10s linear infinite;
-  opacity: 0.9;
+  stroke-dasharray: 7 14;
+  vector-effect: non-scaling-stroke;
+  animation: flowDash 12s linear infinite;
+  opacity: 0.72;
   transition:
     opacity 220ms ease,
     stroke-width 220ms ease,
-    filter 220ms ease;
+    filter 220ms ease,
+    stroke 220ms ease;
 }
 
 .flow-path-bus {
-  stroke-dasharray: 16 18;
+  stroke: rgba(255, 221, 191, 0.24);
+  stroke-dasharray: 14 18;
 }
 
 .method-architecture.is-focused .flow-card.is-dimmed,
 .method-architecture.is-focused .flow-path.is-dimmed,
 .method-architecture.is-focused .flow-rail-label.is-dimmed {
-  opacity: 0.16;
+  opacity: 0.14;
   filter: saturate(0.56);
 }
 
@@ -703,8 +711,9 @@ a {
 
 .method-architecture.is-focused .flow-path.is-highlighted {
   opacity: 1;
-  stroke-width: 3.6;
-  filter: drop-shadow(0 0 18px rgba(255, 211, 168, 0.28));
+  stroke: rgba(255, 232, 208, 0.92);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 14px rgba(255, 211, 168, 0.22));
 }
 
 .case-card h3,
@@ -1015,11 +1024,11 @@ a {
   }
 
   .flow-rail-label-video {
-    left: 42px;
+    left: 46px;
   }
 
   .flow-rail-label-intent {
-    left: 312px;
+    left: 330px;
   }
 
   .cases-grid {
