@@ -407,11 +407,11 @@ a {
   --arch-accent: rgba(255, 143, 76, 0.18);
   --arch-accent-strong: rgba(255, 211, 168, 0.84);
   position: relative;
-  min-height: 980px;
+  min-height: 1012px;
   padding: 40px 20px 30px;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: 130px 186px 116px 164px 122px;
+  grid-template-rows: 130px 186px 148px 164px 122px;
   gap: 36px 16px;
   border-radius: calc(var(--radius-xl) + 6px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -620,7 +620,10 @@ a {
 }
 
 .flow-card-video h3,
-.flow-card-query h3 {
+.flow-card-query h3,
+.flow-card-intent h3,
+.flow-task-agent h3,
+.flow-output h3 {
   margin-top: 0;
 }
 
@@ -663,13 +666,9 @@ a {
   width: 100%;
   max-width: 292px;
   justify-self: center;
-  min-height: 116px;
+  min-height: 148px;
   border-radius: 20px;
   border-color: rgba(255, 255, 255, 0.12);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.03)),
-    rgba(7, 17, 27, 0.94);
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
 }
 
 .flow-task-type-a {
@@ -712,27 +711,6 @@ a {
 
 .flow-task-agent-more {
   grid-column: 9 / 13;
-}
-
-.flow-task-agent::after,
-.flow-output::after {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-
-.flow-task-agent::after {
-  content: "Agent";
-  color: rgba(255, 211, 168, 0.72);
-}
-
-.flow-output::after {
-  content: "Data";
-  color: rgba(152, 219, 255, 0.72);
 }
 
 .flow-output-tutorial {
