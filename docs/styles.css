@@ -588,13 +588,13 @@ a {
 }
 
 .flow-group-frame-inputs .flow-stage-label {
-  top: -4px;
+  top: -1px;
   left: 50%;
   z-index: 4;
   padding: 6px 14px;
   background: rgba(10, 20, 31, 0.98);
   box-shadow: 0 0 0 10px rgba(10, 20, 31, 0.98);
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, -50%);
   transform-origin: center;
 }
 
