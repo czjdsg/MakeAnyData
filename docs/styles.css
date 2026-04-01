@@ -588,7 +588,7 @@ a {
 }
 
 .flow-group-frame-inputs .flow-stage-label {
-  top: 0;
+  top: -8px;
   left: 50%;
   z-index: 4;
   padding: 6px 14px;
