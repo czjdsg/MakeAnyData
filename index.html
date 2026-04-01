@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=outputframe02" />
+    <link rel="stylesheet" href="./styles.css?v=casehover01" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -209,54 +209,44 @@
           <h2>One system, many kinds of data users may ask for.</h2>
         </div>
 
-        <div class="case-filter reveal" id="case-filter">
-          <button class="filter-pill is-active" type="button" data-filter="all">All</button>
-          <button class="filter-pill" type="button" data-filter="tutorial">Everyday Tutorials</button>
-          <button class="filter-pill" type="button" data-filter="education">Education</button>
-          <button class="filter-pill" type="button" data-filter="agent">GUI Agents</button>
-          <button class="filter-pill" type="button" data-filter="embodied">Embodied</button>
-          <button class="filter-pill" type="button" data-filter="generation">Generation</button>
-        </div>
-
         <div class="cases-layout">
-          <div class="cases-grid" id="cases-grid">
-            <button class="case-card reveal is-active" type="button" data-case="cooking" data-group="tutorial">
-              <span class="case-number">01</span>
-              <p class="case-domain">Everyday Tutorials</p>
-              <h3>Cooking Tutorial</h3>
-              <p>Rebuild a cooking video into interleaved, user-facing tutorial steps.</p>
+          <nav class="case-nav reveal" id="case-filter" aria-label="Case categories">
+            <button class="case-nav-item is-active" type="button" data-case-target="cooking" aria-controls="case-spotlight">
+              <span class="case-nav-index">01</span>
+              <span class="case-nav-copy">
+                <span class="case-nav-title">Everyday Tutorials</span>
+                <span class="case-nav-desc">Turn procedural video into stepwise tutorial data.</span>
+              </span>
             </button>
-            <button class="case-card reveal" type="button" data-case="geometry" data-group="education">
-              <span class="case-number">02</span>
-              <p class="case-domain">Education</p>
-              <h3>Geometry Stuck Point</h3>
-              <p>Focus only on the step where a student is most likely to get stuck.</p>
+            <button class="case-nav-item" type="button" data-case-target="geometry" aria-controls="case-spotlight">
+              <span class="case-nav-index">02</span>
+              <span class="case-nav-copy">
+                <span class="case-nav-title">Education</span>
+                <span class="case-nav-desc">Extract supervision around the real stuck step.</span>
+              </span>
             </button>
-            <button class="case-card reveal" type="button" data-case="temporal" data-group="tutorial">
-              <span class="case-number">03</span>
-              <p class="case-domain">Temporal Understanding</p>
-              <h3>Temporal QA</h3>
-              <p>Construct localization, ordering, state-change, and multi-event reasoning queries.</p>
+            <button class="case-nav-item" type="button" data-case-target="gui" aria-controls="case-spotlight">
+              <span class="case-nav-index">03</span>
+              <span class="case-nav-copy">
+                <span class="case-nav-title">GUI Agents</span>
+                <span class="case-nav-desc">Compose short traces into long-horizon interface tasks.</span>
+              </span>
             </button>
-            <button class="case-card reveal" type="button" data-case="gui" data-group="agent">
-              <span class="case-number">04</span>
-              <p class="case-domain">GUI Agents</p>
-              <h3>Long-Horizon GUI Tasks</h3>
-              <p>Compose short app traces into coherent, goal-driven long tasks.</p>
+            <button class="case-nav-item" type="button" data-case-target="embodied" aria-controls="case-spotlight">
+              <span class="case-nav-index">04</span>
+              <span class="case-nav-copy">
+                <span class="case-nav-title">Embodied</span>
+                <span class="case-nav-desc">Build recovery data from robot trajectories and faults.</span>
+              </span>
             </button>
-            <button class="case-card reveal" type="button" data-case="embodied" data-group="embodied">
-              <span class="case-number">05</span>
-              <p class="case-domain">Embodied Intelligence</p>
-              <h3>Fault Recovery</h3>
-              <p>Turn successful robot trajectories into abnormal-state recovery samples.</p>
+            <button class="case-nav-item" type="button" data-case-target="editing" aria-controls="case-spotlight">
+              <span class="case-nav-index">05</span>
+              <span class="case-nav-copy">
+                <span class="case-nav-title">Generation</span>
+                <span class="case-nav-desc">Create controllable editing samples from raw scenes.</span>
+              </span>
             </button>
-            <button class="case-card reveal" type="button" data-case="editing" data-group="generation">
-              <span class="case-number">06</span>
-              <p class="case-domain">Generation / Editing</p>
-              <h3>Ego Image Editing</h3>
-              <p>Generate edit targets that stay aligned with the current scene and instruction.</p>
-            </button>
-          </div>
+          </nav>
 
           <aside class="case-spotlight reveal" id="case-spotlight">
             <div class="spotlight-meta">
@@ -354,6 +344,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=outputframe02"></script>
+    <script src="./app.js?v=casehover01"></script>
   </body>
 </html>

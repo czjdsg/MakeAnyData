@@ -1,7 +1,6 @@
 const caseData = {
   cooking: {
     index: "01",
-    group: "tutorial",
     domain: "Everyday Tutorials",
     title: "Cooking Tutorial from Raw Video",
     summary:
@@ -15,7 +14,6 @@ const caseData = {
   },
   geometry: {
     index: "02",
-    group: "education",
     domain: "Education",
     title: "Geometry Stuck Point Reasoning",
     summary:
@@ -27,8 +25,7 @@ const caseData = {
     tags: ["education", "reasoning", "stuck-point"],
   },
   temporal: {
-    index: "03",
-    group: "tutorial",
+    index: "06",
     domain: "Temporal Understanding",
     title: "Temporal QA Construction",
     summary:
@@ -40,8 +37,7 @@ const caseData = {
     tags: ["temporal", "qa", "state-change"],
   },
   gui: {
-    index: "04",
-    group: "agent",
+    index: "03",
     domain: "GUI Agents",
     title: "Long-Horizon GUI Task Composition",
     summary:
@@ -53,9 +49,8 @@ const caseData = {
     tags: ["gui", "agent", "long-horizon"],
   },
   embodied: {
-    index: "05",
-    group: "embodied",
-    domain: "Embodied Intelligence",
+    index: "04",
+    domain: "Embodied",
     title: "Embodied Fault Recovery",
     summary:
       "Turn successful robot trajectories into abnormal-state recovery samples that teach diagnosis and correction.",
@@ -66,9 +61,8 @@ const caseData = {
     tags: ["robotics", "world-model", "fault-repair"],
   },
   editing: {
-    index: "06",
-    group: "generation",
-    domain: "Generation / Editing",
+    index: "05",
+    domain: "Generation",
     title: "Ego Image Editing Samples",
     summary:
       "Generate edit targets that stay aligned with the current scene, instruction, and visual constraints.",
@@ -97,12 +91,9 @@ const spotlightIntent = document.getElementById("spotlight-intent");
 const spotlightOutput = document.getElementById("spotlight-output");
 const spotlightWhy = document.getElementById("spotlight-why");
 const spotlightTags = document.getElementById("spotlight-tags");
-const caseCards = Array.from(document.querySelectorAll(".case-card"));
-const filterPills = Array.from(document.querySelectorAll(".filter-pill"));
-
-function unique(list) {
-  return [...new Set(list)];
-}
+const caseSpotlight = document.getElementById("case-spotlight");
+const caseNavItems = Array.from(document.querySelectorAll(".case-nav-item"));
+let spotlightSwapTimer;
 
 if (methodArchitecture) {
   methodArchitecture.classList.remove("is-focused");
@@ -130,61 +121,35 @@ function setSpotlight(caseKey) {
     spotlightTags.appendChild(chip);
   });
 
-  caseCards.forEach((card) => {
-    card.classList.toggle("is-active", card.dataset.case === caseKey);
-  });
-}
-
-function applyCaseFilter(filterKey) {
-  filterPills.forEach((pill) => {
-    pill.classList.toggle("is-active", pill.dataset.filter === filterKey);
+  caseNavItems.forEach((itemNode) => {
+    const isActive = itemNode.dataset.caseTarget === caseKey;
+    itemNode.classList.toggle("is-active", isActive);
+    itemNode.setAttribute("aria-pressed", String(isActive));
   });
 
-  const visibleCards = caseCards.filter((card) => {
-    const match = filterKey === "all" || card.dataset.group === filterKey;
-    card.classList.toggle("is-hidden", !match);
-    return match;
-  });
+  if (caseSpotlight) {
+    caseSpotlight.classList.remove("is-swapping");
+    void caseSpotlight.offsetWidth;
+    caseSpotlight.classList.add("is-swapping");
 
-  const activeVisible = visibleCards.find((card) => card.classList.contains("is-active"));
-  if (!activeVisible && visibleCards[0]) {
-    setSpotlight(visibleCards[0].dataset.case);
+    clearTimeout(spotlightSwapTimer);
+    spotlightSwapTimer = window.setTimeout(() => {
+      caseSpotlight.classList.remove("is-swapping");
+    }, 360);
   }
 }
 
-caseCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    setSpotlight(card.dataset.case);
+caseNavItems.forEach((itemNode) => {
+  itemNode.addEventListener("mouseenter", () => {
+    setSpotlight(itemNode.dataset.caseTarget);
   });
 
-  card.addEventListener("mouseenter", () => {
-    setSpotlight(card.dataset.case);
+  itemNode.addEventListener("focus", () => {
+    setSpotlight(itemNode.dataset.caseTarget);
   });
 
-  card.addEventListener("pointermove", (event) => {
-    if (window.innerWidth < 900) {
-      return;
-    }
-
-    const rect = card.getBoundingClientRect();
-    const offsetX = event.clientX - rect.left;
-    const offsetY = event.clientY - rect.top;
-    const rotateY = ((offsetX / rect.width) - 0.5) * 10;
-    const rotateX = ((offsetY / rect.height) - 0.5) * -10;
-
-    card.style.setProperty("--rx", `${rotateX}deg`);
-    card.style.setProperty("--ry", `${rotateY}deg`);
-  });
-
-  card.addEventListener("pointerleave", () => {
-    card.style.setProperty("--rx", "0deg");
-    card.style.setProperty("--ry", "0deg");
-  });
-});
-
-filterPills.forEach((pill) => {
-  pill.addEventListener("click", () => {
-    applyCaseFilter(pill.dataset.filter);
+  itemNode.addEventListener("click", () => {
+    setSpotlight(itemNode.dataset.caseTarget);
   });
 });
 
@@ -219,4 +184,3 @@ window.addEventListener("pointerleave", () => {
 });
 
 setSpotlight("cooking");
-applyCaseFilter("all");
