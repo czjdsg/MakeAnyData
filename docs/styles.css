@@ -490,6 +490,14 @@ a {
   height: 142px;
 }
 
+.flow-group-frame-intent,
+.flow-group-frame-synthesis,
+.flow-group-frame-outputs {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
 .flow-stage-label {
   position: absolute;
   top: 50%;
@@ -727,6 +735,14 @@ a {
 
 .method-architecture.is-focused .flow-group-frame.is-highlighted {
   background: rgba(255, 255, 255, 0.032);
+}
+
+.method-architecture.is-focused .flow-group-frame-intent.is-highlighted,
+.method-architecture.is-focused .flow-group-frame-synthesis.is-highlighted,
+.method-architecture.is-focused .flow-group-frame-outputs.is-highlighted {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
 }
 
 .method-architecture.is-focused .flow-path.is-highlighted {
