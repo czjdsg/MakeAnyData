@@ -878,13 +878,6 @@ function setSpotlight(caseKey) {
         solutionLabel.textContent = "Solution";
         panel.appendChild(solutionLabel);
 
-        if (panelItem.answer) {
-          const answer = document.createElement("p");
-          answer.className = "case-output-panel-answer";
-          answer.textContent = panelItem.answer;
-          panel.appendChild(answer);
-        }
-
         if ((panelItem.solutionSteps || []).length > 0) {
           const thoughtSteps = panelItem.solutionSteps.filter(
             (stepItem) => stepItem.type !== "video",
@@ -894,6 +887,12 @@ function setSpotlight(caseKey) {
           );
 
           if (thoughtSteps.length > 0) {
+            const thoughtState = document.createElement("span");
+            thoughtState.className =
+              "case-output-panel-label case-output-panel-thought-state";
+            thoughtState.textContent = "已思考";
+            panel.appendChild(thoughtState);
+
             const steps = document.createElement("div");
             steps.className = "case-output-panel-thoughts";
 
@@ -948,6 +947,13 @@ function setSpotlight(caseKey) {
           outputVideo.preload = "auto";
           outputVideo.load();
           panel.appendChild(outputVideo);
+        }
+
+        if (panelItem.answer) {
+          const answer = document.createElement("p");
+          answer.className = "case-output-panel-answer";
+          answer.textContent = panelItem.answer;
+          panel.appendChild(answer);
         }
 
         grid.appendChild(panel);

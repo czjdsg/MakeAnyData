@@ -1461,9 +1461,15 @@ a {
 }
 
 .case-output-panel-answer {
-  margin: 0 0 12px;
+  margin: 0;
   color: var(--text);
   line-height: 1.72;
+}
+
+.case-output-panel-thought-state {
+  margin-bottom: 10px;
+  text-transform: none;
+  letter-spacing: 0.04em;
 }
 
 .case-output-panel-thoughts {
