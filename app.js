@@ -377,156 +377,244 @@ const caseData = {
   embodied: {
     index: "04",
     domain: "Embodied",
-    title: "Embodied Fault-Recovery World Model",
-    summary:
-      "One robot manipulation clip is expanded into three fault-recovery world-model samples with diagnosis, recall, and corrected execution.",
-    tags: ["robotics", "world-model", "fault-recovery"],
-    pipeline: {
-      inputIntent: "This is a robot manipulation video. Help me construct embodied decision and world-model training data from it.",
-      inputVideo: "./assets/case-embody/hesitate-gen.mp4",
-      inputPoster: "./assets/case-embody/source.webp",
-      inputFallbackTitle: "Robot manipulation source clip",
-      inputFallbackCopy: "A successful tissue pick-and-place routine can be turned into richer decision data once failure and correction are modeled.",
-      thoughts: [
-        {
-          title: "Understand the source behavior",
-          body: "The clip shows a standard embodied manipulation routine: the robot uses the left hand to pick up a tissue and place it in the basin, then repeats the operation with the right hand.",
-        },
-        {
-          title: "Decide what data is most useful",
-          body: "A successful rollout alone is not enough for world-model training. The higher-value supervision comes from abnormal states, fault diagnosis, correction reasoning, and repaired future execution.",
-        },
-        {
-          title: "Generate three canonical failure cases",
-          body: "From the successful source, construct three recoverable failures: hesitation loop, unstable grasp after contact, and early stagnation before reaching the target.",
-        },
-        {
-          title: "Package fault-to-recovery supervision",
-          body: "For each failure, export a unified sample that includes fault judgment, short chain-of-thought reasoning, recall of a better state, and a corrected continuation video.",
-        },
-      ],
-      taskPoster: "",
-      outputQuestion: "",
-      outputText: "",
-      outputSequence: [
-        {
-          type: "parallel-grid",
-          items: [
+    variants: [
+      {
+        variantLabel: "Robot Recovery",
+        title: "Embodied Fault-Recovery World Model",
+        summary:
+          "One robot manipulation clip is expanded into three fault-recovery world-model samples with diagnosis, recall, and corrected execution.",
+        tags: ["robotics", "world-model", "fault-recovery"],
+        pipeline: {
+          inputIntent:
+            "This is a robot manipulation video. Help me construct embodied decision and world-model training data from it.",
+          inputVideo: "./assets/case-embody/hesitate-gen.mp4",
+          inputPoster: "./assets/case-embody/source.webp",
+          inputFallbackTitle: "Robot manipulation source clip",
+          inputFallbackCopy:
+            "A successful tissue pick-and-place routine can be turned into richer decision data once failure and correction are modeled.",
+          thoughts: [
             {
-              title: "Hesitation Loop",
-              taskVideo: "./assets/case-embody/hesitate-input.mp4",
-              taskVideoPoster: "./assets/case-embody/hesitate-input-poster.webp",
-              taskImage: "./assets/case-embody/e1.webp",
-              prompt: "This is my current situation. What should I do?",
-              answer:
-                "The robot is stuck in a local hesitation loop. It should recover to the last better alignment and continue the approach from that corrected state.",
-              solutionSteps: [
-                {
-                  type: "text",
-                  text: "I first inspect the current robot state.",
-                },
-                {
-                  type: "text",
-                  text: "The left hand shows local hesitation without any forward progress, so repeating the same behavior would not solve the task.",
-                },
-                {
-                  type: "text",
-                  text: "I recall the last better local state to recover the alignment before continuing.",
-                },
-                {
-                  type: "image",
-                  src: "./assets/case-embody/e1.webp",
-                  alt: "Hesitation-loop recall frame",
-                },
-                {
-                  type: "text",
-                  text: "The corrected continuation is shown below.",
-                },
-                {
-                  type: "video",
-                  src: "./assets/case-embody/hesitate-gen.mp4",
-                  poster: "./assets/case-embody/hesitate-gen-poster.webp",
-                },
-              ],
+              title: "Understand the source behavior",
+              body: "The clip shows a standard embodied manipulation routine: the robot uses the left hand to pick up a tissue and place it in the basin, then repeats the operation with the right hand.",
             },
             {
-              title: "Unstable Grasp",
-              taskVideo: "./assets/case-embody/unstable-input.mp4",
-              taskVideoPoster: "./assets/case-embody/unstable-input-poster.webp",
-              taskImage: "./assets/case-embody/e2.webp",
-              prompt: "This is my current situation. What should I do?",
-              answer:
-                "The robot made a grasping motion but failed to secure the object. It should return to the previous better posture and re-approach for a corrected grasp.",
-              solutionSteps: [
-                {
-                  type: "text",
-                  text: "I first inspect the current robot state.",
-                },
-                {
-                  type: "text",
-                  text: "The left hand reached the object but the grasp was unstable, so the object could not be held reliably.",
-                },
-                {
-                  type: "text",
-                  text: "I recall the previous better posture to reset the hand and prepare for a corrected grasp.",
-                },
-                {
-                  type: "image",
-                  src: "./assets/case-embody/e2.webp",
-                  alt: "Unstable-grasp recall frame",
-                },
-                {
-                  type: "text",
-                  text: "The corrected continuation is shown below.",
-                },
-                {
-                  type: "video",
-                  src: "./assets/case-embody/unstable-gen.mp4",
-                  poster: "./assets/case-embody/unstable-gen-poster.webp",
-                },
-              ],
+              title: "Decide what data is most useful",
+              body: "A successful rollout alone is not enough for world-model training. The higher-value supervision comes from abnormal states, fault diagnosis, correction reasoning, and repaired future execution.",
             },
             {
-              title: "Early Stagnation",
-              taskVideo: "./assets/case-embody/stagnant-input.mp4",
-              taskVideoPoster: "./assets/case-embody/stagnant-input-poster.webp",
-              taskImage: "./assets/case-embody/e3.webp",
-              prompt: "This is my current situation. What should I do?",
-              answer:
-                "The robot stops too early before reaching the target. It should roll back to the last better local state and resume the approach from that corrected state.",
-              solutionSteps: [
+              title: "Generate three canonical failure cases",
+              body: "From the successful source, construct three recoverable failures: hesitation loop, unstable grasp after contact, and early stagnation before reaching the target.",
+            },
+            {
+              title: "Package fault-to-recovery supervision",
+              body: "For each failure, export a unified sample that includes fault judgment, short chain-of-thought reasoning, recall of a better state, and a corrected continuation video.",
+            },
+          ],
+          taskPoster: "",
+          outputQuestion: "",
+          outputText: "",
+          outputSequence: [
+            {
+              type: "parallel-grid",
+              items: [
                 {
-                  type: "text",
-                  text: "I first inspect the current robot state.",
+                  title: "Hesitation Loop",
+                  taskVideo: "./assets/case-embody/hesitate-input.mp4",
+                  taskVideoPoster: "./assets/case-embody/hesitate-input-poster.webp",
+                  taskImage: "./assets/case-embody/e1.webp",
+                  prompt: "This is my current situation. What should I do?",
+                  answer:
+                    "The robot is stuck in a local hesitation loop. It should recover to the last better alignment and continue the approach from that corrected state.",
+                  solutionSteps: [
+                    {
+                      type: "text",
+                      text: "I first inspect the current robot state.",
+                    },
+                    {
+                      type: "text",
+                      text: "The left hand shows local hesitation without any forward progress, so repeating the same behavior would not solve the task.",
+                    },
+                    {
+                      type: "text",
+                      text: "I recall the last better local state to recover the alignment before continuing.",
+                    },
+                    {
+                      type: "image",
+                      src: "./assets/case-embody/e1.webp",
+                      alt: "Hesitation-loop recall frame",
+                    },
+                    {
+                      type: "text",
+                      text: "The corrected continuation is shown below.",
+                    },
+                    {
+                      type: "video",
+                      src: "./assets/case-embody/hesitate-gen.mp4",
+                      poster: "./assets/case-embody/hesitate-gen-poster.webp",
+                    },
+                  ],
                 },
                 {
-                  type: "text",
-                  text: "The left hand stops too early before reaching the target, so the current state cannot complete the manipulation.",
+                  title: "Unstable Grasp",
+                  taskVideo: "./assets/case-embody/unstable-input.mp4",
+                  taskVideoPoster: "./assets/case-embody/unstable-input-poster.webp",
+                  taskImage: "./assets/case-embody/e2.webp",
+                  prompt: "This is my current situation. What should I do?",
+                  answer:
+                    "The robot made a grasping motion but failed to secure the object. It should return to the previous better posture and re-approach for a corrected grasp.",
+                  solutionSteps: [
+                    {
+                      type: "text",
+                      text: "I first inspect the current robot state.",
+                    },
+                    {
+                      type: "text",
+                      text: "The left hand reached the object but the grasp was unstable, so the object could not be held reliably.",
+                    },
+                    {
+                      type: "text",
+                      text: "I recall the previous better posture to reset the hand and prepare for a corrected grasp.",
+                    },
+                    {
+                      type: "image",
+                      src: "./assets/case-embody/e2.webp",
+                      alt: "Unstable-grasp recall frame",
+                    },
+                    {
+                      type: "text",
+                      text: "The corrected continuation is shown below.",
+                    },
+                    {
+                      type: "video",
+                      src: "./assets/case-embody/unstable-gen.mp4",
+                      poster: "./assets/case-embody/unstable-gen-poster.webp",
+                    },
+                  ],
                 },
                 {
-                  type: "text",
-                  text: "I recall the last better local state and restart the approach from that corrected position.",
-                },
-                {
-                  type: "image",
-                  src: "./assets/case-embody/e3.webp",
-                  alt: "Early-stagnation recall frame",
-                },
-                {
-                  type: "text",
-                  text: "The corrected continuation is shown below.",
-                },
-                {
-                  type: "video",
-                  src: "./assets/case-embody/stagnant-gen.mp4",
-                  poster: "./assets/case-embody/stagnant-gen-poster.webp",
+                  title: "Early Stagnation",
+                  taskVideo: "./assets/case-embody/stagnant-input.mp4",
+                  taskVideoPoster: "./assets/case-embody/stagnant-input-poster.webp",
+                  taskImage: "./assets/case-embody/e3.webp",
+                  prompt: "This is my current situation. What should I do?",
+                  answer:
+                    "The robot stops too early before reaching the target. It should roll back to the last better local state and resume the approach from that corrected state.",
+                  solutionSteps: [
+                    {
+                      type: "text",
+                      text: "I first inspect the current robot state.",
+                    },
+                    {
+                      type: "text",
+                      text: "The left hand stops too early before reaching the target, so the current state cannot complete the manipulation.",
+                    },
+                    {
+                      type: "text",
+                      text: "I recall the last better local state and restart the approach from that corrected position.",
+                    },
+                    {
+                      type: "image",
+                      src: "./assets/case-embody/e3.webp",
+                      alt: "Early-stagnation recall frame",
+                    },
+                    {
+                      type: "text",
+                      text: "The corrected continuation is shown below.",
+                    },
+                    {
+                      type: "video",
+                      src: "./assets/case-embody/stagnant-gen.mp4",
+                      poster: "./assets/case-embody/stagnant-gen-poster.webp",
+                    },
+                  ],
                 },
               ],
             },
           ],
         },
-      ],
-    },
+      },
+      {
+        variantLabel: "Driving Planning",
+        title: "Driving Planning Decision Data",
+        summary:
+          "A short road-driving clip is converted into a readable planning sample with a natural driving task and interleaved decision evidence.",
+        tags: ["driving", "planning", "decision-making"],
+        pipeline: {
+          inputIntent:
+            "This is an outdoor driving scene. Help me construct driving planning and decision data from it.",
+          inputVideo: "./assets/case-driving/input.mp4",
+          inputPoster: "./assets/case-driving/driving1.webp",
+          inputFallbackTitle: "Road-driving source clip",
+          inputFallbackCopy:
+            "The useful supervision is a near-term planning answer grounded in crosswalk, workzone, bus, and oncoming-traffic constraints.",
+          thoughts: [
+            {
+              title: "Parse the road scene",
+              body: "The clip shows a daytime urban or campus road with a two-way two-lane layout, a double yellow center line, a crosswalk ahead, roadside parking or curb space on the right, and multiple interacting risk sources.",
+            },
+            {
+              title: "Choose the right data type",
+              body: "The target should be planning-decision supervision: summarize the scene, identify the main risks, decide how to manage speed and lane position, and explain the next few steps in a trainable format.",
+            },
+            {
+              title: "Lock the high-value supervision target",
+              body: "The strongest sample is a compound-risk segment where crosswalk yielding, left-side workzone pressure, right-side bus uncertainty, and oncoming-traffic constraints all appear in one short horizon.",
+            },
+            {
+              title: "Rewrite JSON into readable guidance",
+              body: "Instead of exposing structured fields directly, the final answer should read like a natural planning response while preserving the same evidence, actions, and safety constraints.",
+            },
+          ],
+          taskVideo: "./assets/case-driving/input.mp4",
+          taskPoster: "./assets/case-driving/driving1.webp",
+          outputQuestion:
+            "I am driving straight on an outdoor road. I am approaching a crosswalk, there may be a pedestrian entering from the left, there is a work vehicle and cones ahead on the left, a bus is stopped or moving slowly on the right, and oncoming traffic may appear while I must not cross the double yellow line. Based on the video, give me a driving plan for the next 10 to 15 seconds and explain each step.",
+          outputText: "",
+          outputSequence: [
+            {
+              type: "text",
+              text:
+                "Start by easing off the speed while staying centered in the lane. The road ahead is still open, but this is the moment to create margin before the crosswalk and to watch whether the pedestrian on the left is about to commit to crossing.",
+            },
+            {
+              type: "image",
+              src: "./assets/case-driving/driving1.webp",
+              alt: "The ego vehicle approaches the crosswalk on a straight road with clear forward visibility.",
+            },
+            {
+              type: "text",
+              text:
+                "As the crosswalk markings and the pedestrian become active conflict points, keep the steering stable and slow to a low speed. If the pedestrian occupies the crossing path, be ready to stop and wait until the crosswalk is fully clear before continuing.",
+            },
+            {
+              type: "image",
+              src: "./assets/case-driving/driving2.webp",
+              alt: "A pedestrian is entering the crosswalk, which creates an immediate yield requirement.",
+            },
+            {
+              type: "text",
+              text:
+                "After the crosswalk, pass the workzone cautiously at low speed. Stay inside your lane, bias slightly to the right to open space from the cones and work vehicle, but do not accelerate alongside the bus and do not cross the double yellow line. Use the extra attention margin to monitor any hidden pedestrian, cyclist, or bus pull-out from the right.",
+            },
+            {
+              type: "image",
+              src: "./assets/case-driving/driving3.webp",
+              alt: "The lane is compressed by left-side cones and a right-side bus, requiring a careful in-lane offset.",
+            },
+            {
+              type: "text",
+              text:
+                "Once the cone corridor starts to end and the road opens up again, return gradually to the lane center and recover to a comfortable cruising speed. Even after the main conflict is gone, keep checking the oncoming lane and preserve enough stopping room in case the right-side vehicle moves unexpectedly.",
+            },
+            {
+              type: "image",
+              src: "./assets/case-driving/driving4.webp",
+              alt: "The road becomes more open after the constrained section, allowing a gradual return to normal driving.",
+            },
+          ],
+        },
+      },
+    ],
   },
   editing: {
     index: "05",
@@ -736,6 +824,7 @@ let isCaseSpotlightVisible = false;
 const completedCaseKeys = new Set();
 let replayingCaseKey = null;
 const caseVariantState = {
+  embodied: 1,
   gui: 1,
   editing: 0,
 };
