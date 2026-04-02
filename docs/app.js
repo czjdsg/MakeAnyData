@@ -336,6 +336,7 @@ let chatReplayTimers = [];
 let activeCaseKey = "cooking";
 let activePipeline = caseData.cooking.pipeline || {};
 let isCaseSpotlightVisible = false;
+const playedCaseKeys = new Set();
 
 if (methodArchitecture) {
   methodArchitecture.classList.remove("is-focused");
@@ -376,6 +377,27 @@ function mountAndReveal(node) {
   });
 }
 
+function showChatConversationFully() {
+  chatReplayTimers.forEach((timer) => window.clearTimeout(timer));
+  chatReplayTimers = [];
+
+  chatMessages.forEach((message) => {
+    message.classList.add("is-mounted", "is-visible");
+  });
+
+  caseThoughtGrid.querySelectorAll(".thought-card").forEach((card) => {
+    card.classList.add("is-mounted", "is-visible");
+  });
+
+  caseOutputGallery.querySelectorAll(".case-output-entry").forEach((entry) => {
+    entry.classList.add("is-mounted", "is-visible");
+  });
+
+  if (caseTypingIndicator) {
+    caseTypingIndicator.classList.add("is-hidden");
+  }
+}
+
 function clearChatReplay() {
   chatReplayTimers.forEach((timer) => window.clearTimeout(timer));
   chatReplayTimers = [];
@@ -405,6 +427,20 @@ function clearChatReplay() {
 function scheduleChatReplay(fn, delay) {
   const timer = window.setTimeout(fn, delay);
   chatReplayTimers.push(timer);
+}
+
+function renderCasePlayback() {
+  if (!isCaseSpotlightVisible) {
+    return;
+  }
+
+  if (playedCaseKeys.has(activeCaseKey)) {
+    showChatConversationFully();
+    return;
+  }
+
+  playedCaseKeys.add(activeCaseKey);
+  replayChatConversation(activePipeline);
 }
 
 function replayChatConversation(pipeline) {
@@ -538,6 +574,7 @@ function setSpotlight(caseKey) {
       caseInputVideo.hidden = false;
       caseInputVideo.src = pipeline.inputVideo;
       caseInputVideo.poster = pipeline.inputPoster || "";
+      caseInputVideo.loop = false;
       caseInputVideo.setAttribute("aria-label", pipeline.inputFallbackTitle || "Uploaded video preview");
       caseInputVideo.load();
       caseInputPoster.hidden = true;
@@ -582,7 +619,7 @@ function setSpotlight(caseKey) {
   });
 
   if (isCaseSpotlightVisible) {
-    replayChatConversation(pipeline);
+    renderCasePlayback();
   } else {
     clearChatReplay();
   }
@@ -620,9 +657,7 @@ if (caseSpotlight) {
         isCaseSpotlightVisible = entry.isIntersecting;
 
         if (entry.isIntersecting) {
-          replayChatConversation(activePipeline);
-        } else {
-          clearChatReplay();
+          renderCasePlayback();
         }
       });
     },
