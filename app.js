@@ -192,76 +192,187 @@ const caseData = {
   gui: {
     index: "03",
     domain: "GUI Agents",
-    title: "Cross-App GUI Task Reconstruction",
-    summary:
-      "Fragmented phone interactions are reorganized into one coherent shopping task that spans eBay and Amazon.",
-    tags: ["gui", "cross-app", "trajectory"],
-    pipeline: {
-      inputIntent:
-        "These are my mobile interaction fragments. Use them to construct a more comprehensive long-horizon task trajectory from them.",
-      inputFallbackTitle: "Fragmented mobile interaction traces",
-      inputFallbackCopy: "These clips capture separate app operations rather than one complete goal-directed task.",
-      inputAssets: [
-        {
-          type: "video",
-          src: "./assets/case-gui/fragment-a.mp4",
-          label: "Fragment A",
-          description: "Open eBay, pick a listing, and add it to the cart.",
+    variants: [
+      {
+        variantLabel: "Shopping",
+        title: "Cross-App GUI Task Reconstruction",
+        summary:
+          "Fragmented phone interactions are reorganized into one coherent shopping task that spans eBay and Amazon.",
+        tags: ["gui", "cross-app", "trajectory"],
+        pipeline: {
+          inputIntent:
+            "These are my mobile interaction fragments. Use them to construct a more comprehensive long-horizon task trajectory from them.",
+          inputFallbackTitle: "Fragmented mobile interaction traces",
+          inputFallbackCopy:
+            "These clips capture separate app operations rather than one complete goal-directed task.",
+          inputAssets: [
+            {
+              type: "video",
+              src: "./assets/case-gui/fragment-a.mp4",
+              label: "Fragment A",
+              description: "Open eBay, pick a listing, and add it to the cart.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui/fragment-b.mp4",
+              label: "Fragment B",
+              description: "Open Amazon and search for Xbox Series X.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui/fragment-c.mp4",
+              label: "Fragment C",
+              description: "Open eBay and search for Xbox Series X.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui/fragment-d.mp4",
+              label: "Fragment D",
+              description: "Send an invitation to Victor James on Facebook.",
+            },
+          ],
+          thoughts: [
+            {
+              title: "Analyze each fragment",
+              body: "A reopens eBay and adds a console listing to the cart; B searches Amazon for Xbox Series X; C searches eBay for the same product; D sends a Facebook invitation and is unrelated to shopping.",
+            },
+            {
+              title: "Keep the useful subset",
+              body: "Fragments A, B, and C can describe one shopping task together, while fragment D should be discarded because it does not match the user intent.",
+            },
+            {
+              title: "Hypothesize the full task",
+              body: "The selected fragments imply a cross-app comparison workflow: search for the same Xbox console on eBay and Amazon, compare prices, then finish the purchase on eBay.",
+            },
+            {
+              title: "Stitch the trajectory in order",
+              body: "C ends on the home screen after eBay search, which connects naturally to B opening Amazon. B also returns to the home screen, and A then reopens eBay to complete the final add-to-cart action. The final order is C -> B -> A.",
+            },
+          ],
+          taskPoster: "./assets/case-gui/init.webp",
+          outputQuestion:
+            "Compare the price of Microsoft Xbox Series X on eBay and Amazon, then add the cheaper option to the cart.",
+          outputText: "",
+          outputSequence: [
+            {
+              type: "text",
+              text: "A complete GUI trajectory with screen states, reasoning, and actions at every step.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui/full-task-video.mp4",
+              poster: "./assets/case-gui/init.webp",
+              alt: "A long-horizon mobile GUI task video that compares Xbox prices across eBay and Amazon.",
+            },
+          ],
         },
-        {
-          type: "video",
-          src: "./assets/case-gui/fragment-b.mp4",
-          label: "Fragment B",
-          description: "Open Amazon and search for Xbox Series X.",
+      },
+      {
+        variantLabel: "Route Planning",
+        title: "Desktop Route-Planning Reconstruction",
+        summary:
+          "A set of desktop map fragments is stitched into one long-horizon route-planning workflow from browser launch to multi-modal route review.",
+        tags: ["gui", "maps", "desktop"],
+        pipeline: {
+          inputIntent:
+            "These are my desktop interaction fragments. Use them to construct a more comprehensive long-horizon task trajectory from them.",
+          inputFallbackTitle: "Desktop route-planning fragments",
+          inputFallbackCopy:
+            "These clips record partial browser and map interactions rather than one complete end-to-end planning task.",
+          inputAssetMode: "landscape",
+          inputAssets: [
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_A.mp4",
+              label: "Fragment A",
+              description: "Inspect the public-transit route between London and Oxford.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_B.mp4",
+              label: "Fragment B",
+              description: "Inspect the driving route between London and Oxford.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_C.mp4",
+              label: "Fragment C",
+              description: "Return to the Google home page.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_D.mp4",
+              label: "Fragment D",
+              description: "Search Walmart in Google and open the Walmart Mexico site.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_E.mp4",
+              label: "Fragment E",
+              description: "Inspect the walking route between London and Oxford.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_F.mp4",
+              label: "Fragment F",
+              description: "Launch Microsoft Edge and enter Google Maps.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_G.mp4",
+              label: "Fragment G",
+              description: "Inspect the cycling route between London and Oxford.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_H.mp4",
+              label: "Fragment H",
+              description: "Re-check the public-transit route details.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/fragment_I.mp4",
+              label: "Fragment I",
+              description: "Search for University of London and set Oxford as the destination.",
+            },
+          ],
+          thoughts: [
+            {
+              title: "Analyze the fragment set",
+              body: "F launches Edge and opens Google Maps; I searches for University of London and sets Oxford as the destination; G, E, A, and B inspect cycling, walking, public-transit, and driving routes; H revisits public transit; C ends the task; D searches Walmart and is unrelated.",
+            },
+            {
+              title: "Form the task hypothesis",
+              body: "The useful fragments describe a route-planning workflow: open the browser, enter map service, set the route, review several transportation modes, and then finish the task.",
+            },
+            {
+              title: "Stitch a valid long chain",
+              body: "F must come before I because the browser and map service have to be opened first. After the route is set in I, the interface can move through G, E, A, and B to inspect cycling, walking, public-transit, and driving views. H naturally follows as a final public-transit check, and C closes the task. The final order is F -> I -> G -> E -> A -> B -> H -> C.",
+            },
+            {
+              title: "Export the final trajectory",
+              body: "The reconstructed sample becomes one coherent desktop GUI task: launch the browser, open Google Maps, set directions from London to Oxford, inspect multiple route modes, and then exit.",
+            },
+          ],
+          taskPoster: "./assets/case-gui-2/init.webp",
+          outputQuestion:
+            "Open a browser, go to Google Maps, search directions from London to Oxford, and review cycling, walking, public-transit, driving, and best-route options.",
+          outputText: "",
+          outputSequence: [
+            {
+              type: "text",
+              text: "A complete desktop GUI trajectory with screen states, reasoning, and actions from browser launch to route comparison.",
+            },
+            {
+              type: "video",
+              src: "./assets/case-gui-2/full_task_video.mp4",
+              poster: "./assets/case-gui-2/init.webp",
+              alt: "A long-horizon desktop GUI task video that plans and compares routes from London to Oxford in Google Maps.",
+            },
+          ],
         },
-        {
-          type: "video",
-          src: "./assets/case-gui/fragment-c.mp4",
-          label: "Fragment C",
-          description: "Open eBay and search for Xbox Series X.",
-        },
-        {
-          type: "video",
-          src: "./assets/case-gui/fragment-d.mp4",
-          label: "Fragment D",
-          description: "Send an invitation to Victor James on Facebook.",
-        },
-      ],
-      thoughts: [
-        {
-          title: "Analyze each fragment",
-          body: "A reopens eBay and adds a console listing to the cart; B searches Amazon for Xbox Series X; C searches eBay for the same product; D sends a Facebook invitation and is unrelated to shopping.",
-        },
-        {
-          title: "Keep the useful subset",
-          body: "Fragments A, B, and C can describe one shopping task together, while fragment D should be discarded because it does not match the user intent.",
-        },
-        {
-          title: "Hypothesize the full task",
-          body: "The selected fragments imply a cross-app comparison workflow: search for the same Xbox console on eBay and Amazon, compare prices, then finish the purchase on eBay.",
-        },
-        {
-          title: "Stitch the trajectory in order",
-          body: "C ends on the home screen after eBay search, which connects naturally to B opening Amazon. B also returns to the home screen, and A then reopens eBay to complete the final add-to-cart action. The final order is C -> B -> A.",
-        },
-      ],
-      taskPoster: "./assets/case-gui/init.webp",
-      outputQuestion:
-        "Compare the price of Microsoft Xbox Series X on eBay and Amazon, then add the cheaper option to the cart.",
-      outputText: "",
-      outputSequence: [
-        {
-          type: "text",
-          text: "A complete GUI trajectory with screen states, reasoning, and actions at every step.",
-        },
-        {
-          type: "video",
-          src: "./assets/case-gui/full-task-video.mp4",
-          poster: "./assets/case-gui/init.webp",
-          alt: "A long-horizon mobile GUI task video that compares Xbox prices across eBay and Amazon.",
-        },
-      ],
-    },
+      },
+    ],
   },
   embodied: {
     index: "04",
@@ -609,6 +720,7 @@ let isCaseSpotlightVisible = false;
 const completedCaseKeys = new Set();
 let replayingCaseKey = null;
 const caseVariantState = {
+  gui: 0,
   editing: 0,
 };
 
@@ -1210,6 +1322,10 @@ function setSpotlight(caseKey) {
 
   caseInputAssets.innerHTML = "";
   const inputAssets = pipeline.inputAssets || [];
+  caseInputAssets.classList.toggle(
+    "is-landscape",
+    pipeline.inputAssetMode === "landscape",
+  );
 
   if (inputAssets.length > 0) {
     caseInputPreview.hidden = true;

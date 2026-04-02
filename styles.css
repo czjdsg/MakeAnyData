@@ -1174,6 +1174,11 @@ a {
   width: min(100%, 360px);
 }
 
+.case-input-assets.is-landscape {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 560px);
+}
+
 .case-input-assets[hidden] {
   display: none;
 }
@@ -1194,6 +1199,11 @@ a {
   width: 100%;
   aspect-ratio: 9 / 16;
   object-fit: cover;
+}
+
+.case-input-assets.is-landscape .case-input-asset video,
+.case-input-assets.is-landscape .case-input-asset img {
+  aspect-ratio: 16 / 10;
 }
 
 .case-input-asset figcaption {
