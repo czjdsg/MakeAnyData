@@ -566,7 +566,8 @@ const caseData = {
             },
           ],
           taskVideo: "./assets/case-driving/input.mp4",
-          taskPoster: "./assets/case-driving/driving1.webp",
+          taskVideoPoster: "./assets/case-driving/driving1.webp",
+          taskPoster: "",
           outputQuestion:
             "I am driving straight on an outdoor road. I am approaching a crosswalk, there may be a pedestrian entering from the left, there is a work vehicle and cones ahead on the left, a bus is stopped or moving slowly on the right, and oncoming traffic may appear while I must not cross the double yellow line. Based on the video, give me a driving plan for the next 10 to 15 seconds and explain each step.",
           outputText: "",
@@ -1133,8 +1134,16 @@ function setSpotlight(caseKey) {
   const hasDuoParallel = outputSequence.some(
     (item) => item.type === "parallel-grid" && (item.items || []).length === 2,
   );
-  const taskPoster = pipeline.taskPoster || pipeline.inputPoster;
+  const taskPoster = Object.prototype.hasOwnProperty.call(pipeline, "taskPoster")
+    ? pipeline.taskPoster
+    : pipeline.inputPoster;
   const taskVideo = pipeline.taskVideo || "";
+  const taskVideoPoster = Object.prototype.hasOwnProperty.call(
+    pipeline,
+    "taskVideoPoster",
+  )
+    ? pipeline.taskVideoPoster
+    : taskPoster || pipeline.inputPoster || "";
   const hasTaskPoster = Boolean(taskPoster);
   const hasTaskVideo = Boolean(taskVideo);
   const hasTaskQuestion = Boolean(caseOutputQuestion.textContent.trim());
@@ -1165,7 +1174,7 @@ function setSpotlight(caseKey) {
     if (hasTaskVideo) {
       caseTaskVideo.hidden = false;
       caseTaskVideo.src = taskVideo;
-      caseTaskVideo.poster = taskPoster || pipeline.inputPoster || "";
+      caseTaskVideo.poster = taskVideoPoster;
       caseTaskVideo.load();
     } else {
       caseTaskVideo.hidden = true;
