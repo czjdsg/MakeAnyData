@@ -36,7 +36,7 @@ The page is implemented with plain HTML, CSS, and JavaScript. No framework build
 - `Everyday Tutorials`
 - `Education`
 - `GUI Agents`
-- `Embodied`
+- `World Model`
 - `Generation`
 
 `Generation` currently contains internal subcategory paging for multiple subtypes.

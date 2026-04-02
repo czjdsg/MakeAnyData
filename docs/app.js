@@ -376,7 +376,7 @@ const caseData = {
   },
   embodied: {
     index: "04",
-    domain: "Embodied",
+    domain: "World Model",
     variants: [
       {
         variantLabel: "Robot Recovery",
