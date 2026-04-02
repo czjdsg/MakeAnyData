@@ -84,44 +84,66 @@ const caseData = {
   geometry: {
     index: "02",
     domain: "Education",
-    title: "Geometry Stuck Point Reasoning",
+    title: "Geometry Stuck-Point Tutoring Data",
     summary:
-      "Rather than replaying a full solution, the system isolates the hardest geometric reasoning step and turns it into targeted tutoring supervision.",
+      "A long geometry lesson is compressed into a single stuck-point tutoring sample: the exact frame where most students stop, plus a focused image-text reasoning bridge.",
     tags: ["education", "reasoning", "stuck-point"],
     pipeline: {
-      inputTitle: "Uploaded lesson + intent",
-      inputIntent: "Generate tutoring data focused on the exact step where the learner gets stuck.",
-      inputNote: "Board-writing lesson video with intermediate equations, diagrams, and reasoning transitions.",
-      inputFallbackKicker: "Uploaded source",
+      inputIntent:
+        "This is a worked-solution teaching video. Please construct problem-solving tutoring data from it.",
+      inputVideo: "./assets/case-edu/input-30s.mp4",
+      inputPoster: "./assets/case-edu/edu.webp",
       inputFallbackTitle: "Geometry lesson recording",
-      inputFallbackCopy: "The clip contains a full worked solution, but only one reasoning jump matters most.",
-      thinkingTitle: "Key thinking steps",
-      thinkingStatus: "Tracing the hardest reasoning jump in the lesson...",
-      thinkingDoneStatus: "Critical tutoring step isolated. Packaging the sample...",
-      outputStatus: "Tutoring sample ready",
+      inputFallbackCopy:
+        "The full lesson runs for more than an hour, but the useful tutoring signal is concentrated in one geometric bottleneck.",
       thoughts: [
         {
-          step: "01",
-          title: "Locate the real bottleneck",
-          body: "Find the step where the solution changes from routine manipulation to actual geometric inference.",
+          title: "Identify the lesson topic",
+          body: "The clip is a circle-geometry worked solution involving a tangent, radii, an isosceles triangle, and the target angle ∠KML.",
         },
         {
-          step: "02",
-          title: "Rewrite the explanation target",
-          body: "Turn that bottleneck into a tutoring instruction that can guide the learner through the key deduction.",
+          title: "Choose the right supervision target",
+          body: "A full replay is too weak. The useful educational sample should focus on the exact step where a student gets stuck and ask only what comes next.",
         },
         {
-          step: "03",
-          title: "Export high-value supervision",
-          body: "Package diagrams, text hints, and the reasoning bridge as a focused tutoring sample.",
+          title: "Lock the unique stuck point",
+          body: "After the earlier 42-degree deduction, the real bottleneck is solving ∠KML. Most students fail here because they do not notice the tangent-plus-chord structure.",
+        },
+        {
+          title: "Select the key frame",
+          body: "The right tutoring frame is the moment just before ∠KML is solved: enough information is visible, but the reasoning bridge has not yet been stated.",
+        },
+        {
+          title: "Package an interleaved explanation",
+          body: "The final output should be short and image-text interleaved: current state, theorem cue, theorem evidence, and the final angle deduction.",
         },
       ],
-      outputTitle: "Final dataset sample",
-      outputQuestion: "Student question: Why can we introduce this auxiliary line here?",
-      outputText:
-        "A targeted tutoring sample centered on the exact stuck point, with aligned visual evidence and stepwise explanation.",
-      outputNote: "High-value tutoring supervision is concentrated on the hard step, not the full replay.",
-      gallery: [],
+      outputQuestion:
+        "I have reached this step in the circle-geometry problem. How should I continue to solve ∠KML? You can refer to this teaching video.",
+      taskPoster: "./assets/case-edu/edu.webp",
+      outputText: "",
+      outputSequence: [
+        {
+          type: "image",
+          src: "./assets/case-edu/edu.webp",
+          alt: "The student is stuck right before solving angle KML in the geometry diagram.",
+        },
+        {
+          type: "text",
+          text:
+            "The learner has already derived 42 degrees from the radius-perpendicular-to-tangent relation and also knows that triangle KOL is isosceles, but the next move for ∠KML is still unclear. The key observation is that the diagram contains a tangent together with chord KL, which signals the tangent-chord theorem.",
+        },
+        {
+          type: "image",
+          src: "./assets/case-edu/edu2.webp",
+          alt: "The board highlights the tangent-chord relation needed for the final deduction.",
+        },
+        {
+          type: "text",
+          text:
+            "By the tangent-chord theorem, the angle between a tangent and a chord equals the angle in the opposite arc subtended by that chord. Here the opposite inscribed angle for chord KL is 48 degrees, so ∠KML = 48 degrees. The true bottleneck was recognizing the tangent-plus-chord pattern, not carrying out arithmetic.",
+        },
+      ],
     },
   },
   temporal: {
