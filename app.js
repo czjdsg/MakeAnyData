@@ -286,32 +286,30 @@ const spotlightTags = document.getElementById("spotlight-tags");
 const caseSpotlight = document.getElementById("case-spotlight");
 const caseNavItems = Array.from(document.querySelectorAll(".case-nav-item"));
 const chatMessages = Array.from(document.querySelectorAll("[data-chat-step]"));
-const caseStageInputTitle = document.getElementById("case-stage-input-title");
-const caseStageThinkingTitle = document.getElementById("case-stage-thinking-title");
-const caseStageOutputTitle = document.getElementById("case-stage-output-title");
 const caseInputPreview = document.getElementById("case-input-preview");
 const caseInputVideo = document.getElementById("case-input-video");
 const caseInputPoster = document.getElementById("case-input-poster");
-const caseInputOpen = document.getElementById("case-input-open");
 const caseInputFallback = document.getElementById("case-input-fallback");
-const caseInputKicker = document.getElementById("case-input-kicker");
-const caseInputFallbackTitle = document.getElementById("case-input-fallback-title");
 const caseInputFallbackCopy = document.getElementById("case-input-fallback-copy");
 const caseInputIntent = document.getElementById("case-input-intent");
-const caseInputNote = document.getElementById("case-input-note");
 const caseThoughtGrid = document.getElementById("case-thought-grid");
 const caseOutputGallery = document.getElementById("case-output-gallery");
+const caseOutputCard = document.getElementById("case-output-card");
 const caseOutputQuestion = document.getElementById("case-output-question");
 const caseOutputText = document.getElementById("case-output-text");
-const caseOutputNote = document.getElementById("case-output-note");
-const caseThinkingStatus = document.getElementById("case-thinking-status");
-const caseOutputStatus = document.getElementById("case-output-status");
 const caseTypingIndicator = document.getElementById("case-typing-indicator");
 let spotlightSwapTimer;
 let chatReplayTimers = [];
+let activeCaseKey = "cooking";
+let activePipeline = caseData.cooking.pipeline || {};
+let isCaseSpotlightVisible = false;
 
 if (methodArchitecture) {
   methodArchitecture.classList.remove("is-focused");
+}
+
+function sanitizePrompt(text) {
+  return (text || "").replace(/^[A-Za-z][A-Za-z\s-]+:\s*/, "").trim();
 }
 
 function resetCaseInputVideo() {
@@ -334,19 +332,33 @@ function playCaseInputVideo() {
   }
 }
 
+function mountAndReveal(node) {
+  if (!node) {
+    return;
+  }
+
+  node.classList.add("is-mounted");
+  window.requestAnimationFrame(() => {
+    node.classList.add("is-visible");
+  });
+}
+
 function clearChatReplay() {
   chatReplayTimers.forEach((timer) => window.clearTimeout(timer));
   chatReplayTimers = [];
 
   chatMessages.forEach((message) => {
+    message.classList.remove("is-mounted");
     message.classList.remove("is-visible");
   });
 
   caseThoughtGrid.querySelectorAll(".thought-card").forEach((card) => {
+    card.classList.remove("is-mounted");
     card.classList.remove("is-visible");
   });
 
   caseOutputGallery.querySelectorAll(".case-output-frame").forEach((frame) => {
+    frame.classList.remove("is-mounted");
     frame.classList.remove("is-visible");
   });
 
@@ -371,37 +383,24 @@ function replayChatConversation(pipeline) {
 
   clearChatReplay();
 
-  if (caseThinkingStatus) {
-    caseThinkingStatus.textContent = pipeline.thinkingStatus || "Inspecting the upload and rewriting the task...";
-  }
-
-  if (caseOutputStatus) {
-    caseOutputStatus.textContent = pipeline.outputStatus || "Ready to export";
-  }
-
   scheduleChatReplay(() => {
-    userMessage?.classList.add("is-visible");
+    mountAndReveal(userMessage);
     playCaseInputVideo();
   }, 140);
 
   scheduleChatReplay(() => {
-    thinkingMessage?.classList.add("is-visible");
+    mountAndReveal(thinkingMessage);
   }, 760);
 
   const thoughtStart = 1280;
   thoughtCards.forEach((card, index) => {
     scheduleChatReplay(() => {
-      card.classList.add("is-visible");
+      mountAndReveal(card);
     }, thoughtStart + index * 260);
   });
 
   const thinkingDoneAt = thoughtStart + thoughtCards.length * 260;
   scheduleChatReplay(() => {
-    if (caseThinkingStatus) {
-      caseThinkingStatus.textContent =
-        pipeline.thinkingDoneStatus || "Reasoning complete. Packaging the sample...";
-    }
-
     if (caseTypingIndicator) {
       caseTypingIndicator.classList.add("is-hidden");
     }
@@ -409,12 +408,12 @@ function replayChatConversation(pipeline) {
 
   const outputStart = thinkingDoneAt + 560;
   scheduleChatReplay(() => {
-    outputMessage?.classList.add("is-visible");
+    mountAndReveal(outputMessage);
   }, outputStart);
 
   outputFrames.forEach((frame, index) => {
     scheduleChatReplay(() => {
-      frame.classList.add("is-visible");
+      mountAndReveal(frame);
     }, outputStart + 180 + index * 120);
   });
 }
@@ -426,32 +425,27 @@ function setSpotlight(caseKey) {
   }
 
   const pipeline = item.pipeline || {};
+  activeCaseKey = caseKey;
+  activePipeline = pipeline;
 
   spotlightIndex.textContent = item.index;
   spotlightDomain.textContent = item.domain;
   spotlightTitle.textContent = item.title;
   spotlightSummary.textContent = item.summary;
-
-  caseStageInputTitle.textContent = pipeline.inputTitle || "Uploaded source";
-  caseStageThinkingTitle.textContent = pipeline.thinkingTitle || "Key thinking steps";
-  caseStageOutputTitle.textContent = pipeline.outputTitle || "Final dataset sample";
   caseInputIntent.textContent = pipeline.inputIntent || "";
-  caseInputNote.textContent = pipeline.inputNote || "";
-  caseInputKicker.textContent = pipeline.inputFallbackKicker || "Uploaded source";
-  caseInputFallbackTitle.textContent = pipeline.inputFallbackTitle || "Source asset";
   caseInputFallbackCopy.textContent = pipeline.inputFallbackCopy || "";
-  caseOutputQuestion.textContent = pipeline.outputQuestion || "";
+  caseOutputQuestion.textContent = sanitizePrompt(pipeline.outputQuestion || "");
   caseOutputText.textContent = pipeline.outputText || "";
-  caseOutputNote.textContent = pipeline.outputNote || "";
+  caseOutputQuestion.hidden = !caseOutputQuestion.textContent.trim();
+  caseOutputText.hidden = !caseOutputText.textContent.trim();
+  if (caseOutputCard) {
+    caseOutputCard.hidden = !caseOutputQuestion.textContent.trim() && !caseOutputText.textContent.trim();
+  }
 
   caseThoughtGrid.innerHTML = "";
   (pipeline.thoughts || []).forEach((thought) => {
     const card = document.createElement("article");
     card.className = "thought-card";
-
-    const step = document.createElement("span");
-    step.className = "thought-step";
-    step.textContent = thought.step || "";
 
     const title = document.createElement("h5");
     title.textContent = thought.title || "";
@@ -459,7 +453,7 @@ function setSpotlight(caseKey) {
     const body = document.createElement("p");
     body.textContent = thought.body || "";
 
-    card.append(step, title, body);
+    card.append(title, body);
     caseThoughtGrid.appendChild(card);
   });
 
@@ -477,20 +471,12 @@ function setSpotlight(caseKey) {
 
     figure.appendChild(image);
 
-    if (frame.label) {
-      const caption = document.createElement("figcaption");
-      caption.textContent = frame.label;
-      figure.appendChild(caption);
-    }
-
     caseOutputGallery.appendChild(figure);
   });
 
   if (pipeline.inputPoster || pipeline.inputVideo) {
     caseInputPreview.hidden = false;
     caseInputFallback.hidden = true;
-    caseInputOpen.href = pipeline.inputVideo || "#";
-    caseInputOpen.hidden = !pipeline.inputVideo;
 
     if (pipeline.inputVideo && caseInputVideo) {
       caseInputVideo.hidden = false;
@@ -522,8 +508,6 @@ function setSpotlight(caseKey) {
 
     caseInputPoster.hidden = true;
     caseInputPoster.removeAttribute("src");
-    caseInputOpen.href = "#";
-    caseInputOpen.hidden = true;
     caseInputPreview.hidden = true;
     caseInputFallback.hidden = false;
   }
@@ -541,7 +525,11 @@ function setSpotlight(caseKey) {
     itemNode.setAttribute("aria-pressed", String(isActive));
   });
 
-  replayChatConversation(pipeline);
+  if (isCaseSpotlightVisible) {
+    replayChatConversation(pipeline);
+  } else {
+    clearChatReplay();
+  }
 
   if (caseSpotlight) {
     caseSpotlight.classList.remove("is-swapping");
@@ -568,6 +556,25 @@ caseNavItems.forEach((itemNode) => {
     setSpotlight(itemNode.dataset.caseTarget);
   });
 });
+
+if (caseSpotlight) {
+  const caseReplayObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        isCaseSpotlightVisible = entry.isIntersecting;
+
+        if (entry.isIntersecting) {
+          replayChatConversation(activePipeline);
+        } else {
+          clearChatReplay();
+        }
+      });
+    },
+    { threshold: 0.24 },
+  );
+
+  caseReplayObserver.observe(caseSpotlight);
+}
 
 const revealObserver = new IntersectionObserver(
   (entries) => {
