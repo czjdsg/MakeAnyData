@@ -396,96 +396,141 @@ const caseData = {
   },
   editing: {
     index: "05",
-    domain: "Game Agents",
-    title: "Minecraft Planning Agent Data",
-    summary:
-      "One open-world Minecraft clip is turned into two player-decision and task-planning agent samples: long-horizon exploration plus block placement, and local environment observation.",
-    tags: ["minecraft", "planning", "game-agents"],
-    pipeline: {
-      inputIntent:
-        "This is a gameplay video. Help me construct player-decision and task-planning agent data from it.",
-      inputVideo: "./assets/case-game/input.mp4",
-      inputPoster: "./assets/case-game/game0.webp",
-      inputFallbackTitle: "Minecraft source clip",
-      inputFallbackCopy:
-        "The source is a first-person Minecraft snow-scene interaction clip with movement, observation, and block placement.",
-      thoughts: [
-        {
-          title: "Recognize the source gameplay",
-          body: "The video is a first-person Minecraft snow-scene clip that mixes player movement, environment observation, and block placement under a continuous action trajectory.",
-        },
-        {
-          title: "Choose the right data form",
-          body: "Simple action labels are too weak for agent training, so the target should be closed-loop planning data that connects natural-language requests, environment understanding, task decomposition, action execution, and outcomes.",
-        },
-        {
-          title: "Lock the two core task cases",
-          body: "The clip supports two high-value samples: an exploration-plus-placement task that needs multi-step planning, and an environment-observation task that focuses on perception and viewpoint control.",
-        },
-        {
-          title: "Rewrite them as natural player requests",
-          body: "The questions should sound like real player instructions, not technical templates, so the agent learns from natural requests instead of synthetic command syntax.",
-        },
-        {
-          title: "Package planning supervision",
-          body: "The final export should preserve the task type, natural-language request, visual action trace, and resulting keyframes in a uniform format that is directly usable for agent training.",
-        },
-      ],
-      outputQuestion: "",
-      outputText: "",
-      outputSequence: [
-        {
-          type: "parallel-grid",
-          items: [
+    domain: "Generation",
+    variants: [
+      {
+        variantLabel: "Game Generation",
+        title: "Minecraft Visual Generation Samples",
+        summary:
+          "A snowy-scene gameplay clip is repackaged into two game-generation samples with grounded requests and multi-frame visual outputs.",
+        tags: ["minecraft", "generation", "game"],
+        pipeline: {
+          inputIntent:
+            "This is a gameplay clip. Help me build game-image generation data from it.",
+          inputVideo: "./assets/case-game/input.mp4",
+          inputPoster: "./assets/case-game/game0.webp",
+          inputFallbackTitle: "Minecraft source clip",
+          inputFallbackCopy:
+            "The source is a first-person Minecraft snow-scene interaction clip with movement, observation, and object placement.",
+          thoughts: [
             {
-              title: "Explore and Place",
-              showTaskImage: true,
-              taskImage: "./assets/case-game/game0.webp",
-              prompt:
-                "I am in a snowy scene now. First walk around and observe the surroundings, then place the block in my hand at the front-left position.",
-              solutionGallery: [
-                {
-                  src: "./assets/case-game/game1.webp",
-                  alt: "Minecraft planning trace frame 1",
-                },
-                {
-                  src: "./assets/case-game/game2.webp",
-                  alt: "Minecraft planning trace frame 2",
-                },
-                {
-                  src: "./assets/case-game/game3.webp",
-                  alt: "Minecraft planning trace frame 3",
-                },
-                {
-                  src: "./assets/case-game/game4.webp",
-                  alt: "Minecraft planning trace frame 4",
-                },
-              ],
+              title: "Recognize the source gameplay",
+              body: "The clip is a first-person Minecraft snow-scene sequence with player movement, environment observation, and object placement under a continuous visual trajectory.",
             },
             {
-              title: "Observe the Scene",
-              showTaskImage: true,
-              taskImage: "./assets/case-game/game6.webp",
-              prompt: "Please observe what the surroundings look like right now.",
-              solutionGallery: [
+              title: "Choose a generation-style target",
+              body: "Instead of sparse action labels, the output should become grounded generation data that maps natural requests to multi-frame visual targets.",
+            },
+            {
+              title: "Lock two core visual tasks",
+              body: "The clip supports two strong generation cases: a long-horizon explore-and-place request, and a local environment-observation request.",
+            },
+            {
+              title: "Rewrite them as natural prompts",
+              body: "The requests should sound like real user instructions so the supervision is usable for generation-oriented agent or model training.",
+            },
+          ],
+          outputQuestion: "",
+          outputText: "",
+          outputSequence: [
+            {
+              type: "parallel-grid",
+              items: [
                 {
-                  src: "./assets/case-game/game7.webp",
-                  alt: "Minecraft observation trace frame 1",
+                  title: "Explore and Place",
+                  showTaskImage: true,
+                  taskImage: "./assets/case-game/game0.webp",
+                  prompt:
+                    "I am in a snowy scene now. First walk around and observe the surroundings, then place the block in my hand at the front-left position.",
+                  solutionGallery: [
+                    {
+                      src: "./assets/case-game/game1.webp",
+                      alt: "Minecraft planning trace frame 1",
+                    },
+                    {
+                      src: "./assets/case-game/game2.webp",
+                      alt: "Minecraft planning trace frame 2",
+                    },
+                    {
+                      src: "./assets/case-game/game3.webp",
+                      alt: "Minecraft planning trace frame 3",
+                    },
+                    {
+                      src: "./assets/case-game/game4.webp",
+                      alt: "Minecraft planning trace frame 4",
+                    },
+                  ],
                 },
                 {
-                  src: "./assets/case-game/game8.webp",
-                  alt: "Minecraft observation trace frame 2",
-                },
-                {
-                  src: "./assets/case-game/game9.webp",
-                  alt: "Minecraft observation trace frame 3",
+                  title: "Observe the Scene",
+                  showTaskImage: true,
+                  taskImage: "./assets/case-game/game6.webp",
+                  prompt: "Please observe what the surroundings look like right now.",
+                  solutionGallery: [
+                    {
+                      src: "./assets/case-game/game7.webp",
+                      alt: "Minecraft observation trace frame 1",
+                    },
+                    {
+                      src: "./assets/case-game/game8.webp",
+                      alt: "Minecraft observation trace frame 2",
+                    },
+                    {
+                      src: "./assets/case-game/game9.webp",
+                      alt: "Minecraft observation trace frame 3",
+                    },
+                  ],
                 },
               ],
             },
           ],
         },
-      ],
-    },
+      },
+      {
+        variantLabel: "Scene Editing",
+        title: "Grounded Scene Editing Samples",
+        summary:
+          "A real kitchen scene is turned into viewpoint-consistent editing supervision with grounded prompts and compact visual targets.",
+        tags: ["generation", "editing", "grounded"],
+        pipeline: {
+          inputIntent:
+            "This is a real first-person kitchen scene. Help me build grounded scene-editing data from it.",
+          inputPoster: "./assets/case1/frame-1.webp",
+          inputFallbackTitle: "Kitchen source frame",
+          inputFallbackCopy:
+            "The requested edit should stay anchored in the original viewpoint and layout instead of drifting into prompt-only generation.",
+          thoughts: [
+            {
+              title: "Read the requested scene change",
+              body: "The source is a grounded kitchen frame, so the edit must preserve viewpoint, room structure, and object layout while changing the scene state.",
+            },
+            {
+              title: "Choose an editing-style output",
+              body: "The right target is not free-form generation. It is a compact set of edited images that keep the scene geometry stable.",
+            },
+            {
+              title: "Export compact supervision",
+              body: "A few high-signal edited targets are enough to express the transformation without flooding the sample with redundant frames.",
+            },
+          ],
+          outputQuestion:
+            "Turn this active cooking scene into a cleaned post-cooking kitchen state while keeping the viewpoint consistent.",
+          outputText: "",
+          outputSequence: [
+            {
+              type: "image",
+              src: "./assets/case1/frame-3.webp",
+              alt: "Edited kitchen state after cooking is finished.",
+            },
+            {
+              type: "image",
+              src: "./assets/case1/frame-4.webp",
+              alt: "Edited kitchen cleanup state with the trash closed.",
+            },
+          ],
+        },
+      },
+    ],
   },
 };
 
@@ -501,6 +546,11 @@ const spotlightIndex = document.getElementById("spotlight-index");
 const spotlightDomain = document.getElementById("spotlight-domain");
 const spotlightTitle = document.getElementById("spotlight-title");
 const spotlightSummary = document.getElementById("spotlight-summary");
+const caseSubnav = document.getElementById("case-subnav");
+const caseSubnavCurrent = document.getElementById("case-subnav-current");
+const caseSubnavCount = document.getElementById("case-subnav-count");
+const caseSubnavPrev = document.getElementById("case-subnav-prev");
+const caseSubnavNext = document.getElementById("case-subnav-next");
 const spotlightTags = document.getElementById("spotlight-tags");
 const caseSpotlight = document.getElementById("case-spotlight");
 const caseNavItems = Array.from(document.querySelectorAll(".case-nav-item"));
@@ -529,10 +579,14 @@ const caseTypingIndicator = document.getElementById("case-typing-indicator");
 let spotlightSwapTimer;
 let chatReplayTimers = [];
 let activeCaseKey = "cooking";
+let activeCaseInstanceKey = "cooking::0";
 let activePipeline = caseData.cooking.pipeline || {};
 let isCaseSpotlightVisible = false;
 const completedCaseKeys = new Set();
 let replayingCaseKey = null;
+const caseVariantState = {
+  editing: 0,
+};
 
 if (methodArchitecture) {
   methodArchitecture.classList.remove("is-focused");
@@ -553,6 +607,42 @@ function setThoughtCollapsed(collapsed) {
   caseThoughtPanel.classList.toggle("is-collapsed", collapsed);
   caseThoughtToggle.setAttribute("aria-expanded", String(!collapsed));
   caseThoughtToggleLabel.textContent = collapsed ? "Show thoughts" : "Hide thoughts";
+}
+
+function resolveCaseItem(caseKey) {
+  const baseItem = caseData[caseKey];
+  if (!baseItem) {
+    return null;
+  }
+
+  if (Array.isArray(baseItem.variants) && baseItem.variants.length > 0) {
+    const maxIndex = baseItem.variants.length - 1;
+    const variantIndex = Math.min(
+      Math.max(caseVariantState[caseKey] || 0, 0),
+      maxIndex,
+    );
+    caseVariantState[caseKey] = variantIndex;
+    const variant = baseItem.variants[variantIndex];
+
+    return {
+      ...baseItem,
+      ...variant,
+      index: variant.index || baseItem.index,
+      domain: variant.domain || baseItem.domain,
+      tags: variant.tags || baseItem.tags || [],
+      pipeline: variant.pipeline || baseItem.pipeline || {},
+      variantIndex,
+      variantCount: baseItem.variants.length,
+      variantLabel: variant.variantLabel || `Page ${variantIndex + 1}`,
+    };
+  }
+
+  return {
+    ...baseItem,
+    variantIndex: 0,
+    variantCount: 1,
+    variantLabel: "",
+  };
 }
 
 function resetCaseInputVideo() {
@@ -682,16 +772,16 @@ function renderCasePlayback() {
     return;
   }
 
-  if (replayingCaseKey === activeCaseKey) {
+  if (replayingCaseKey === activeCaseInstanceKey) {
     return;
   }
 
-  if (completedCaseKeys.has(activeCaseKey)) {
+  if (completedCaseKeys.has(activeCaseInstanceKey)) {
     showChatConversationFully();
     return;
   }
 
-  replayChatConversation(activePipeline, activeCaseKey);
+  replayChatConversation(activePipeline, activeCaseInstanceKey);
 }
 
 function replayChatConversation(pipeline, caseKey) {
@@ -755,19 +845,37 @@ function replayChatConversation(pipeline, caseKey) {
 }
 
 function setSpotlight(caseKey) {
-  const item = caseData[caseKey];
+  const item = resolveCaseItem(caseKey);
   if (!item) {
     return;
   }
 
   const pipeline = item.pipeline || {};
   activeCaseKey = caseKey;
+  activeCaseInstanceKey = `${caseKey}::${item.variantIndex || 0}`;
   activePipeline = pipeline;
 
   spotlightIndex.textContent = item.index;
   spotlightDomain.textContent = item.domain;
   spotlightTitle.textContent = item.title;
   spotlightSummary.textContent = item.summary;
+  if (
+    caseSubnav &&
+    caseSubnavCurrent &&
+    caseSubnavCount &&
+    caseSubnavPrev &&
+    caseSubnavNext
+  ) {
+    const hasVariants = (item.variantCount || 1) > 1;
+    caseSubnav.hidden = !hasVariants;
+
+    if (hasVariants) {
+      caseSubnavCurrent.textContent = item.variantLabel || "";
+      caseSubnavCount.textContent = `${item.variantIndex + 1} / ${item.variantCount}`;
+      caseSubnavPrev.disabled = item.variantIndex <= 0;
+      caseSubnavNext.disabled = item.variantIndex >= item.variantCount - 1;
+    }
+  }
   setThoughtCollapsed(true);
   caseInputIntent.textContent = pipeline.inputIntent || "";
   caseInputFallbackCopy.textContent = pipeline.inputFallbackCopy || "";
@@ -1184,6 +1292,36 @@ if (caseThoughtToggle) {
   caseThoughtToggle.addEventListener("click", () => {
     const isExpanded = caseThoughtToggle.getAttribute("aria-expanded") === "true";
     setThoughtCollapsed(isExpanded);
+  });
+}
+
+if (caseSubnavPrev) {
+  caseSubnavPrev.addEventListener("click", () => {
+    const baseItem = caseData[activeCaseKey];
+    if (!baseItem || !Array.isArray(baseItem.variants)) {
+      return;
+    }
+
+    caseVariantState[activeCaseKey] = Math.max(
+      0,
+      (caseVariantState[activeCaseKey] || 0) - 1,
+    );
+    setSpotlight(activeCaseKey);
+  });
+}
+
+if (caseSubnavNext) {
+  caseSubnavNext.addEventListener("click", () => {
+    const baseItem = caseData[activeCaseKey];
+    if (!baseItem || !Array.isArray(baseItem.variants)) {
+      return;
+    }
+
+    caseVariantState[activeCaseKey] = Math.min(
+      baseItem.variants.length - 1,
+      (caseVariantState[activeCaseKey] || 0) + 1,
+    );
+    setSpotlight(activeCaseKey);
   });
 }
 

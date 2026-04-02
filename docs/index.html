@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=gamecase02" />
+    <link rel="stylesheet" href="./styles.css?v=generationpager01" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -224,7 +224,7 @@
               <span class="case-nav-title">Embodied</span>
             </button>
             <button class="case-nav-item" type="button" data-case-target="editing" aria-controls="case-spotlight">
-              <span class="case-nav-title">Game Agents</span>
+              <span class="case-nav-title">Generation</span>
             </button>
           </nav>
 
@@ -239,6 +239,19 @@
                 <p id="spotlight-summary">
                   Turn a cooking-and-cleanup video into interleaved instructional data that feels like a real tutorial page.
                 </p>
+                <div class="case-subnav" id="case-subnav" hidden>
+                  <span class="case-subnav-label">Subcategory</span>
+                  <div class="case-subnav-controls">
+                    <button class="case-subnav-button" id="case-subnav-prev" type="button" aria-label="Previous subcategory">
+                      <span aria-hidden="true">‹</span>
+                    </button>
+                    <span class="case-subnav-current" id="case-subnav-current">Game Generation</span>
+                    <button class="case-subnav-button" id="case-subnav-next" type="button" aria-label="Next subcategory">
+                      <span aria-hidden="true">›</span>
+                    </button>
+                  </div>
+                  <span class="case-subnav-count" id="case-subnav-count">1 / 2</span>
+                </div>
               </div>
             </div>
 
@@ -401,6 +414,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=gamecase02"></script>
+    <script src="./app.js?v=generationpager01"></script>
   </body>
 </html>

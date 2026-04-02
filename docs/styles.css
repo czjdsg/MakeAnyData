@@ -916,6 +916,68 @@ a {
   line-height: 1.82;
 }
 
+.case-subnav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  margin-top: 18px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.case-subnav[hidden] {
+  display: none;
+}
+
+.case-subnav-label,
+.case-subnav-count {
+  color: rgba(190, 233, 255, 0.72);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.64rem;
+}
+
+.case-subnav-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.case-subnav-current {
+  min-width: 148px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.84rem;
+}
+
+.case-subnav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, opacity 180ms ease;
+}
+
+.case-subnav-button:hover:not(:disabled) {
+  background: rgba(190, 233, 255, 0.08);
+  border-color: rgba(190, 233, 255, 0.18);
+}
+
+.case-subnav-button:disabled {
+  opacity: 0.34;
+  cursor: default;
+}
+
 .case-spotlight h3 {
   font-size: clamp(1.9rem, 3vw, 2.8rem);
   line-height: 1.02;
@@ -1851,6 +1913,13 @@ a {
 
   .case-output-panel-gallery {
     grid-template-columns: 1fr;
+  }
+
+  .case-subnav {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100%;
+    border-radius: 20px;
   }
 
   .hero-stage {
