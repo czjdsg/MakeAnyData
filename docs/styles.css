@@ -1461,28 +1461,42 @@ a {
 }
 
 .case-output-panel-answer {
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--text);
   line-height: 1.72;
 }
 
-.case-output-panel-thought-state {
-  margin-bottom: 10px;
-  text-transform: none;
-  letter-spacing: 0.04em;
-}
-
 .case-output-panel-thoughts {
+  position: relative;
   display: grid;
   gap: 10px;
   margin-bottom: 12px;
-  padding: 12px 14px;
+  padding: 18px 14px 12px;
   border-radius: 14px;
   border: 1px solid rgba(190, 233, 255, 0.12);
   background: rgba(190, 233, 255, 0.04);
   font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
   font-size: 0.78rem;
   line-height: 1.72;
+}
+
+.case-output-panel-thought-badge {
+  position: absolute;
+  top: 0;
+  left: 14px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(190, 233, 255, 0.16);
+  background: rgba(8, 18, 29, 0.96);
+  color: rgba(206, 240, 255, 0.9);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  line-height: 1;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
 }
 
 .case-output-panel-step {
