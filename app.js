@@ -336,7 +336,8 @@ let chatReplayTimers = [];
 let activeCaseKey = "cooking";
 let activePipeline = caseData.cooking.pipeline || {};
 let isCaseSpotlightVisible = false;
-const playedCaseKeys = new Set();
+const completedCaseKeys = new Set();
+let replayingCaseKey = null;
 
 if (methodArchitecture) {
   methodArchitecture.classList.remove("is-focused");
@@ -380,6 +381,7 @@ function mountAndReveal(node) {
 function showChatConversationFully() {
   chatReplayTimers.forEach((timer) => window.clearTimeout(timer));
   chatReplayTimers = [];
+  replayingCaseKey = null;
 
   chatMessages.forEach((message) => {
     message.classList.add("is-mounted", "is-visible");
@@ -434,23 +436,28 @@ function renderCasePlayback() {
     return;
   }
 
-  if (playedCaseKeys.has(activeCaseKey)) {
+  if (replayingCaseKey === activeCaseKey) {
+    return;
+  }
+
+  if (completedCaseKeys.has(activeCaseKey)) {
     showChatConversationFully();
     return;
   }
 
-  playedCaseKeys.add(activeCaseKey);
-  replayChatConversation(activePipeline);
+  replayChatConversation(activePipeline, activeCaseKey);
 }
 
-function replayChatConversation(pipeline) {
+function replayChatConversation(pipeline, caseKey) {
   const userMessage = chatMessages[0];
   const thinkingMessage = chatMessages[1];
   const outputMessage = chatMessages[2];
   const thoughtCards = Array.from(caseThoughtGrid.querySelectorAll(".thought-card"));
   const outputEntries = Array.from(caseOutputGallery.querySelectorAll(".case-output-entry"));
 
+  replayingCaseKey = caseKey;
   clearChatReplay();
+  replayingCaseKey = caseKey;
 
   scheduleChatReplay(() => {
     mountAndReveal(userMessage);
@@ -485,6 +492,19 @@ function replayChatConversation(pipeline) {
       mountAndReveal(entry);
     }, outputStart + 180 + index * 120);
   });
+
+  const completionDelay =
+    outputEntries.length > 0
+      ? outputStart + 180 + (outputEntries.length - 1) * 120 + 320
+      : outputStart + 320;
+
+  scheduleChatReplay(() => {
+    completedCaseKeys.add(caseKey);
+
+    if (replayingCaseKey === caseKey) {
+      replayingCaseKey = null;
+    }
+  }, completionDelay);
 }
 
 function setSpotlight(caseKey) {

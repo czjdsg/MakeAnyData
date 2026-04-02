@@ -1087,7 +1087,7 @@ a {
 
 .chat-upload-preview {
   position: relative;
-  width: min(100%, 520px);
+  width: min(100%, 440px);
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1235,7 +1235,7 @@ a {
   z-index: 1;
   display: grid;
   gap: 14px;
-  width: min(100%, 560px);
+  width: min(100%, 480px);
   margin-top: 10px;
 }
 
