@@ -720,7 +720,7 @@ let isCaseSpotlightVisible = false;
 const completedCaseKeys = new Set();
 let replayingCaseKey = null;
 const caseVariantState = {
-  gui: 0,
+  gui: 1,
   editing: 0,
 };
 
