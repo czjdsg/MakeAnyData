@@ -1649,6 +1649,19 @@ a {
   background: #04090f;
 }
 
+.case-task-preview video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #04090f;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.case-task-preview video[hidden],
+.case-task-preview img[hidden] {
+  display: none;
+}
+
 .case-output-label {
   display: inline-flex;
   margin-bottom: 8px;

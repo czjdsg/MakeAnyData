@@ -123,19 +123,16 @@ const caseData = {
         },
       ],
       outputQuestion:
-        "I have reached this step in the circle-geometry problem. How should I continue to solve ∠KML? You can refer to this teaching video.",
+        "I have reached this step in the circle-geometry problem shown in the image. How should I continue to solve ∠KML? You can refer to this teaching video.",
+      taskVideo: "./assets/case-edu/input-30s.mp4",
       taskPoster: "./assets/case-edu/edu.webp",
-      outputText: "",
+      outputText:
+        "Based on the solution video and diagram you provided, here is a clear explanation of how to continue solving ∠KML, focused on the exact point where you got stuck:",
       outputSequence: [
-        {
-          type: "image",
-          src: "./assets/case-edu/edu.webp",
-          alt: "The student is stuck right before solving angle KML in the geometry diagram.",
-        },
         {
           type: "text",
           text:
-            "You have already derived 42 degrees from the radius-perpendicular-to-tangent relation and also know that triangle KOL is isosceles, but the next move for ∠KML is still unclear. The key observation is that the diagram contains tangent ML together with chord KL, which is exactly the cue for the tangent-chord theorem.",
+            "You have already used the fact that the radius is perpendicular to the tangent to derive 42 degrees, and you also know that triangle KOL is isosceles, but you still do not know how to continue solving ∠KML. Based on the explanation in the teaching video, if you look carefully at the diagram, you can see that it contains tangent ML together with chord KL. This is the typical signal for applying the tangent-chord theorem, and it is also the key breakthrough emphasized in the video.",
         },
         {
           type: "image",
@@ -145,7 +142,7 @@ const caseData = {
         {
           type: "text",
           text:
-            "As the teaching video explains, the angle between a tangent and a chord equals the inscribed angle in the opposite arc subtended by that chord. Applying that relation here gives 48 degrees, so ∠KML = 48 degrees. The real bottleneck was not arithmetic. It was recognizing the tangent-plus-chord structure and recalling the right theorem.",
+            "As the teaching video explains, according to the tangent-chord theorem, the angle between a tangent and a chord is equal to the inscribed angle on the opposite side subtended by that chord. Combining this diagram with the 42 degrees you have already obtained, the video derives that the inscribed angle corresponding to chord KL is 48 degrees, so ∠KML = 48 degrees. The core bottleneck in this problem is failing to recognize the tangent-plus-chord pattern. The video also highlights that once you recall the tangent-chord theorem, you can obtain the angle directly.",
         },
       ],
     },
@@ -595,6 +592,7 @@ const caseThoughtToggleLabel = document.getElementById("case-thought-toggle-labe
 const caseOutputGallery = document.getElementById("case-output-gallery");
 const caseOutputCard = document.getElementById("case-output-card");
 const caseTaskPreview = document.getElementById("case-task-preview");
+const caseTaskVideo = document.getElementById("case-task-video");
 const caseTaskPoster = document.getElementById("case-task-poster");
 const caseOutputTaskField = document.getElementById("case-output-task-field");
 const caseOutputTaskLabel = document.getElementById("case-output-task-label");
@@ -919,7 +917,9 @@ function setSpotlight(caseKey) {
     (item) => item.type === "parallel-grid" && (item.items || []).length === 2,
   );
   const taskPoster = pipeline.taskPoster || pipeline.inputPoster;
+  const taskVideo = pipeline.taskVideo || "";
   const hasTaskPoster = Boolean(taskPoster);
+  const hasTaskVideo = Boolean(taskVideo);
   const hasTaskQuestion = Boolean(caseOutputQuestion.textContent.trim());
 
   caseOutputQuestion.hidden = !hasTaskQuestion || hasParallelOutput;
@@ -930,7 +930,8 @@ function setSpotlight(caseKey) {
   }
 
   if (caseOutputTaskField) {
-    caseOutputTaskField.hidden = hasParallelOutput || (!hasTaskPoster && !hasTaskQuestion);
+    caseOutputTaskField.hidden =
+      hasParallelOutput || (!hasTaskPoster && !hasTaskVideo && !hasTaskQuestion);
   }
 
   if (caseOutputTaskLabel) {
@@ -941,13 +942,27 @@ function setSpotlight(caseKey) {
     caseOutputSolutionLabel.hidden = hasParallelOutput;
   }
 
-  if (caseTaskPreview && caseTaskPoster) {
-    caseTaskPreview.hidden = !hasTaskPoster || hasParallelOutput;
+  if (caseTaskPreview && caseTaskPoster && caseTaskVideo) {
+    caseTaskPreview.hidden = (!hasTaskPoster && !hasTaskVideo) || hasParallelOutput;
+
+    if (hasTaskVideo) {
+      caseTaskVideo.hidden = false;
+      caseTaskVideo.src = taskVideo;
+      caseTaskVideo.poster = taskPoster || pipeline.inputPoster || "";
+      caseTaskVideo.load();
+    } else {
+      caseTaskVideo.hidden = true;
+      caseTaskVideo.removeAttribute("src");
+      caseTaskVideo.removeAttribute("poster");
+      caseTaskVideo.load();
+    }
 
     if (hasTaskPoster && !hasParallelOutput) {
+      caseTaskPoster.hidden = false;
       caseTaskPoster.src = taskPoster;
       caseTaskPoster.alt = pipeline.inputFallbackTitle || "Task source frame";
     } else {
+      caseTaskPoster.hidden = true;
       caseTaskPoster.removeAttribute("src");
     }
   }
