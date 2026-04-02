@@ -866,16 +866,6 @@ function setSpotlight(caseKey) {
           panel.appendChild(taskVideo);
         }
 
-        const taskImageSrc = panelItem.taskImage || panelItem.recallImage;
-        if (taskImageSrc) {
-          const taskImage = document.createElement("img");
-          taskImage.className = "case-output-panel-image";
-          taskImage.src = taskImageSrc;
-          taskImage.alt = `${panelItem.title || "Recovery"} task frame`;
-          taskImage.loading = "lazy";
-          panel.appendChild(taskImage);
-        }
-
         if (panelItem.prompt) {
           const prompt = document.createElement("p");
           prompt.className = "case-output-panel-prompt";
@@ -940,6 +930,12 @@ function setSpotlight(caseKey) {
           });
 
           panel.appendChild(steps);
+
+          const thoughtCloseLabel = document.createElement("span");
+          thoughtCloseLabel.className =
+            "case-output-panel-label case-output-panel-think case-output-panel-think-end";
+          thoughtCloseLabel.textContent = "</think>";
+          panel.appendChild(thoughtCloseLabel);
         } else if (panelItem.generatedVideo) {
           const outputVideo = document.createElement("video");
           outputVideo.className = "case-output-panel-video";
