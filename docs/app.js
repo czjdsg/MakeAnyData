@@ -396,44 +396,99 @@ const caseData = {
   },
   editing: {
     index: "05",
-    domain: "Generation",
-    title: "Ego Image Editing Samples",
+    domain: "Game Agents",
+    title: "Minecraft Planning Agent Data",
     summary:
-      "The same first-person scene becomes controllable editing supervision once user intent specifies the transformation target.",
-    tags: ["editing", "egocentric", "generation"],
+      "One open-world Minecraft clip is turned into two player-decision and task-planning agent samples: long-horizon exploration plus block placement, and local environment observation.",
+    tags: ["minecraft", "planning", "game-agents"],
     pipeline: {
-      inputTitle: "Uploaded image + intent",
-      inputIntent: "Build controllable editing supervision grounded in the current scene.",
-      inputNote: "Egocentric images paired with user editing instructions and visual constraints.",
-      inputFallbackKicker: "Uploaded source",
-      inputFallbackTitle: "Grounded scene image",
-      inputFallbackCopy: "The system starts from a real scene instead of synthetic prompt-only generation.",
-      thinkingTitle: "Key thinking steps",
-      thinkingStatus: "Parsing the requested edit and grounding it in the scene...",
-      thinkingDoneStatus: "Edit supervision resolved. Packaging the sample...",
-      outputStatus: "Editing pair ready",
+      inputIntent:
+        "This is a gameplay video. Help me construct player-decision and task-planning agent data from it.",
+      inputVideo: "./assets/case-game/input.mp4",
+      inputPoster: "./assets/case-game/game0.webp",
+      inputFallbackTitle: "Minecraft source clip",
+      inputFallbackCopy:
+        "The source is a first-person Minecraft snow-scene interaction clip with movement, observation, and block placement.",
       thoughts: [
         {
-          step: "01",
-          title: "Parse the edit request",
-          body: "Understand which parts of the scene should change and which visual constraints must stay stable.",
+          title: "Recognize the source gameplay",
+          body: "The video is a first-person Minecraft snow-scene clip that mixes player movement, environment observation, and block placement under a continuous action trajectory.",
         },
         {
-          step: "02",
-          title: "Ground the transformation",
-          body: "Tie the requested edit to real objects, layout, and viewpoint from the source image.",
+          title: "Choose the right data form",
+          body: "Simple action labels are too weak for agent training, so the target should be closed-loop planning data that connects natural-language requests, environment understanding, task decomposition, action execution, and outcomes.",
         },
         {
-          step: "03",
-          title: "Export controllable pairs",
-          body: "Deliver instruction-conditioned before/after supervision with grounded reasoning.",
+          title: "Lock the two core task cases",
+          body: "The clip supports two high-value samples: an exploration-plus-placement task that needs multi-step planning, and an environment-observation task that focuses on perception and viewpoint control.",
+        },
+        {
+          title: "Rewrite them as natural player requests",
+          body: "The questions should sound like real player instructions, not technical templates, so the agent learns from natural requests instead of synthetic command syntax.",
+        },
+        {
+          title: "Package planning supervision",
+          body: "The final export should preserve the task type, natural-language request, visual action trace, and resulting keyframes in a uniform format that is directly usable for agent training.",
         },
       ],
-      outputTitle: "Final dataset sample",
-      outputQuestion: "Edit instruction: Replace the cup on the table with a glass bottle.",
-      outputText: "Instruction-conditioned editing pairs with scene-grounded reasoning and target outputs.",
-      outputNote: "Generation data stays controllable because the requested edit is grounded in the source scene.",
-      gallery: [],
+      outputQuestion: "",
+      outputText: "",
+      outputSequence: [
+        {
+          type: "parallel-grid",
+          items: [
+            {
+              title: "Explore and Place",
+              showTaskImage: true,
+              taskImage: "./assets/case-game/game0.webp",
+              prompt:
+                "I am in a snowy scene now. First walk around and observe the surroundings, then place the block in my hand at the front-left position.",
+              answer:
+                "The agent first surveys the snowy environment through movement and observation, then places the held block at the front-left target position.",
+              solutionGallery: [
+                {
+                  src: "./assets/case-game/game1.webp",
+                  alt: "Minecraft planning trace frame 1",
+                },
+                {
+                  src: "./assets/case-game/game2.webp",
+                  alt: "Minecraft planning trace frame 2",
+                },
+                {
+                  src: "./assets/case-game/game3.webp",
+                  alt: "Minecraft planning trace frame 3",
+                },
+                {
+                  src: "./assets/case-game/game4.webp",
+                  alt: "Minecraft planning trace frame 4",
+                },
+              ],
+            },
+            {
+              title: "Observe the Scene",
+              showTaskImage: true,
+              taskImage: "./assets/case-game/game6.webp",
+              prompt: "Please observe what the surroundings look like right now.",
+              answer:
+                "The agent scans the current surroundings and completes a local environment-observation trace from the present viewpoint.",
+              solutionGallery: [
+                {
+                  src: "./assets/case-game/game7.webp",
+                  alt: "Minecraft observation trace frame 1",
+                },
+                {
+                  src: "./assets/case-game/game8.webp",
+                  alt: "Minecraft observation trace frame 2",
+                },
+                {
+                  src: "./assets/case-game/game9.webp",
+                  alt: "Minecraft observation trace frame 3",
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   },
 };
@@ -866,6 +921,17 @@ function setSpotlight(caseKey) {
           panel.appendChild(taskVideo);
         }
 
+        const taskImageSrc = panelItem.taskImage || panelItem.recallImage;
+        if (panelItem.showTaskImage && taskImageSrc) {
+          const taskImage = document.createElement("img");
+          taskImage.className = "case-output-panel-image";
+          taskImage.src = taskImageSrc;
+          taskImage.alt =
+            panelItem.taskImageAlt || `${panelItem.title || "Task"} task frame`;
+          taskImage.loading = "lazy";
+          panel.appendChild(taskImage);
+        }
+
         if (panelItem.prompt) {
           const prompt = document.createElement("p");
           prompt.className = "case-output-panel-prompt";
@@ -958,6 +1024,22 @@ function setSpotlight(caseKey) {
           answer.className = "case-output-panel-answer";
           answer.textContent = panelItem.answer;
           panel.appendChild(answer);
+        }
+
+        if ((panelItem.solutionGallery || []).length > 0) {
+          const gallery = document.createElement("div");
+          gallery.className = "case-output-panel-gallery";
+
+          panelItem.solutionGallery.forEach((frame) => {
+            const image = document.createElement("img");
+            image.className = "case-output-panel-gallery-image";
+            image.src = frame.src || "";
+            image.alt = frame.alt || `${panelItem.title || "Solution"} frame`;
+            image.loading = "lazy";
+            gallery.appendChild(image);
+          });
+
+          panel.appendChild(gallery);
         }
 
         grid.appendChild(panel);
