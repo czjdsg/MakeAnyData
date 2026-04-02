@@ -169,43 +169,75 @@ const caseData = {
   gui: {
     index: "03",
     domain: "GUI Agents",
-    title: "Long-Horizon GUI Task Composition",
+    title: "Cross-App GUI Task Reconstruction",
     summary:
-      "Short interaction snippets are composed into coherent long-horizon interface tasks that an agent can actually learn from.",
-    tags: ["gui", "agent", "long-horizon"],
+      "Fragmented phone interactions are reorganized into one coherent shopping task that spans eBay and Amazon.",
+    tags: ["gui", "cross-app", "trajectory"],
     pipeline: {
-      inputTitle: "Uploaded trace + intent",
-      inputIntent: "Build long-horizon interface trajectories for agent training.",
-      inputNote: "Short mobile or desktop traces with reusable state transitions and action fragments.",
-      inputFallbackKicker: "Uploaded source",
-      inputFallbackTitle: "Fragmented GUI traces",
-      inputFallbackCopy: "Individual app segments do not yet form a complete goal-driven task.",
-      thinkingTitle: "Key thinking steps",
-      thinkingStatus: "Linking reusable interface states into one goal path...",
-      thinkingDoneStatus: "Long-horizon GUI task composed. Packaging the sample...",
-      outputStatus: "Trajectory ready",
-      thoughts: [
+      inputIntent:
+        "These are my mobile interaction fragments. Use them to construct a more comprehensive long-horizon task trajectory from them.",
+      inputFallbackTitle: "Fragmented mobile interaction traces",
+      inputFallbackCopy: "These clips capture separate app operations rather than one complete goal-directed task.",
+      inputAssets: [
         {
-          step: "01",
-          title: "Match reusable states",
-          body: "Find how short snippets can connect through compatible interface states and goals.",
+          type: "video",
+          src: "./assets/case-gui/fragment-a.mp4",
+          label: "Fragment A",
+          description: "Open eBay, pick a listing, and add it to the cart.",
         },
         {
-          step: "02",
-          title: "Compose the task chain",
-          body: "Turn disconnected actions into one coherent multi-step objective such as route planning or comparison shopping.",
+          type: "video",
+          src: "./assets/case-gui/fragment-b.mp4",
+          label: "Fragment B",
+          description: "Open Amazon and search for Xbox Series X.",
         },
         {
-          step: "03",
-          title: "Export agent supervision",
-          body: "Deliver ordered trajectories with state continuity, actions, and outcome structure.",
+          type: "video",
+          src: "./assets/case-gui/fragment-c.mp4",
+          label: "Fragment C",
+          description: "Open eBay and search for Xbox Series X.",
+        },
+        {
+          type: "video",
+          src: "./assets/case-gui/fragment-d.mp4",
+          label: "Fragment D",
+          description: "Send an invitation to Victor James on Facebook.",
         },
       ],
-      outputTitle: "Final dataset sample",
-      outputQuestion: "Agent task: Compare prices across apps and complete checkout planning.",
-      outputText: "A long-horizon GUI task chain with aligned state transitions and ordered actions.",
-      outputNote: "Fragmented traces become agent-ready supervision once they are composed into a goal path.",
-      gallery: [],
+      thoughts: [
+        {
+          title: "Analyze each fragment",
+          body: "A reopens eBay and adds a console listing to the cart; B searches Amazon for Xbox Series X; C searches eBay for the same product; D sends a Facebook invitation and is unrelated to shopping.",
+        },
+        {
+          title: "Keep the useful subset",
+          body: "Fragments A, B, and C can describe one shopping task together, while fragment D should be discarded because it does not match the user intent.",
+        },
+        {
+          title: "Hypothesize the full task",
+          body: "The selected fragments imply a cross-app comparison workflow: search for the same Xbox console on eBay and Amazon, compare prices, then finish the purchase on eBay.",
+        },
+        {
+          title: "Stitch the trajectory in order",
+          body: "C ends on the home screen after eBay search, which connects naturally to B opening Amazon. B also returns to the home screen, and A then reopens eBay to complete the final add-to-cart action. The final order is C -> B -> A.",
+        },
+      ],
+      taskPoster: "./assets/case-gui/init.webp",
+      outputQuestion:
+        "Compare the price of Microsoft Xbox Series X on eBay and Amazon, then add the cheaper option to the cart.",
+      outputText: "",
+      outputSequence: [
+        {
+          type: "text",
+          text: "A complete GUI trajectory with screen states, reasoning, and actions at every step.",
+        },
+        {
+          type: "video",
+          src: "./assets/case-gui/full-task-video.mp4",
+          poster: "./assets/case-gui/init.webp",
+          alt: "A long-horizon mobile GUI task video that compares Xbox prices across eBay and Amazon.",
+        },
+      ],
     },
   },
   embodied: {
@@ -311,6 +343,7 @@ const caseSpotlight = document.getElementById("case-spotlight");
 const caseNavItems = Array.from(document.querySelectorAll(".case-nav-item"));
 const chatMessages = Array.from(document.querySelectorAll("[data-chat-step]"));
 const caseInputPreview = document.getElementById("case-input-preview");
+const caseInputAssets = document.getElementById("case-input-assets");
 const caseInputVideo = document.getElementById("case-input-video");
 const caseInputPoster = document.getElementById("case-input-poster");
 const caseInputFallback = document.getElementById("case-input-fallback");
@@ -360,6 +393,30 @@ function playCaseInputVideo() {
   if (playAttempt && typeof playAttempt.catch === "function") {
     playAttempt.catch(() => {});
   }
+}
+
+function pauseAssetVideos() {
+  if (!caseInputAssets) {
+    return;
+  }
+
+  caseInputAssets.querySelectorAll("video").forEach((video) => {
+    video.pause();
+    video.currentTime = 0;
+  });
+}
+
+function playAssetVideos() {
+  if (!caseInputAssets || caseInputAssets.hidden) {
+    return;
+  }
+
+  caseInputAssets.querySelectorAll("video").forEach((video) => {
+    const playAttempt = video.play();
+    if (playAttempt && typeof playAttempt.catch === "function") {
+      playAttempt.catch(() => {});
+    }
+  });
 }
 
 function mountAndReveal(node) {
@@ -419,6 +476,7 @@ function clearChatReplay() {
   }
 
   resetCaseInputVideo();
+  pauseAssetVideos();
 }
 
 function scheduleChatReplay(fn, delay) {
@@ -457,6 +515,7 @@ function replayChatConversation(pipeline, caseKey) {
   scheduleChatReplay(() => {
     mountAndReveal(userMessage);
     playCaseInputVideo();
+    playAssetVideos();
   }, 140);
 
   scheduleChatReplay(() => {
@@ -523,11 +582,12 @@ function setSpotlight(caseKey) {
   caseOutputQuestion.hidden = !caseOutputQuestion.textContent.trim();
   caseOutputText.hidden = !caseOutputText.textContent.trim();
   if (caseTaskPreview && caseTaskPoster) {
-    const hasTaskPoster = Boolean(pipeline.inputPoster);
+    const taskPoster = pipeline.taskPoster || pipeline.inputPoster;
+    const hasTaskPoster = Boolean(taskPoster);
     caseTaskPreview.hidden = !hasTaskPoster;
 
     if (hasTaskPoster) {
-      caseTaskPoster.src = pipeline.inputPoster;
+      caseTaskPoster.src = taskPoster;
       caseTaskPoster.alt = pipeline.inputFallbackTitle || "Task source frame";
     } else {
       caseTaskPoster.removeAttribute("src");
@@ -582,6 +642,25 @@ function setSpotlight(caseKey) {
 
       figure.appendChild(image);
       caseOutputGallery.appendChild(figure);
+      return;
+    }
+
+    if (item.type === "video") {
+      const figure = document.createElement("figure");
+      figure.className = "case-output-entry case-output-entry-video";
+
+      const video = document.createElement("video");
+      video.src = item.src || "";
+      video.poster = item.poster || "";
+      video.controls = true;
+      video.loop = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = "metadata";
+      video.setAttribute("aria-label", item.alt || "Output video");
+
+      figure.appendChild(video);
+      caseOutputGallery.appendChild(figure);
     }
   });
 
@@ -592,9 +671,45 @@ function setSpotlight(caseKey) {
       outputSequence.length === 0;
   }
 
-  if (pipeline.inputPoster || pipeline.inputVideo) {
+  caseInputAssets.innerHTML = "";
+  const inputAssets = pipeline.inputAssets || [];
+
+  if (inputAssets.length > 0) {
+    caseInputPreview.hidden = true;
+    caseInputFallback.hidden = true;
+    caseInputAssets.hidden = false;
+
+    inputAssets.forEach((asset) => {
+      const tile = document.createElement("figure");
+      tile.className = "case-input-asset";
+
+      if (asset.type === "video") {
+        const video = document.createElement("video");
+        video.src = asset.src || "";
+        video.muted = true;
+        video.loop = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.preload = "metadata";
+        tile.appendChild(video);
+      } else {
+        const image = document.createElement("img");
+        image.src = asset.src || "";
+        image.alt = asset.description || asset.label || "";
+        image.loading = "lazy";
+        tile.appendChild(image);
+      }
+
+      const badge = document.createElement("figcaption");
+      badge.textContent = asset.label || "";
+      tile.appendChild(badge);
+
+      caseInputAssets.appendChild(tile);
+    });
+  } else if (pipeline.inputPoster || pipeline.inputVideo) {
     caseInputPreview.hidden = false;
     caseInputFallback.hidden = true;
+    caseInputAssets.hidden = true;
 
     if (pipeline.inputVideo && caseInputVideo) {
       caseInputVideo.hidden = false;
@@ -628,6 +743,7 @@ function setSpotlight(caseKey) {
     caseInputPoster.hidden = true;
     caseInputPoster.removeAttribute("src");
     caseInputPreview.hidden = true;
+    caseInputAssets.hidden = true;
     caseInputFallback.hidden = false;
   }
 
