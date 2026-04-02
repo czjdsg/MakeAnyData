@@ -621,45 +621,61 @@ const caseData = {
         },
       },
       {
-        variantLabel: "Scene Editing",
-        title: "Grounded Scene Editing Samples",
+        variantLabel: "Livestream Generation",
+        title: "Livestream Hand-Object Generation",
         summary:
-          "A real kitchen scene is turned into viewpoint-consistent editing supervision with grounded prompts and compact visual targets.",
-        tags: ["generation", "editing", "grounded"],
+          "A bag-selling livestream replay is distilled into three text-to-video samples centered on precise hand-object interactions.",
+        tags: ["generation", "livestream", "product"],
         pipeline: {
           inputIntent:
-            "This is a real first-person kitchen scene. Help me build grounded scene-editing data from it.",
-          inputPoster: "./assets/case1/frame-1.webp",
-          inputFallbackTitle: "Kitchen source frame",
+            "This is a livestream e-commerce replay. Help me construct valuable generation data from it.",
+          inputVideo: "./assets/case-gen-digit/input.mp4",
+          inputPoster: "./assets/case-gen-digit/input.webp",
+          inputFallbackTitle: "Livestream e-commerce replay",
           inputFallbackCopy:
-            "The requested edit should stay anchored in the original viewpoint and layout instead of drifting into prompt-only generation.",
+            "The useful signal is not the whole replay. It is the high-value hand-object interaction segments that can be turned into clean text-to-video supervision.",
           thoughts: [
             {
-              title: "Read the requested scene change",
-              body: "The source is a grounded kitchen frame, so the edit must preserve viewpoint, room structure, and object layout while changing the scene state.",
+              title: "Analyze the source livestream",
+              body: "The clip is a Belle shopping livestream centered on a beige monogram tote bag. The host repeatedly demonstrates zipper closing, lifting, shoulder carrying, and close-up display through clear and continuous hand-object interactions.",
             },
             {
-              title: "Choose an editing-style output",
-              body: "The right target is not free-form generation. It is a compact set of edited images that keep the scene geometry stable.",
+              title: "Choose the right target format",
+              body: "The useful output is not the full replay. It is a filtered set of high-value interaction segments paired with precise visual prompts so the sample can directly supervise video generation.",
             },
             {
-              title: "Export compact supervision",
-              body: "A few high-signal edited targets are enough to express the transformation without flooding the sample with redundant frames.",
+              title: "Localize the core segments",
+              body: "Three segments stand out: 00:00-00:04 for lifting, zipper closing, and handle display; 00:09-00:11 for putting the bag onto the shoulder; and 00:14-00:18 for taking the bag off and presenting it to the camera.",
+            },
+            {
+              title: "Write generation-ready prompts",
+              body: "Each task prompt should fully specify the livestream setting, the host appearance, the outfit, the bag state, and the detailed hand-object motion so the interaction can be faithfully reproduced by a video model.",
             },
           ],
-          outputQuestion:
-            "Turn this active cooking scene into a cleaned post-cooking kitchen state while keeping the viewpoint consistent.",
           outputText: "",
           outputSequence: [
             {
-              type: "image",
-              src: "./assets/case1/frame-3.webp",
-              alt: "Edited kitchen state after cooking is finished.",
-            },
-            {
-              type: "image",
-              src: "./assets/case1/frame-4.webp",
-              alt: "Edited kitchen cleanup state with the trash closed.",
+              type: "parallel-grid",
+              items: [
+                {
+                  title: "Zip and Lift",
+                  prompt:
+                    "Belle New Year shopping livestream scene. The main subject is an East Asian female host with long straight black hair and gold earrings. She wears a dark-blue denim jacket, a white inner shirt, and dark-blue denim jeans, standing inside a light beige livestream room with a white BELLE logo on the wall, a BELLE New Year promotional poster at the top, gray handbags on the shelf to the right, and floating livestream benefit widgets on screen. The host lightly lifts the left side of a beige monogram tote bag with her left hand, uses her right hand to pull the zipper slider upward until the bag is fully closed, then grips the brown leather handle and raises the bag while stepping back slightly so the bag swings naturally. The full sequence should clearly show the precise hand-object interaction.",
+                  generatedVideo: "./assets/case-gen-digit/seg1.mp4",
+                },
+                {
+                  title: "Shoulder Carry",
+                  prompt:
+                    "Belle New Year shopping livestream scene. An East Asian female host with long straight black hair and gold earrings stands in a light beige livestream room wearing a dark-blue denim outfit. She supports the brown handle of a beige monogram tote bag with her left hand, keeps the bag vertical, slides her right arm under the handle and along the side of the bag, then lifts with the left hand while the right hand guides the bag so the strap lands precisely on her right shoulder. She adjusts the bag until it sits naturally against the shoulder, fully presenting the hand-object interaction of putting the bag on.",
+                  generatedVideo: "./assets/case-gen-digit/seg2.mp4",
+                },
+                {
+                  title: "Take Off and Present",
+                  prompt:
+                    "Belle New Year shopping livestream scene. An East Asian female host with long straight black hair and gold earrings stands in a light beige livestream room wearing a dark-blue denim outfit. With her right hand, she gently pulls down the strap of a beige monogram tote bag to remove it from her right shoulder, then grips the handle and raises the bag toward the camera. She rotates the bag slightly, around thirty degrees, to clearly present the monogram pattern and the decorative charm on the front. The full motion should capture the complete hand-object interaction of taking off the bag and presenting the product.",
+                  generatedVideo: "./assets/case-gen-digit/seg3.mp4",
+                },
+              ],
             },
           ],
         },
