@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=chatcase04" />
+    <link rel="stylesheet" href="./styles.css?v=chatcase05" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -279,6 +279,7 @@
                 <article class="chat-message chat-message-assistant" data-chat-step="2">
                   <div class="chat-avatar chat-avatar-ai">DataClaw</div>
                   <div class="chat-bubble chat-bubble-assistant">
+                    <p class="chat-bubble-kicker">THOUGHT</p>
                     <div class="chat-typing" id="case-typing-indicator" aria-hidden="true">
                       <span></span>
                       <span></span>
@@ -295,10 +296,14 @@
                     <div class="case-output-gallery" id="case-output-gallery"></div>
 
                     <div class="chat-sample-card" id="case-output-card">
-                      <p class="case-output-question" id="case-output-question">How do I cook minced meat?</p>
-                      <p class="case-output-text" id="case-output-text">
-                        First, set a timer and then organize tutorial sections around stirring, heat control, and cleanup.
-                      </p>
+                      <div class="case-output-field">
+                        <span class="case-output-label">TASK</span>
+                        <p class="case-output-question" id="case-output-question">How do I cook minced meat step by step?</p>
+                      </div>
+                      <div class="case-output-field">
+                        <span class="case-output-label">SOLUTION</span>
+                        <p class="case-output-text" id="case-output-text">Interleaved image-text tutorial data.</p>
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -376,6 +381,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=chatcase04"></script>
+    <script src="./app.js?v=chatcase05"></script>
   </body>
 </html>

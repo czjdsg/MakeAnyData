@@ -44,9 +44,8 @@ const caseData = {
         },
       ],
       outputTitle: "Final dataset sample",
-      outputQuestion: "User question: How do I cook minced meat step by step?",
-      outputText:
-        "First, set a timer, then organize the tutorial around stirring the meat, controlling the heat, turning off the stove, and cleaning the counter. Key frames and natural instructional language are packaged as one training-ready sample.",
+      outputQuestion: "How do I cook minced meat step by step?",
+      outputText: "Interleaved image-text tutorial data.",
       outputNote:
         "Interleaved image-text tutorial data with extracted keyframes and user-facing instructional text.",
       gallery: [
