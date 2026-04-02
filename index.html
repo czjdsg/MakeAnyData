@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=caseflow01" />
+    <link rel="stylesheet" href="./styles.css?v=chatcase03" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -242,80 +242,105 @@
               </div>
             </div>
 
-            <div class="case-flow" id="case-flow">
-              <article class="case-stage case-stage-input" data-stage-order="1">
-                <div class="case-stage-head">
-                  <p class="spotlight-label">Stage 1</p>
-                  <h4 id="case-stage-input-title">Raw Video + User Intent</h4>
-                </div>
+            <div class="case-chat-shell" id="case-chat-shell">
+              <div class="case-chat-topbar">
+                <span class="chat-topbar-dot"></span>
+                <span class="chat-topbar-dot"></span>
+                <span class="chat-topbar-dot"></span>
+                <p>Case Replay</p>
+              </div>
 
-                <div class="case-stage-panel case-stage-panel-media">
-                  <video
-                    class="case-input-video"
-                    id="case-input-video"
-                    autoplay
-                    muted
-                    loop
-                    playsinline
-                    controls
-                    preload="metadata"
-                  ></video>
+              <div class="case-chat-thread" id="case-chat-thread">
+                <article class="chat-message chat-message-user" data-chat-step="1">
+                  <div class="chat-avatar chat-avatar-user">You</div>
+                  <div class="chat-bubble chat-bubble-user">
+                    <div class="chat-upload-card">
+                      <div class="chat-upload-head">
+                        <p class="case-mini-label" id="case-input-kicker">Uploaded source</p>
+                        <span class="chat-upload-meta" id="case-stage-input-title">Video + intent</span>
+                      </div>
 
-                  <div class="case-input-fallback" id="case-input-fallback">
-                    <p class="case-mini-label" id="case-input-kicker">Source material</p>
-                    <h5 id="case-input-fallback-title">Raw source clip</h5>
-                    <p id="case-input-fallback-copy">A source video is available for this case.</p>
+                      <div class="chat-upload-preview" id="case-input-preview">
+                        <video
+                          class="case-input-video"
+                          id="case-input-video"
+                          playsinline
+                          muted
+                          loop
+                          preload="metadata"
+                        ></video>
+                        <img class="case-input-poster" id="case-input-poster" alt="Uploaded video preview" hidden />
+                        <div class="chat-upload-overlay">
+                          <span class="chat-upload-badge">Video</span>
+                          <a class="chat-open-link" id="case-input-open" href="#" target="_blank" rel="noreferrer">Open MP4</a>
+                        </div>
+                      </div>
+
+                      <div class="case-input-fallback" id="case-input-fallback">
+                        <h5 id="case-input-fallback-title">Source clip</h5>
+                        <p id="case-input-fallback-copy">A source asset is available for this case.</p>
+                      </div>
+                    </div>
+
+                    <div class="chat-intent-card">
+                      <p class="case-mini-label">Intent</p>
+                      <p id="case-input-intent">Turn this cooking clip into interleaved tutorial data.</p>
+                    </div>
+
+                    <p class="chat-message-note" id="case-input-note">
+                      Full source video with timer setting, stir-frying, heat control, and cleanup actions.
+                    </p>
                   </div>
-                </div>
+                </article>
 
-                <div class="case-stage-panel case-stage-panel-intent">
-                  <p class="case-mini-label">User intent</p>
-                  <p id="case-input-intent">
-                    这是做饭视频，帮我生成步骤拆解的图文交错数据
-                  </p>
-                </div>
+                <article class="chat-message chat-message-assistant" data-chat-step="2">
+                  <div class="chat-avatar chat-avatar-ai">AI</div>
+                  <div class="chat-bubble chat-bubble-assistant">
+                    <div class="chat-bubble-head">
+                      <div>
+                        <p class="spotlight-label">Model Output</p>
+                        <h4 id="case-stage-thinking-title">Key Model Thinking</h4>
+                      </div>
+                      <p class="chat-status-text" id="case-thinking-status">Reading the clip and drafting the task...</p>
+                    </div>
 
-                <p class="case-stage-footnote" id="case-input-note">
-                  Full source video with timer setting, stir-frying, heat control, and cleanup actions.
-                </p>
-              </article>
+                    <div class="chat-typing" id="case-typing-indicator" aria-hidden="true">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
 
-              <div class="case-flow-arrow" aria-hidden="true">
-                <span></span>
+                    <div class="case-thought-grid" id="case-thought-grid"></div>
+                  </div>
+                </article>
+
+                <article class="chat-message chat-message-assistant chat-message-output" data-chat-step="3">
+                  <div class="chat-avatar chat-avatar-ai">AI</div>
+                  <div class="chat-bubble chat-bubble-assistant chat-bubble-output">
+                    <div class="chat-bubble-head">
+                      <div>
+                        <p class="spotlight-label">Delivered Data</p>
+                        <h4 id="case-stage-output-title">Training-Ready Sample</h4>
+                      </div>
+                      <p class="chat-status-text" id="case-output-status">Ready to export</p>
+                    </div>
+
+                    <div class="case-output-gallery" id="case-output-gallery"></div>
+
+                    <div class="chat-sample-card">
+                      <p class="case-mini-label">Final sample</p>
+                      <p class="case-output-question" id="case-output-question">User question: How do I cook minced meat?</p>
+                      <p class="case-output-text" id="case-output-text">
+                        First, set a timer and then organize tutorial sections around stirring, heat control, and cleanup.
+                      </p>
+                    </div>
+
+                    <p class="chat-message-note" id="case-output-note">
+                      Interleaved image-text tutorial data with user-facing instructional phrasing.
+                    </p>
+                  </div>
+                </article>
               </div>
-
-              <article class="case-stage case-stage-thinking" data-stage-order="2">
-                <div class="case-stage-head">
-                  <p class="spotlight-label">Stage 2</p>
-                  <h4 id="case-stage-thinking-title">Key Model Thinking</h4>
-                </div>
-
-                <div class="case-thought-grid" id="case-thought-grid"></div>
-              </article>
-
-              <div class="case-flow-arrow" aria-hidden="true">
-                <span></span>
-              </div>
-
-              <article class="case-stage case-stage-output" data-stage-order="3">
-                <div class="case-stage-head">
-                  <p class="spotlight-label">Stage 3</p>
-                  <h4 id="case-stage-output-title">Delivered Data</h4>
-                </div>
-
-                <div class="case-output-gallery" id="case-output-gallery"></div>
-
-                <div class="case-stage-panel case-stage-panel-output">
-                  <p class="case-mini-label">Final sample</p>
-                  <p class="case-output-question" id="case-output-question">user_question: 如何炒肉</p>
-                  <p class="case-output-text" id="case-output-text">
-                    首先设置定时器，然后围绕炒肉、调火、关火和清理阶段组织图文教程样本。
-                  </p>
-                  <p class="case-stage-footnote" id="case-output-note">
-                    Interleaved image-text tutorial data with user-style instructional phrasing.
-                  </p>
-                </div>
-              </article>
             </div>
 
             <div class="spotlight-tags" id="spotlight-tags"></div>
@@ -389,6 +414,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=caseflow01"></script>
+    <script src="./app.js?v=chatcase03"></script>
   </body>
 </html>

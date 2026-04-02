@@ -4,20 +4,23 @@ const caseData = {
     domain: "Everyday Tutorials",
     title: "Cooking Tutorial from Raw Video",
     summary:
-      "The system turns one first-person cooking clip into a tutorial-style dataset with images, step text, and user-facing instructional phrasing.",
+      "A single cooking clip is replayed as a live chat session: user upload, model reasoning, and the final tutorial-ready dataset.",
     tags: ["tutorial", "interleaved", "video-to-data"],
     pipeline: {
-      inputTitle: "Raw Video + User Intent",
-      inputIntent: "这是做饭视频，帮我生成步骤拆解的图文交错数据",
+      inputTitle: "Uploaded video + intent",
+      inputIntent: "This is a cooking video. Turn it into interleaved tutorial data with step-by-step images and text.",
       inputNote:
-        "A full cooking-and-cleanup video covering timer setup, stir-frying, heat control, and final cleanup.",
-      inputFallbackKicker: "Source material",
+        "The source clip covers timer setup, stir-frying, heat control, and final cleanup in one continuous kitchen POV recording.",
+      inputFallbackKicker: "Uploaded source",
       inputFallbackTitle: "Egocentric cooking video",
       inputFallbackCopy:
         "A kitchen POV clip with clear action transitions from preparation to cleanup.",
-      inputVideo: "./assets/case1/full_video.mp4",
-      inputPoster: "./assets/case1/1.png",
-      thinkingTitle: "Key Model Thinking",
+      inputVideo: "./assets/case1/input-preview.mp4",
+      inputPoster: "./assets/case1/frame-1.webp",
+      thinkingTitle: "Key thinking steps",
+      thinkingStatus: "Inspecting the uploaded clip and rewriting the task...",
+      thinkingDoneStatus: "Reasoning complete. Packaging the dataset...",
+      outputStatus: "Training-ready",
       thoughts: [
         {
           step: "01",
@@ -40,17 +43,17 @@ const caseData = {
           body: "Deliver a tutorial sample that reads like a real cooking guide instead of a raw caption dump.",
         },
       ],
-      outputTitle: "Delivered Data",
-      outputQuestion: "user_question: 如何炒肉",
+      outputTitle: "Final dataset sample",
+      outputQuestion: "User question: How do I cook minced meat step by step?",
       outputText:
-        "首先设置定时器，然后围绕炒肉、调火、关火和清理阶段组织图文教程样本。关键帧配合自然教程语气，形成可以直接训练的图文交错数据。",
+        "First, set a timer, then organize the tutorial around stirring the meat, controlling the heat, turning off the stove, and cleaning the counter. Key frames and natural instructional language are packaged as one training-ready sample.",
       outputNote:
         "Interleaved image-text tutorial data with extracted keyframes and user-facing instructional text.",
       gallery: [
-        { src: "./assets/case1/1.png", alt: "Set a timer before cooking.", label: "Set timer" },
-        { src: "./assets/case1/2.PNG", alt: "Stir the meat during cooking.", label: "Stir meat" },
-        { src: "./assets/case1/3.PNG", alt: "Turn off the heat and move the pan.", label: "Turn off heat" },
-        { src: "./assets/case1/4.PNG", alt: "Clean up and throw paper into the bin.", label: "Clean up" },
+        { src: "./assets/case1/frame-1.webp", alt: "Set a timer before cooking.", label: "Set timer" },
+        { src: "./assets/case1/frame-2.webp", alt: "Stir the meat during cooking.", label: "Stir meat" },
+        { src: "./assets/case1/frame-3.webp", alt: "Turn off the heat and move the pan.", label: "Turn off heat" },
+        { src: "./assets/case1/frame-4.webp", alt: "Clean up and throw paper into the bin.", label: "Clean up" },
       ],
     },
   },
@@ -62,13 +65,16 @@ const caseData = {
       "Rather than replaying a full solution, the system isolates the hardest geometric reasoning step and turns it into targeted tutoring supervision.",
     tags: ["education", "reasoning", "stuck-point"],
     pipeline: {
-      inputTitle: "Source Lesson + User Intent",
+      inputTitle: "Uploaded lesson + intent",
       inputIntent: "Generate tutoring data focused on the exact step where the learner gets stuck.",
       inputNote: "Board-writing lesson video with intermediate equations, diagrams, and reasoning transitions.",
-      inputFallbackKicker: "Source material",
+      inputFallbackKicker: "Uploaded source",
       inputFallbackTitle: "Geometry lesson recording",
       inputFallbackCopy: "The clip contains a full worked solution, but only one reasoning jump matters most.",
-      thinkingTitle: "Key Model Thinking",
+      thinkingTitle: "Key thinking steps",
+      thinkingStatus: "Tracing the hardest reasoning jump in the lesson...",
+      thinkingDoneStatus: "Critical tutoring step isolated. Packaging the sample...",
+      outputStatus: "Tutoring sample ready",
       thoughts: [
         {
           step: "01",
@@ -86,8 +92,8 @@ const caseData = {
           body: "Package diagrams, text hints, and the reasoning bridge as a focused tutoring sample.",
         },
       ],
-      outputTitle: "Delivered Data",
-      outputQuestion: "student_question: 为什么这里能推出这条辅助线？",
+      outputTitle: "Final dataset sample",
+      outputQuestion: "Student question: Why can we introduce this auxiliary line here?",
       outputText:
         "A targeted tutoring sample centered on the exact stuck point, with aligned visual evidence and stepwise explanation.",
       outputNote: "High-value tutoring supervision is concentrated on the hard step, not the full replay.",
@@ -102,13 +108,16 @@ const caseData = {
       "One source video can be expanded into localization, ordering, state-change, and multi-event temporal supervision.",
     tags: ["temporal", "qa", "state-change"],
     pipeline: {
-      inputTitle: "Source Video + User Intent",
+      inputTitle: "Uploaded video + intent",
       inputIntent: "Build temporal reasoning data with diverse difficulty levels.",
       inputNote: "A single video with actions, timestamps, state transitions, and event dependencies.",
-      inputFallbackKicker: "Source material",
+      inputFallbackKicker: "Uploaded source",
       inputFallbackTitle: "Temporal event video",
       inputFallbackCopy: "The clip contains enough event structure to support much more than a plain description.",
-      thinkingTitle: "Key Model Thinking",
+      thinkingTitle: "Key thinking steps",
+      thinkingStatus: "Mapping events, boundaries, and time-sensitive evidence...",
+      thinkingDoneStatus: "Temporal reasoning tasks assembled. Packaging the sample...",
+      outputStatus: "Temporal labels ready",
       thoughts: [
         {
           step: "01",
@@ -126,8 +135,8 @@ const caseData = {
           body: "Deliver supervision with timestamps, temporal relations, and event-level questions.",
         },
       ],
-      outputTitle: "Delivered Data",
-      outputQuestion: "temporal_question: 先发生的是哪一个事件？",
+      outputTitle: "Final dataset sample",
+      outputQuestion: "Temporal question: Which event happened first?",
       outputText: "Temporal QA pairs, timestamped spans, and state-transition labels exported from one source clip.",
       outputNote: "Richer temporal supervision than a single caption or class label.",
       gallery: [],
@@ -141,13 +150,16 @@ const caseData = {
       "Short interaction snippets are composed into coherent long-horizon interface tasks that an agent can actually learn from.",
     tags: ["gui", "agent", "long-horizon"],
     pipeline: {
-      inputTitle: "GUI Trace + User Intent",
+      inputTitle: "Uploaded trace + intent",
       inputIntent: "Build long-horizon interface trajectories for agent training.",
       inputNote: "Short mobile or desktop traces with reusable state transitions and action fragments.",
-      inputFallbackKicker: "Source material",
+      inputFallbackKicker: "Uploaded source",
       inputFallbackTitle: "Fragmented GUI traces",
       inputFallbackCopy: "Individual app segments do not yet form a complete goal-driven task.",
-      thinkingTitle: "Key Model Thinking",
+      thinkingTitle: "Key thinking steps",
+      thinkingStatus: "Linking reusable interface states into one goal path...",
+      thinkingDoneStatus: "Long-horizon GUI task composed. Packaging the sample...",
+      outputStatus: "Trajectory ready",
       thoughts: [
         {
           step: "01",
@@ -165,8 +177,8 @@ const caseData = {
           body: "Deliver ordered trajectories with state continuity, actions, and outcome structure.",
         },
       ],
-      outputTitle: "Delivered Data",
-      outputQuestion: "agent_task: Compare prices across apps and complete checkout planning.",
+      outputTitle: "Final dataset sample",
+      outputQuestion: "Agent task: Compare prices across apps and complete checkout planning.",
       outputText: "A long-horizon GUI task chain with aligned state transitions and ordered actions.",
       outputNote: "Fragmented traces become agent-ready supervision once they are composed into a goal path.",
       gallery: [],
@@ -180,13 +192,16 @@ const caseData = {
       "Successful robot demonstrations are transformed into fault diagnosis and recovery supervision for embodied agents.",
     tags: ["robotics", "world-model", "fault-repair"],
     pipeline: {
-      inputTitle: "Robot Trajectory + User Intent",
+      inputTitle: "Uploaded trajectory + intent",
       inputIntent: "Construct recovery data that teaches fault recognition and correction.",
       inputNote: "Robot manipulation traces with normal outcomes and state transitions.",
-      inputFallbackKicker: "Source material",
+      inputFallbackKicker: "Uploaded source",
       inputFallbackTitle: "Successful robot trajectory",
       inputFallbackCopy: "The nominal trace becomes more useful once the system asks how recovery should happen under failure.",
-      thinkingTitle: "Key Model Thinking",
+      thinkingTitle: "Key thinking steps",
+      thinkingStatus: "Modeling normal execution before injecting recoverable faults...",
+      thinkingDoneStatus: "Recovery supervision prepared. Packaging the sample...",
+      outputStatus: "Recovery sample ready",
       thoughts: [
         {
           step: "01",
@@ -204,8 +219,8 @@ const caseData = {
           body: "Deliver diagnosis, reasoning traces, and corrected future actions or predicted videos.",
         },
       ],
-      outputTitle: "Delivered Data",
-      outputQuestion: "recovery_task: The gripper missed the object. What should the robot do next?",
+      outputTitle: "Final dataset sample",
+      outputQuestion: "Recovery task: The gripper missed the object. What should the robot do next?",
       outputText: "Embodied recovery supervision with fault judgment, reasoning, and corrected future behavior.",
       outputNote: "World-model data gets stronger when it includes what should happen after failure.",
       gallery: [],
@@ -219,13 +234,16 @@ const caseData = {
       "The same first-person scene becomes controllable editing supervision once user intent specifies the transformation target.",
     tags: ["editing", "egocentric", "generation"],
     pipeline: {
-      inputTitle: "Scene Image + User Intent",
+      inputTitle: "Uploaded image + intent",
       inputIntent: "Build controllable editing supervision grounded in the current scene.",
       inputNote: "Egocentric images paired with user editing instructions and visual constraints.",
-      inputFallbackKicker: "Source material",
+      inputFallbackKicker: "Uploaded source",
       inputFallbackTitle: "Grounded scene image",
       inputFallbackCopy: "The system starts from a real scene instead of synthetic prompt-only generation.",
-      thinkingTitle: "Key Model Thinking",
+      thinkingTitle: "Key thinking steps",
+      thinkingStatus: "Parsing the requested edit and grounding it in the scene...",
+      thinkingDoneStatus: "Edit supervision resolved. Packaging the sample...",
+      outputStatus: "Editing pair ready",
       thoughts: [
         {
           step: "01",
@@ -243,8 +261,8 @@ const caseData = {
           body: "Deliver instruction-conditioned before/after supervision with grounded reasoning.",
         },
       ],
-      outputTitle: "Delivered Data",
-      outputQuestion: "edit_instruction: Replace the cup on the table with a glass bottle.",
+      outputTitle: "Final dataset sample",
+      outputQuestion: "Edit instruction: Replace the cup on the table with a glass bottle.",
       outputText: "Instruction-conditioned editing pairs with scene-grounded reasoning and target outputs.",
       outputNote: "Generation data stays controllable because the requested edit is grounded in the source scene.",
       gallery: [],
@@ -267,10 +285,14 @@ const spotlightSummary = document.getElementById("spotlight-summary");
 const spotlightTags = document.getElementById("spotlight-tags");
 const caseSpotlight = document.getElementById("case-spotlight");
 const caseNavItems = Array.from(document.querySelectorAll(".case-nav-item"));
+const chatMessages = Array.from(document.querySelectorAll("[data-chat-step]"));
 const caseStageInputTitle = document.getElementById("case-stage-input-title");
 const caseStageThinkingTitle = document.getElementById("case-stage-thinking-title");
 const caseStageOutputTitle = document.getElementById("case-stage-output-title");
+const caseInputPreview = document.getElementById("case-input-preview");
 const caseInputVideo = document.getElementById("case-input-video");
+const caseInputPoster = document.getElementById("case-input-poster");
+const caseInputOpen = document.getElementById("case-input-open");
 const caseInputFallback = document.getElementById("case-input-fallback");
 const caseInputKicker = document.getElementById("case-input-kicker");
 const caseInputFallbackTitle = document.getElementById("case-input-fallback-title");
@@ -282,10 +304,119 @@ const caseOutputGallery = document.getElementById("case-output-gallery");
 const caseOutputQuestion = document.getElementById("case-output-question");
 const caseOutputText = document.getElementById("case-output-text");
 const caseOutputNote = document.getElementById("case-output-note");
+const caseThinkingStatus = document.getElementById("case-thinking-status");
+const caseOutputStatus = document.getElementById("case-output-status");
+const caseTypingIndicator = document.getElementById("case-typing-indicator");
 let spotlightSwapTimer;
+let chatReplayTimers = [];
 
 if (methodArchitecture) {
   methodArchitecture.classList.remove("is-focused");
+}
+
+function resetCaseInputVideo() {
+  if (!caseInputVideo) {
+    return;
+  }
+
+  caseInputVideo.pause();
+  caseInputVideo.currentTime = 0;
+}
+
+function playCaseInputVideo() {
+  if (!caseInputVideo || caseInputVideo.hidden || !caseInputVideo.src) {
+    return;
+  }
+
+  const playAttempt = caseInputVideo.play();
+  if (playAttempt && typeof playAttempt.catch === "function") {
+    playAttempt.catch(() => {});
+  }
+}
+
+function clearChatReplay() {
+  chatReplayTimers.forEach((timer) => window.clearTimeout(timer));
+  chatReplayTimers = [];
+
+  chatMessages.forEach((message) => {
+    message.classList.remove("is-visible");
+  });
+
+  caseThoughtGrid.querySelectorAll(".thought-card").forEach((card) => {
+    card.classList.remove("is-visible");
+  });
+
+  caseOutputGallery.querySelectorAll(".case-output-frame").forEach((frame) => {
+    frame.classList.remove("is-visible");
+  });
+
+  if (caseTypingIndicator) {
+    caseTypingIndicator.classList.remove("is-hidden");
+  }
+
+  resetCaseInputVideo();
+}
+
+function scheduleChatReplay(fn, delay) {
+  const timer = window.setTimeout(fn, delay);
+  chatReplayTimers.push(timer);
+}
+
+function replayChatConversation(pipeline) {
+  const userMessage = chatMessages[0];
+  const thinkingMessage = chatMessages[1];
+  const outputMessage = chatMessages[2];
+  const thoughtCards = Array.from(caseThoughtGrid.querySelectorAll(".thought-card"));
+  const outputFrames = Array.from(caseOutputGallery.querySelectorAll(".case-output-frame"));
+
+  clearChatReplay();
+
+  if (caseThinkingStatus) {
+    caseThinkingStatus.textContent = pipeline.thinkingStatus || "Inspecting the upload and rewriting the task...";
+  }
+
+  if (caseOutputStatus) {
+    caseOutputStatus.textContent = pipeline.outputStatus || "Ready to export";
+  }
+
+  scheduleChatReplay(() => {
+    userMessage?.classList.add("is-visible");
+    playCaseInputVideo();
+  }, 140);
+
+  scheduleChatReplay(() => {
+    thinkingMessage?.classList.add("is-visible");
+  }, 760);
+
+  const thoughtStart = 1280;
+  thoughtCards.forEach((card, index) => {
+    scheduleChatReplay(() => {
+      card.classList.add("is-visible");
+    }, thoughtStart + index * 260);
+  });
+
+  const thinkingDoneAt = thoughtStart + thoughtCards.length * 260;
+  scheduleChatReplay(() => {
+    if (caseThinkingStatus) {
+      caseThinkingStatus.textContent =
+        pipeline.thinkingDoneStatus || "Reasoning complete. Packaging the sample...";
+    }
+
+    if (caseTypingIndicator) {
+      caseTypingIndicator.classList.add("is-hidden");
+    }
+  }, thinkingDoneAt);
+
+  const outputStart = thinkingDoneAt + 560;
+  scheduleChatReplay(() => {
+    outputMessage?.classList.add("is-visible");
+  }, outputStart);
+
+  outputFrames.forEach((frame, index) => {
+    scheduleChatReplay(() => {
+      frame.classList.add("is-visible");
+    }, outputStart + 180 + index * 120);
+  });
 }
 
 function setSpotlight(caseKey) {
@@ -301,13 +432,13 @@ function setSpotlight(caseKey) {
   spotlightTitle.textContent = item.title;
   spotlightSummary.textContent = item.summary;
 
-  caseStageInputTitle.textContent = pipeline.inputTitle || "Raw Input";
-  caseStageThinkingTitle.textContent = pipeline.thinkingTitle || "Key Model Thinking";
-  caseStageOutputTitle.textContent = pipeline.outputTitle || "Delivered Data";
+  caseStageInputTitle.textContent = pipeline.inputTitle || "Uploaded source";
+  caseStageThinkingTitle.textContent = pipeline.thinkingTitle || "Key thinking steps";
+  caseStageOutputTitle.textContent = pipeline.outputTitle || "Final dataset sample";
   caseInputIntent.textContent = pipeline.inputIntent || "";
   caseInputNote.textContent = pipeline.inputNote || "";
-  caseInputKicker.textContent = pipeline.inputFallbackKicker || "Source material";
-  caseInputFallbackTitle.textContent = pipeline.inputFallbackTitle || "Source material";
+  caseInputKicker.textContent = pipeline.inputFallbackKicker || "Uploaded source";
+  caseInputFallbackTitle.textContent = pipeline.inputFallbackTitle || "Source asset";
   caseInputFallbackCopy.textContent = pipeline.inputFallbackCopy || "";
   caseOutputQuestion.textContent = pipeline.outputQuestion || "";
   caseOutputText.textContent = pipeline.outputText || "";
@@ -355,25 +486,45 @@ function setSpotlight(caseKey) {
     caseOutputGallery.appendChild(figure);
   });
 
-  if (pipeline.inputVideo) {
-    caseInputVideo.hidden = false;
+  if (pipeline.inputPoster || pipeline.inputVideo) {
+    caseInputPreview.hidden = false;
     caseInputFallback.hidden = true;
-    caseInputVideo.poster = pipeline.inputPoster || "";
+    caseInputOpen.href = pipeline.inputVideo || "#";
+    caseInputOpen.hidden = !pipeline.inputVideo;
 
-    if (caseInputVideo.getAttribute("src") !== pipeline.inputVideo) {
+    if (pipeline.inputVideo && caseInputVideo) {
+      caseInputVideo.hidden = false;
       caseInputVideo.src = pipeline.inputVideo;
+      caseInputVideo.poster = pipeline.inputPoster || "";
+      caseInputVideo.setAttribute("aria-label", pipeline.inputFallbackTitle || "Uploaded video preview");
+      caseInputVideo.load();
+      caseInputPoster.hidden = true;
+      caseInputPoster.removeAttribute("src");
+    } else {
+      if (caseInputVideo) {
+        caseInputVideo.hidden = true;
+        caseInputVideo.removeAttribute("src");
+        caseInputVideo.removeAttribute("poster");
+        caseInputVideo.load();
+      }
+
+      caseInputPoster.hidden = false;
+      caseInputPoster.src = pipeline.inputPoster || "";
+      caseInputPoster.alt = pipeline.inputFallbackTitle || "Uploaded source preview";
+    }
+  } else {
+    if (caseInputVideo) {
+      caseInputVideo.hidden = true;
+      caseInputVideo.removeAttribute("src");
+      caseInputVideo.removeAttribute("poster");
       caseInputVideo.load();
     }
 
-    const playPromise = caseInputVideo.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {});
-    }
-  } else {
-    caseInputVideo.pause();
-    caseInputVideo.removeAttribute("src");
-    caseInputVideo.load();
-    caseInputVideo.hidden = true;
+    caseInputPoster.hidden = true;
+    caseInputPoster.removeAttribute("src");
+    caseInputOpen.href = "#";
+    caseInputOpen.hidden = true;
+    caseInputPreview.hidden = true;
     caseInputFallback.hidden = false;
   }
 
@@ -389,6 +540,8 @@ function setSpotlight(caseKey) {
     itemNode.classList.toggle("is-active", isActive);
     itemNode.setAttribute("aria-pressed", String(isActive));
   });
+
+  replayChatConversation(pipeline);
 
   if (caseSpotlight) {
     caseSpotlight.classList.remove("is-swapping");
