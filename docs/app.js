@@ -443,8 +443,6 @@ const caseData = {
               taskImage: "./assets/case-game/game0.webp",
               prompt:
                 "I am in a snowy scene now. First walk around and observe the surroundings, then place the block in my hand at the front-left position.",
-              answer:
-                "The agent first surveys the snowy environment through movement and observation, then places the held block at the front-left target position.",
               solutionGallery: [
                 {
                   src: "./assets/case-game/game1.webp",
@@ -469,8 +467,6 @@ const caseData = {
               showTaskImage: true,
               taskImage: "./assets/case-game/game6.webp",
               prompt: "Please observe what the surroundings look like right now.",
-              answer:
-                "The agent scans the current surroundings and completes a local environment-observation trace from the present viewpoint.",
               solutionGallery: [
                 {
                   src: "./assets/case-game/game7.webp",
@@ -785,6 +781,9 @@ function setSpotlight(caseKey) {
       alt: frame.alt,
     }));
   const hasParallelOutput = outputSequence.some((item) => item.type === "parallel-grid");
+  const hasDuoParallel = outputSequence.some(
+    (item) => item.type === "parallel-grid" && (item.items || []).length === 2,
+  );
   const taskPoster = pipeline.taskPoster || pipeline.inputPoster;
   const hasTaskPoster = Boolean(taskPoster);
   const hasTaskQuestion = Boolean(caseOutputQuestion.textContent.trim());
@@ -836,6 +835,7 @@ function setSpotlight(caseKey) {
 
   caseOutputGallery.innerHTML = "";
   caseOutputGallery.classList.toggle("is-wide", hasParallelOutput);
+  caseOutputGallery.classList.toggle("is-duo", hasDuoParallel);
   caseOutputGallery.classList.toggle("is-empty", outputSequence.length === 0);
   outputSequence.forEach((item) => {
     if (item.type === "text") {
@@ -888,9 +888,11 @@ function setSpotlight(caseKey) {
     if (item.type === "parallel-grid") {
       const block = document.createElement("div");
       block.className = "case-output-entry case-output-entry-parallel";
+      block.classList.toggle("is-duo", (item.items || []).length === 2);
 
       const grid = document.createElement("div");
       grid.className = "case-output-parallel-grid";
+      grid.classList.toggle("is-duo", (item.items || []).length === 2);
 
       (item.items || []).forEach((panelItem) => {
         const panel = document.createElement("article");

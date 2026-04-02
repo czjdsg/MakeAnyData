@@ -1327,6 +1327,10 @@ a {
   width: min(100%, 1040px);
 }
 
+.case-output-gallery.is-wide.is-duo {
+  width: min(100%, 960px);
+}
+
 .case-output-gallery.is-empty {
   display: none;
 }
@@ -1406,6 +1410,11 @@ a {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+}
+
+.case-output-parallel-grid.is-duo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
 }
 
 .case-output-panel {
@@ -1511,7 +1520,7 @@ a {
 .case-output-panel-gallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 10px;
 }
 
 .case-output-panel-gallery-image {
@@ -1522,6 +1531,10 @@ a {
   background: #04090f;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+.case-output-parallel-grid.is-duo .case-output-panel-gallery-image {
+  aspect-ratio: 16 / 10;
 }
 
 .case-output-question {
