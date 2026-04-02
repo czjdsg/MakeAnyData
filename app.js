@@ -282,29 +282,107 @@ const caseData = {
             {
               title: "Hesitation Loop",
               taskVideo: "./assets/case-embody/hesitate-input.mp4",
-              recallImage: "./assets/case-embody/e1.webp",
+              taskImage: "./assets/case-embody/e1.webp",
               prompt: "This is my current situation. What should I do?",
               answer:
                 "The robot is stuck in a local hesitation loop. It should recover to the last better alignment and continue the approach from that corrected state.",
-              generatedVideo: "./assets/case-embody/hesitate-gen.mp4",
+              solutionSteps: [
+                {
+                  type: "text",
+                  text: "I first inspect the current robot state.",
+                },
+                {
+                  type: "text",
+                  text: "The left hand shows local hesitation without any forward progress, so repeating the same behavior would not solve the task.",
+                },
+                {
+                  type: "text",
+                  text: "I recall the last better local state to recover the alignment before continuing.",
+                },
+                {
+                  type: "image",
+                  src: "./assets/case-embody/e1.webp",
+                  alt: "Hesitation-loop recall frame",
+                },
+                {
+                  type: "text",
+                  text: "The corrected continuation is shown below.",
+                },
+                {
+                  type: "video",
+                  src: "./assets/case-embody/hesitate-gen.mp4",
+                },
+              ],
             },
             {
               title: "Unstable Grasp",
               taskVideo: "./assets/case-embody/unstable-input.mp4",
-              recallImage: "./assets/case-embody/e2.webp",
+              taskImage: "./assets/case-embody/e2.webp",
               prompt: "This is my current situation. What should I do?",
               answer:
                 "The robot made a grasping motion but failed to secure the object. It should return to the previous better posture and re-approach for a corrected grasp.",
-              generatedVideo: "./assets/case-embody/unstable-gen.mp4",
+              solutionSteps: [
+                {
+                  type: "text",
+                  text: "I first inspect the current robot state.",
+                },
+                {
+                  type: "text",
+                  text: "The left hand reached the object but the grasp was unstable, so the object could not be held reliably.",
+                },
+                {
+                  type: "text",
+                  text: "I recall the previous better posture to reset the hand and prepare for a corrected grasp.",
+                },
+                {
+                  type: "image",
+                  src: "./assets/case-embody/e2.webp",
+                  alt: "Unstable-grasp recall frame",
+                },
+                {
+                  type: "text",
+                  text: "The corrected continuation is shown below.",
+                },
+                {
+                  type: "video",
+                  src: "./assets/case-embody/unstable-gen.mp4",
+                },
+              ],
             },
             {
               title: "Early Stagnation",
               taskVideo: "./assets/case-embody/stagnant-input.mp4",
-              recallImage: "./assets/case-embody/e3.webp",
+              taskImage: "./assets/case-embody/e3.webp",
               prompt: "This is my current situation. What should I do?",
               answer:
                 "The robot stops too early before reaching the target. It should roll back to the last better local state and resume the approach from that corrected state.",
-              generatedVideo: "./assets/case-embody/stagnant-gen.mp4",
+              solutionSteps: [
+                {
+                  type: "text",
+                  text: "I first inspect the current robot state.",
+                },
+                {
+                  type: "text",
+                  text: "The left hand stops too early before reaching the target, so the current state cannot complete the manipulation.",
+                },
+                {
+                  type: "text",
+                  text: "I recall the last better local state and restart the approach from that corrected position.",
+                },
+                {
+                  type: "image",
+                  src: "./assets/case-embody/e3.webp",
+                  alt: "Early-stagnation recall frame",
+                },
+                {
+                  type: "text",
+                  text: "The corrected continuation is shown below.",
+                },
+                {
+                  type: "video",
+                  src: "./assets/case-embody/stagnant-gen.mp4",
+                },
+              ],
             },
           ],
         },
@@ -738,6 +816,7 @@ function setSpotlight(caseKey) {
           taskVideo.className = "case-output-panel-video";
           taskVideo.src = panelItem.taskVideo;
           taskVideo.controls = true;
+          taskVideo.autoplay = true;
           taskVideo.loop = true;
           taskVideo.muted = true;
           taskVideo.playsInline = true;
@@ -745,13 +824,14 @@ function setSpotlight(caseKey) {
           panel.appendChild(taskVideo);
         }
 
-        if (panelItem.recallImage) {
-          const recall = document.createElement("img");
-          recall.className = "case-output-panel-image";
-          recall.src = panelItem.recallImage;
-          recall.alt = `${panelItem.title || "Recovery"} recall frame`;
-          recall.loading = "lazy";
-          panel.appendChild(recall);
+        const taskImageSrc = panelItem.taskImage || panelItem.recallImage;
+        if (taskImageSrc) {
+          const taskImage = document.createElement("img");
+          taskImage.className = "case-output-panel-image";
+          taskImage.src = taskImageSrc;
+          taskImage.alt = `${panelItem.title || "Recovery"} task frame`;
+          taskImage.loading = "lazy";
+          panel.appendChild(taskImage);
         }
 
         if (panelItem.prompt) {
@@ -773,11 +853,55 @@ function setSpotlight(caseKey) {
           panel.appendChild(answer);
         }
 
-        if (panelItem.generatedVideo) {
+        if ((panelItem.solutionSteps || []).length > 0) {
+          const thoughtLabel = document.createElement("span");
+          thoughtLabel.className = "case-output-panel-label";
+          thoughtLabel.textContent = "Thought chain";
+          panel.appendChild(thoughtLabel);
+
+          const steps = document.createElement("div");
+          steps.className = "case-output-panel-steps";
+
+          panelItem.solutionSteps.forEach((stepItem) => {
+            if (stepItem.type === "text") {
+              const step = document.createElement("p");
+              step.className = "case-output-panel-step";
+              step.textContent = stepItem.text || "";
+              steps.appendChild(step);
+              return;
+            }
+
+            if (stepItem.type === "image") {
+              const image = document.createElement("img");
+              image.className = "case-output-panel-image";
+              image.src = stepItem.src;
+              image.alt = stepItem.alt || `${panelItem.title || "Recovery"} reasoning frame`;
+              image.loading = "lazy";
+              steps.appendChild(image);
+              return;
+            }
+
+            if (stepItem.type === "video") {
+              const video = document.createElement("video");
+              video.className = "case-output-panel-video";
+              video.src = stepItem.src;
+              video.controls = true;
+              video.autoplay = true;
+              video.loop = true;
+              video.muted = true;
+              video.playsInline = true;
+              video.preload = "metadata";
+              steps.appendChild(video);
+            }
+          });
+
+          panel.appendChild(steps);
+        } else if (panelItem.generatedVideo) {
           const outputVideo = document.createElement("video");
           outputVideo.className = "case-output-panel-video";
           outputVideo.src = panelItem.generatedVideo;
           outputVideo.controls = true;
+          outputVideo.autoplay = true;
           outputVideo.loop = true;
           outputVideo.muted = true;
           outputVideo.playsInline = true;
