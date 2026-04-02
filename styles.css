@@ -1085,6 +1085,12 @@ a {
   background: rgba(6, 13, 21, 0.5);
 }
 
+.chat-sample-card.is-parallel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
 .chat-upload-preview {
   position: relative;
   width: min(100%, 360px);
@@ -1424,6 +1430,11 @@ a {
   font-size: 0.66rem;
 }
 
+.case-output-panel-think {
+  text-transform: none;
+  letter-spacing: 0.08em;
+}
+
 .case-output-panel-video,
 .case-output-panel-image {
   display: block;
@@ -1493,6 +1504,10 @@ a {
 
 .case-output-field + .case-output-field {
   margin-top: 12px;
+}
+
+.chat-sample-card.is-parallel .case-output-field + .case-output-field {
+  margin-top: 0;
 }
 
 .case-task-preview {

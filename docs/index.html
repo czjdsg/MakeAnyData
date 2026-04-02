@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=embodycase02" />
+    <link rel="stylesheet" href="./styles.css?v=embodycase03" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -310,8 +310,8 @@
                   <div class="chat-avatar chat-avatar-ai">DataClaw</div>
                   <div class="chat-bubble chat-bubble-assistant chat-bubble-output">
                     <div class="chat-sample-card" id="case-output-card">
-                      <div class="case-output-field">
-                        <span class="case-output-label">TASK</span>
+                      <div class="case-output-field" id="case-output-task-field">
+                        <span class="case-output-label" id="case-output-task-label">TASK</span>
                         <div class="case-task-preview" id="case-task-preview" hidden>
                           <img id="case-task-poster" alt="Task source frame" />
                         </div>
@@ -319,8 +319,8 @@
                           This is my current situation: I am about to cook meat, and I am setting a timer to keep track of the cooking time. I want to know what I should do next.
                         </p>
                       </div>
-                      <div class="case-output-field">
-                        <span class="case-output-label">SOLUTION</span>
+                      <div class="case-output-field" id="case-output-solution-field">
+                        <span class="case-output-label" id="case-output-solution-label">SOLUTION</span>
                         <p class="case-output-text" id="case-output-text" hidden></p>
                         <div class="case-output-gallery" id="case-output-gallery"></div>
                       </div>
@@ -401,6 +401,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=embodycase02"></script>
+    <script src="./app.js?v=embodycase03"></script>
   </body>
 </html>

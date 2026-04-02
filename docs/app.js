@@ -271,9 +271,8 @@ const caseData = {
           body: "For each failure, export a unified sample that includes fault judgment, short chain-of-thought reasoning, recall of a better state, and a corrected continuation video.",
         },
       ],
-      taskPoster: "./assets/case-embody/source.webp",
-      outputQuestion:
-        "Generate three embodied fault-recovery world-model samples from this robot operation clip.",
+      taskPoster: "",
+      outputQuestion: "",
       outputText: "",
       outputSequence: [
         {
@@ -282,6 +281,7 @@ const caseData = {
             {
               title: "Hesitation Loop",
               taskVideo: "./assets/case-embody/hesitate-input.mp4",
+              taskVideoPoster: "./assets/case-embody/hesitate-input-poster.webp",
               taskImage: "./assets/case-embody/e1.webp",
               prompt: "This is my current situation. What should I do?",
               answer:
@@ -311,12 +311,14 @@ const caseData = {
                 {
                   type: "video",
                   src: "./assets/case-embody/hesitate-gen.mp4",
+                  poster: "./assets/case-embody/hesitate-gen-poster.webp",
                 },
               ],
             },
             {
               title: "Unstable Grasp",
               taskVideo: "./assets/case-embody/unstable-input.mp4",
+              taskVideoPoster: "./assets/case-embody/unstable-input-poster.webp",
               taskImage: "./assets/case-embody/e2.webp",
               prompt: "This is my current situation. What should I do?",
               answer:
@@ -346,12 +348,14 @@ const caseData = {
                 {
                   type: "video",
                   src: "./assets/case-embody/unstable-gen.mp4",
+                  poster: "./assets/case-embody/unstable-gen-poster.webp",
                 },
               ],
             },
             {
               title: "Early Stagnation",
               taskVideo: "./assets/case-embody/stagnant-input.mp4",
+              taskVideoPoster: "./assets/case-embody/stagnant-input-poster.webp",
               taskImage: "./assets/case-embody/e3.webp",
               prompt: "This is my current situation. What should I do?",
               answer:
@@ -381,6 +385,7 @@ const caseData = {
                 {
                   type: "video",
                   src: "./assets/case-embody/stagnant-gen.mp4",
+                  poster: "./assets/case-embody/stagnant-gen-poster.webp",
                 },
               ],
             },
@@ -464,6 +469,9 @@ const caseOutputGallery = document.getElementById("case-output-gallery");
 const caseOutputCard = document.getElementById("case-output-card");
 const caseTaskPreview = document.getElementById("case-task-preview");
 const caseTaskPoster = document.getElementById("case-task-poster");
+const caseOutputTaskField = document.getElementById("case-output-task-field");
+const caseOutputTaskLabel = document.getElementById("case-output-task-label");
+const caseOutputSolutionLabel = document.getElementById("case-output-solution-label");
 const caseOutputQuestion = document.getElementById("case-output-question");
 const caseOutputText = document.getElementById("case-output-text");
 const caseTypingIndicator = document.getElementById("case-typing-indicator");
@@ -548,6 +556,12 @@ function mountAndReveal(node) {
   node.classList.add("is-mounted");
   window.requestAnimationFrame(() => {
     node.classList.add("is-visible");
+    node.querySelectorAll("video[autoplay]").forEach((video) => {
+      const playAttempt = video.play();
+      if (playAttempt && typeof playAttempt.catch === "function") {
+        playAttempt.catch(() => {});
+      }
+    });
   });
 }
 
@@ -566,6 +580,13 @@ function showChatConversationFully() {
 
   caseOutputGallery.querySelectorAll(".case-output-entry").forEach((entry) => {
     entry.classList.add("is-mounted", "is-visible");
+  });
+
+  caseOutputGallery.querySelectorAll("video[autoplay]").forEach((video) => {
+    const playAttempt = video.play();
+    if (playAttempt && typeof playAttempt.catch === "function") {
+      playAttempt.catch(() => {});
+    }
   });
 
   if (caseTypingIndicator) {
@@ -701,14 +722,41 @@ function setSpotlight(caseKey) {
   caseInputFallbackCopy.textContent = pipeline.inputFallbackCopy || "";
   caseOutputQuestion.textContent = sanitizePrompt(pipeline.outputQuestion || "");
   caseOutputText.textContent = pipeline.outputText || "";
-  caseOutputQuestion.hidden = !caseOutputQuestion.textContent.trim();
-  caseOutputText.hidden = !caseOutputText.textContent.trim();
-  if (caseTaskPreview && caseTaskPoster) {
-    const taskPoster = pipeline.taskPoster || pipeline.inputPoster;
-    const hasTaskPoster = Boolean(taskPoster);
-    caseTaskPreview.hidden = !hasTaskPoster;
+  const outputSequence =
+    pipeline.outputSequence ||
+    (pipeline.gallery || []).map((frame) => ({
+      type: "image",
+      src: frame.src,
+      alt: frame.alt,
+    }));
+  const hasParallelOutput = outputSequence.some((item) => item.type === "parallel-grid");
+  const taskPoster = pipeline.taskPoster || pipeline.inputPoster;
+  const hasTaskPoster = Boolean(taskPoster);
+  const hasTaskQuestion = Boolean(caseOutputQuestion.textContent.trim());
 
-    if (hasTaskPoster) {
+  caseOutputQuestion.hidden = !hasTaskQuestion || hasParallelOutput;
+  caseOutputText.hidden = !caseOutputText.textContent.trim();
+
+  if (caseOutputCard) {
+    caseOutputCard.classList.toggle("is-parallel", hasParallelOutput);
+  }
+
+  if (caseOutputTaskField) {
+    caseOutputTaskField.hidden = hasParallelOutput || (!hasTaskPoster && !hasTaskQuestion);
+  }
+
+  if (caseOutputTaskLabel) {
+    caseOutputTaskLabel.hidden = hasParallelOutput;
+  }
+
+  if (caseOutputSolutionLabel) {
+    caseOutputSolutionLabel.hidden = hasParallelOutput;
+  }
+
+  if (caseTaskPreview && caseTaskPoster) {
+    caseTaskPreview.hidden = !hasTaskPoster || hasParallelOutput;
+
+    if (hasTaskPoster && !hasParallelOutput) {
       caseTaskPoster.src = taskPoster;
       caseTaskPoster.alt = pipeline.inputFallbackTitle || "Task source frame";
     } else {
@@ -732,17 +780,7 @@ function setSpotlight(caseKey) {
   });
 
   caseOutputGallery.innerHTML = "";
-  const outputSequence =
-    pipeline.outputSequence ||
-    (pipeline.gallery || []).map((frame) => ({
-      type: "image",
-      src: frame.src,
-      alt: frame.alt,
-    }));
-  caseOutputGallery.classList.toggle(
-    "is-wide",
-    outputSequence.some((item) => item.type === "parallel-grid"),
-  );
+  caseOutputGallery.classList.toggle("is-wide", hasParallelOutput);
   caseOutputGallery.classList.toggle("is-empty", outputSequence.length === 0);
   outputSequence.forEach((item) => {
     if (item.type === "text") {
@@ -779,11 +817,13 @@ function setSpotlight(caseKey) {
       video.src = item.src || "";
       video.poster = item.poster || "";
       video.controls = true;
+      video.autoplay = true;
       video.loop = true;
       video.muted = true;
       video.playsInline = true;
-      video.preload = "metadata";
+      video.preload = "auto";
       video.setAttribute("aria-label", item.alt || "Output video");
+      video.load();
 
       figure.appendChild(video);
       caseOutputGallery.appendChild(figure);
@@ -815,12 +855,14 @@ function setSpotlight(caseKey) {
           const taskVideo = document.createElement("video");
           taskVideo.className = "case-output-panel-video";
           taskVideo.src = panelItem.taskVideo;
+          taskVideo.poster = panelItem.taskVideoPoster || panelItem.taskImage || "";
           taskVideo.controls = true;
           taskVideo.autoplay = true;
           taskVideo.loop = true;
           taskVideo.muted = true;
           taskVideo.playsInline = true;
-          taskVideo.preload = "metadata";
+          taskVideo.preload = "auto";
+          taskVideo.load();
           panel.appendChild(taskVideo);
         }
 
@@ -855,8 +897,8 @@ function setSpotlight(caseKey) {
 
         if ((panelItem.solutionSteps || []).length > 0) {
           const thoughtLabel = document.createElement("span");
-          thoughtLabel.className = "case-output-panel-label";
-          thoughtLabel.textContent = "Thought chain";
+          thoughtLabel.className = "case-output-panel-label case-output-panel-think";
+          thoughtLabel.textContent = "<think>";
           panel.appendChild(thoughtLabel);
 
           const steps = document.createElement("div");
@@ -885,12 +927,14 @@ function setSpotlight(caseKey) {
               const video = document.createElement("video");
               video.className = "case-output-panel-video";
               video.src = stepItem.src;
+              video.poster = stepItem.poster || "";
               video.controls = true;
               video.autoplay = true;
               video.loop = true;
               video.muted = true;
               video.playsInline = true;
-              video.preload = "metadata";
+              video.preload = "auto";
+              video.load();
               steps.appendChild(video);
             }
           });
@@ -900,12 +944,14 @@ function setSpotlight(caseKey) {
           const outputVideo = document.createElement("video");
           outputVideo.className = "case-output-panel-video";
           outputVideo.src = panelItem.generatedVideo;
+          outputVideo.poster = panelItem.generatedVideoPoster || "";
           outputVideo.controls = true;
           outputVideo.autoplay = true;
           outputVideo.loop = true;
           outputVideo.muted = true;
           outputVideo.playsInline = true;
-          outputVideo.preload = "metadata";
+          outputVideo.preload = "auto";
+          outputVideo.load();
           panel.appendChild(outputVideo);
         }
 
