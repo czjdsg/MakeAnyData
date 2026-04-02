@@ -44,19 +44,10 @@ const caseData = {
         },
       ],
       outputTitle: "Final dataset sample",
-      outputQuestion: "How do I cook minced meat step by step?",
+      outputQuestion:
+        "This is my current situation: I am about to cook meat, and I am setting a timer to keep track of the cooking time. I want to know what I should do next.",
       outputText: "",
       outputSequence: [
-        {
-          type: "text",
-          text:
-            "First, set a timer to keep track of the cooking time. In the image, the person reaches out to press the timer button on the countertop. Setting a timer helps control the heating duration and prevents the ingredients from overcooking.",
-        },
-        {
-          type: "image",
-          src: "./assets/case1/frame-1.webp",
-          alt: "A hand reaches toward the countertop timer before cooking starts.",
-        },
         {
           type: "text",
           text: "Keep stirring the meat continuously.",
@@ -346,7 +337,9 @@ if (methodArchitecture) {
 }
 
 function sanitizePrompt(text) {
-  return (text || "").replace(/^[A-Za-z][A-Za-z\s-]+:\s*/, "").trim();
+  return (text || "")
+    .replace(/^(?:User question|Student question|Temporal question|Edit instruction|Task)\s*:\s*/i, "")
+    .trim();
 }
 
 function resetCaseInputVideo() {

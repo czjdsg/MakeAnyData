@@ -1087,7 +1087,7 @@ a {
 
 .chat-upload-preview {
   position: relative;
-  width: min(100%, 400px);
+  width: min(100%, 360px);
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1235,7 +1235,7 @@ a {
   z-index: 1;
   display: grid;
   gap: 14px;
-  width: min(100%, 440px);
+  width: min(100%, 320px);
   margin-top: 10px;
 }
 
@@ -1277,6 +1277,8 @@ a {
 
 .case-output-entry-image {
   margin: 0;
+  width: min(100%, 320px);
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1287,8 +1289,7 @@ a {
 .case-output-entry-image img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -1317,7 +1318,7 @@ a {
 }
 
 .case-task-preview {
-  width: min(100%, 220px);
+  width: min(100%, 320px);
   margin: 10px 0 12px;
   overflow: hidden;
   border-radius: 16px;
