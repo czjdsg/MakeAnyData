@@ -1191,11 +1191,47 @@ a {
 }
 
 .chat-bubble-kicker {
-  margin: 0 0 14px;
+  margin: 0;
   color: rgba(190, 233, 255, 0.72);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-size: 0.7rem;
+}
+
+.case-thought-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.case-thought-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.case-thought-toggle:hover {
+  border-color: rgba(190, 233, 255, 0.24);
+  background: rgba(190, 233, 255, 0.08);
+}
+
+.case-thought-panel {
+  margin-top: 14px;
+}
+
+.case-thought-panel[hidden] {
+  display: none;
 }
 
 .chat-typing {

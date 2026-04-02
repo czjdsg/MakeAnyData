@@ -350,6 +350,9 @@ const caseInputFallback = document.getElementById("case-input-fallback");
 const caseInputFallbackCopy = document.getElementById("case-input-fallback-copy");
 const caseInputIntent = document.getElementById("case-input-intent");
 const caseThoughtGrid = document.getElementById("case-thought-grid");
+const caseThoughtPanel = document.getElementById("case-thought-panel");
+const caseThoughtToggle = document.getElementById("case-thought-toggle");
+const caseThoughtToggleLabel = document.getElementById("case-thought-toggle-label");
 const caseOutputGallery = document.getElementById("case-output-gallery");
 const caseOutputCard = document.getElementById("case-output-card");
 const caseTaskPreview = document.getElementById("case-task-preview");
@@ -373,6 +376,17 @@ function sanitizePrompt(text) {
   return (text || "")
     .replace(/^(?:User question|Student question|Temporal question|Edit instruction|Task)\s*:\s*/i, "")
     .trim();
+}
+
+function setThoughtCollapsed(collapsed) {
+  if (!caseThoughtPanel || !caseThoughtToggle || !caseThoughtToggleLabel) {
+    return;
+  }
+
+  caseThoughtPanel.hidden = collapsed;
+  caseThoughtPanel.classList.toggle("is-collapsed", collapsed);
+  caseThoughtToggle.setAttribute("aria-expanded", String(!collapsed));
+  caseThoughtToggleLabel.textContent = collapsed ? "Show thoughts" : "Hide thoughts";
 }
 
 function resetCaseInputVideo() {
@@ -575,6 +589,7 @@ function setSpotlight(caseKey) {
   spotlightDomain.textContent = item.domain;
   spotlightTitle.textContent = item.title;
   spotlightSummary.textContent = item.summary;
+  setThoughtCollapsed(true);
   caseInputIntent.textContent = pipeline.inputIntent || "";
   caseInputFallbackCopy.textContent = pipeline.inputFallbackCopy || "";
   caseOutputQuestion.textContent = sanitizePrompt(pipeline.outputQuestion || "");
@@ -791,6 +806,13 @@ caseNavItems.forEach((itemNode) => {
     setSpotlight(itemNode.dataset.caseTarget);
   });
 });
+
+if (caseThoughtToggle) {
+  caseThoughtToggle.addEventListener("click", () => {
+    const isExpanded = caseThoughtToggle.getAttribute("aria-expanded") === "true";
+    setThoughtCollapsed(isExpanded);
+  });
+}
 
 if (caseSpotlight) {
   const caseReplayObserver = new IntersectionObserver(

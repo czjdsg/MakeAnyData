@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=chatcase10" />
+    <link rel="stylesheet" href="./styles.css?v=chatcase11" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -282,14 +282,27 @@
                 <article class="chat-message chat-message-assistant" data-chat-step="2">
                   <div class="chat-avatar chat-avatar-ai">DataClaw</div>
                   <div class="chat-bubble chat-bubble-assistant">
-                    <p class="chat-bubble-kicker">THOUGHT</p>
-                    <div class="chat-typing" id="case-typing-indicator" aria-hidden="true">
-                      <span></span>
-                      <span></span>
-                      <span></span>
+                    <div class="case-thought-head">
+                      <p class="chat-bubble-kicker">THOUGHT</p>
+                      <button
+                        class="case-thought-toggle"
+                        id="case-thought-toggle"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="case-thought-panel"
+                      >
+                        <span id="case-thought-toggle-label">Show thoughts</span>
+                      </button>
                     </div>
+                    <div class="case-thought-panel is-collapsed" id="case-thought-panel" hidden>
+                      <div class="chat-typing" id="case-typing-indicator" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
 
-                    <div class="case-thought-grid" id="case-thought-grid"></div>
+                      <div class="case-thought-grid" id="case-thought-grid"></div>
+                    </div>
                   </div>
                 </article>
 
@@ -388,6 +401,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=chatcase10"></script>
+    <script src="./app.js?v=chatcase11"></script>
   </body>
 </html>
