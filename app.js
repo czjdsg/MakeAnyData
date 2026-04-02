@@ -886,33 +886,40 @@ function setSpotlight(caseKey) {
         }
 
         if ((panelItem.solutionSteps || []).length > 0) {
-          const thoughtLabel = document.createElement("span");
-          thoughtLabel.className = "case-output-panel-label case-output-panel-think";
-          thoughtLabel.textContent = "<think>";
-          panel.appendChild(thoughtLabel);
+          const thoughtSteps = panelItem.solutionSteps.filter(
+            (stepItem) => stepItem.type !== "video",
+          );
+          const solutionVideos = panelItem.solutionSteps.filter(
+            (stepItem) => stepItem.type === "video",
+          );
 
-          const steps = document.createElement("div");
-          steps.className = "case-output-panel-steps";
+          if (thoughtSteps.length > 0) {
+            const steps = document.createElement("div");
+            steps.className = "case-output-panel-thoughts";
 
-          panelItem.solutionSteps.forEach((stepItem) => {
-            if (stepItem.type === "text") {
-              const step = document.createElement("p");
-              step.className = "case-output-panel-step";
-              step.textContent = stepItem.text || "";
-              steps.appendChild(step);
-              return;
-            }
+            thoughtSteps.forEach((stepItem) => {
+              if (stepItem.type === "text") {
+                const step = document.createElement("p");
+                step.className = "case-output-panel-step";
+                step.textContent = stepItem.text || "";
+                steps.appendChild(step);
+                return;
+              }
 
-            if (stepItem.type === "image") {
-              const image = document.createElement("img");
-              image.className = "case-output-panel-image";
-              image.src = stepItem.src;
-              image.alt = stepItem.alt || `${panelItem.title || "Recovery"} reasoning frame`;
-              image.loading = "lazy";
-              steps.appendChild(image);
-              return;
-            }
+              if (stepItem.type === "image") {
+                const image = document.createElement("img");
+                image.className = "case-output-panel-image";
+                image.src = stepItem.src;
+                image.alt = stepItem.alt || `${panelItem.title || "Recovery"} reasoning frame`;
+                image.loading = "lazy";
+                steps.appendChild(image);
+              }
+            });
 
+            panel.appendChild(steps);
+          }
+
+          solutionVideos.forEach((stepItem) => {
             if (stepItem.type === "video") {
               const video = document.createElement("video");
               video.className = "case-output-panel-video";
@@ -925,17 +932,9 @@ function setSpotlight(caseKey) {
               video.playsInline = true;
               video.preload = "auto";
               video.load();
-              steps.appendChild(video);
+              panel.appendChild(video);
             }
           });
-
-          panel.appendChild(steps);
-
-          const thoughtCloseLabel = document.createElement("span");
-          thoughtCloseLabel.className =
-            "case-output-panel-label case-output-panel-think case-output-panel-think-end";
-          thoughtCloseLabel.textContent = "</think>";
-          panel.appendChild(thoughtCloseLabel);
         } else if (panelItem.generatedVideo) {
           const outputVideo = document.createElement("video");
           outputVideo.className = "case-output-panel-video";
