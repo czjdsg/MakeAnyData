@@ -45,15 +45,49 @@ const caseData = {
       ],
       outputTitle: "Final dataset sample",
       outputQuestion: "How do I cook minced meat step by step?",
-      outputText: "Interleaved image-text tutorial data.",
+      outputText: "",
+      outputSequence: [
+        {
+          type: "text",
+          text:
+            "First, set a timer to keep track of the cooking time. In the image, the person reaches out to press the timer button on the countertop. Setting a timer helps control the heating duration and prevents the ingredients from overcooking.",
+        },
+        {
+          type: "image",
+          src: "./assets/case1/frame-1.webp",
+          alt: "A hand reaches toward the countertop timer before cooking starts.",
+        },
+        {
+          type: "text",
+          text: "Keep stirring the meat continuously.",
+        },
+        {
+          type: "image",
+          src: "./assets/case1/frame-2.webp",
+          alt: "The minced meat is being stirred in the pan during cooking.",
+        },
+        {
+          type: "text",
+          text:
+            "When the meat has fully changed color and the moisture in the pan has cooked off, turn off the heat. Move the pan away from the stove, set down the wooden spoon, and wipe the countertop.",
+        },
+        {
+          type: "image",
+          src: "./assets/case1/frame-3.webp",
+          alt: "The pan is moved off the stove and the countertop is cleaned.",
+        },
+        {
+          type: "text",
+          text: "Finally, throw the paper towel into the trash bin and close the lid.",
+        },
+        {
+          type: "image",
+          src: "./assets/case1/frame-4.webp",
+          alt: "A used paper towel is dropped into the trash bin and the lid is closed.",
+        },
+      ],
       outputNote:
         "Interleaved image-text tutorial data with extracted keyframes and user-facing instructional text.",
-      gallery: [
-        { src: "./assets/case1/frame-1.webp", alt: "Set a timer before cooking.", label: "Set timer" },
-        { src: "./assets/case1/frame-2.webp", alt: "Stir the meat during cooking.", label: "Stir meat" },
-        { src: "./assets/case1/frame-3.webp", alt: "Turn off the heat and move the pan.", label: "Turn off heat" },
-        { src: "./assets/case1/frame-4.webp", alt: "Clean up and throw paper into the bin.", label: "Clean up" },
-      ],
     },
   },
   geometry: {
@@ -356,9 +390,9 @@ function clearChatReplay() {
     card.classList.remove("is-visible");
   });
 
-  caseOutputGallery.querySelectorAll(".case-output-frame").forEach((frame) => {
-    frame.classList.remove("is-mounted");
-    frame.classList.remove("is-visible");
+  caseOutputGallery.querySelectorAll(".case-output-entry").forEach((entry) => {
+    entry.classList.remove("is-mounted");
+    entry.classList.remove("is-visible");
   });
 
   if (caseTypingIndicator) {
@@ -378,7 +412,7 @@ function replayChatConversation(pipeline) {
   const thinkingMessage = chatMessages[1];
   const outputMessage = chatMessages[2];
   const thoughtCards = Array.from(caseThoughtGrid.querySelectorAll(".thought-card"));
-  const outputFrames = Array.from(caseOutputGallery.querySelectorAll(".case-output-frame"));
+  const outputEntries = Array.from(caseOutputGallery.querySelectorAll(".case-output-entry"));
 
   clearChatReplay();
 
@@ -410,9 +444,9 @@ function replayChatConversation(pipeline) {
     mountAndReveal(outputMessage);
   }, outputStart);
 
-  outputFrames.forEach((frame, index) => {
+  outputEntries.forEach((entry, index) => {
     scheduleChatReplay(() => {
-      mountAndReveal(frame);
+      mountAndReveal(entry);
     }, outputStart + 180 + index * 120);
   });
 }
@@ -437,9 +471,6 @@ function setSpotlight(caseKey) {
   caseOutputText.textContent = pipeline.outputText || "";
   caseOutputQuestion.hidden = !caseOutputQuestion.textContent.trim();
   caseOutputText.hidden = !caseOutputText.textContent.trim();
-  if (caseOutputCard) {
-    caseOutputCard.hidden = !caseOutputQuestion.textContent.trim() && !caseOutputText.textContent.trim();
-  }
 
   caseThoughtGrid.innerHTML = "";
   (pipeline.thoughts || []).forEach((thought) => {
@@ -457,21 +488,47 @@ function setSpotlight(caseKey) {
   });
 
   caseOutputGallery.innerHTML = "";
-  const gallery = pipeline.gallery || [];
-  caseOutputGallery.classList.toggle("is-empty", gallery.length === 0);
-  gallery.forEach((frame) => {
-    const figure = document.createElement("figure");
-    figure.className = "case-output-frame";
+  const outputSequence =
+    pipeline.outputSequence ||
+    (pipeline.gallery || []).map((frame) => ({
+      type: "image",
+      src: frame.src,
+      alt: frame.alt,
+    }));
+  caseOutputGallery.classList.toggle("is-empty", outputSequence.length === 0);
+  outputSequence.forEach((item) => {
+    if (item.type === "text") {
+      const textBlock = document.createElement("div");
+      textBlock.className = "case-output-entry case-output-entry-text";
 
-    const image = document.createElement("img");
-    image.src = frame.src;
-    image.alt = frame.alt || "";
-    image.loading = "lazy";
+      const paragraph = document.createElement("p");
+      paragraph.textContent = item.text || "";
 
-    figure.appendChild(image);
+      textBlock.appendChild(paragraph);
+      caseOutputGallery.appendChild(textBlock);
+      return;
+    }
 
-    caseOutputGallery.appendChild(figure);
+    if (item.type === "image") {
+      const figure = document.createElement("figure");
+      figure.className = "case-output-entry case-output-entry-image";
+
+      const image = document.createElement("img");
+      image.src = item.src || "";
+      image.alt = item.alt || "";
+      image.loading = "lazy";
+
+      figure.appendChild(image);
+      caseOutputGallery.appendChild(figure);
+    }
   });
+
+  if (caseOutputCard) {
+    caseOutputCard.hidden =
+      !caseOutputQuestion.textContent.trim() &&
+      !caseOutputText.textContent.trim() &&
+      outputSequence.length === 0;
+  }
 
   if (pipeline.inputPoster || pipeline.inputVideo) {
     caseInputPreview.hidden = false;
