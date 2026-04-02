@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=casehover02" />
+    <link rel="stylesheet" href="./styles.css?v=caseflow01" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -229,30 +229,95 @@
           </nav>
 
           <aside class="case-spotlight reveal" id="case-spotlight">
-            <div class="spotlight-meta">
-              <span class="spotlight-index" id="spotlight-index">01</span>
-              <span class="spotlight-domain" id="spotlight-domain">Everyday Tutorials</span>
+            <div class="spotlight-header">
+              <div class="spotlight-meta">
+                <span class="spotlight-index" id="spotlight-index">01</span>
+                <span class="spotlight-domain" id="spotlight-domain">Everyday Tutorials</span>
+              </div>
+              <div class="spotlight-copy">
+                <h3 id="spotlight-title">Cooking Tutorial from Raw Video</h3>
+                <p id="spotlight-summary">
+                  Turn a cooking-and-cleanup video into interleaved instructional data that feels like a real tutorial page.
+                </p>
+              </div>
             </div>
-            <h3 id="spotlight-title">Cooking Tutorial from Raw Video</h3>
-            <p id="spotlight-summary">
-              Turn a cooking-and-cleanup video into interleaved instructional data that feels like a real tutorial page.
-            </p>
-            <div class="spotlight-block">
-              <p class="spotlight-label">Raw Input</p>
-              <p id="spotlight-input">Cooking video with multi-step actions and cleanup stages.</p>
+
+            <div class="case-flow" id="case-flow">
+              <article class="case-stage case-stage-input" data-stage-order="1">
+                <div class="case-stage-head">
+                  <p class="spotlight-label">Stage 1</p>
+                  <h4 id="case-stage-input-title">Raw Video + User Intent</h4>
+                </div>
+
+                <div class="case-stage-panel case-stage-panel-media">
+                  <video
+                    class="case-input-video"
+                    id="case-input-video"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    controls
+                    preload="metadata"
+                  ></video>
+
+                  <div class="case-input-fallback" id="case-input-fallback">
+                    <p class="case-mini-label" id="case-input-kicker">Source material</p>
+                    <h5 id="case-input-fallback-title">Raw source clip</h5>
+                    <p id="case-input-fallback-copy">A source video is available for this case.</p>
+                  </div>
+                </div>
+
+                <div class="case-stage-panel case-stage-panel-intent">
+                  <p class="case-mini-label">User intent</p>
+                  <p id="case-input-intent">
+                    这是做饭视频，帮我生成步骤拆解的图文交错数据
+                  </p>
+                </div>
+
+                <p class="case-stage-footnote" id="case-input-note">
+                  Full source video with timer setting, stir-frying, heat control, and cleanup actions.
+                </p>
+              </article>
+
+              <div class="case-flow-arrow" aria-hidden="true">
+                <span></span>
+              </div>
+
+              <article class="case-stage case-stage-thinking" data-stage-order="2">
+                <div class="case-stage-head">
+                  <p class="spotlight-label">Stage 2</p>
+                  <h4 id="case-stage-thinking-title">Key Model Thinking</h4>
+                </div>
+
+                <div class="case-thought-grid" id="case-thought-grid"></div>
+              </article>
+
+              <div class="case-flow-arrow" aria-hidden="true">
+                <span></span>
+              </div>
+
+              <article class="case-stage case-stage-output" data-stage-order="3">
+                <div class="case-stage-head">
+                  <p class="spotlight-label">Stage 3</p>
+                  <h4 id="case-stage-output-title">Delivered Data</h4>
+                </div>
+
+                <div class="case-output-gallery" id="case-output-gallery"></div>
+
+                <div class="case-stage-panel case-stage-panel-output">
+                  <p class="case-mini-label">Final sample</p>
+                  <p class="case-output-question" id="case-output-question">user_question: 如何炒肉</p>
+                  <p class="case-output-text" id="case-output-text">
+                    首先设置定时器，然后围绕炒肉、调火、关火和清理阶段组织图文教程样本。
+                  </p>
+                  <p class="case-stage-footnote" id="case-output-note">
+                    Interleaved image-text tutorial data with user-style instructional phrasing.
+                  </p>
+                </div>
+              </article>
             </div>
-            <div class="spotlight-block">
-              <p class="spotlight-label">User Intent</p>
-              <p id="spotlight-intent">Build interleaved tutorial data that teaches procedural understanding.</p>
-            </div>
-            <div class="spotlight-block">
-              <p class="spotlight-label">Constructed Data</p>
-              <p id="spotlight-output">Stepwise image-text instruction samples with natural user questions and answers.</p>
-            </div>
-            <div class="spotlight-block">
-              <p class="spotlight-label">Why It Matters</p>
-              <p id="spotlight-why">It shows that DataClaw does not just summarize content; it constructs the exact supervision format the user wants.</p>
-            </div>
+
             <div class="spotlight-tags" id="spotlight-tags"></div>
           </aside>
         </div>
@@ -324,6 +389,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=casehover02"></script>
+    <script src="./app.js?v=caseflow01"></script>
   </body>
 </html>
