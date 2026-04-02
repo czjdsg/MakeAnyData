@@ -243,43 +243,72 @@ const caseData = {
   embodied: {
     index: "04",
     domain: "Embodied",
-    title: "Embodied Fault Recovery",
+    title: "Embodied Fault-Recovery World Model",
     summary:
-      "Successful robot demonstrations are transformed into fault diagnosis and recovery supervision for embodied agents.",
-    tags: ["robotics", "world-model", "fault-repair"],
+      "One robot manipulation clip is expanded into three fault-recovery world-model samples with diagnosis, recall, and corrected execution.",
+    tags: ["robotics", "world-model", "fault-recovery"],
     pipeline: {
-      inputTitle: "Uploaded trajectory + intent",
-      inputIntent: "Construct recovery data that teaches fault recognition and correction.",
-      inputNote: "Robot manipulation traces with normal outcomes and state transitions.",
-      inputFallbackKicker: "Uploaded source",
-      inputFallbackTitle: "Successful robot trajectory",
-      inputFallbackCopy: "The nominal trace becomes more useful once the system asks how recovery should happen under failure.",
-      thinkingTitle: "Key thinking steps",
-      thinkingStatus: "Modeling normal execution before injecting recoverable faults...",
-      thinkingDoneStatus: "Recovery supervision prepared. Packaging the sample...",
-      outputStatus: "Recovery sample ready",
+      inputIntent: "This is a robot manipulation video. Help me construct embodied decision and world-model training data from it.",
+      inputVideo: "./assets/case-embody/hesitate-gen.mp4",
+      inputPoster: "./assets/case-embody/source.webp",
+      inputFallbackTitle: "Robot manipulation source clip",
+      inputFallbackCopy: "A successful tissue pick-and-place routine can be turned into richer decision data once failure and correction are modeled.",
       thoughts: [
         {
-          step: "01",
-          title: "Model normal execution",
-          body: "Understand what a successful embodied rollout should look like across states and actions.",
+          title: "Understand the source behavior",
+          body: "The clip shows a standard embodied manipulation routine: the robot uses the left hand to pick up a tissue and place it in the basin, then repeats the operation with the right hand.",
         },
         {
-          step: "02",
-          title: "Inject recoverable faults",
-          body: "Derive abnormal states and failure conditions that still admit meaningful recovery behavior.",
+          title: "Decide what data is most useful",
+          body: "A successful rollout alone is not enough for world-model training. The higher-value supervision comes from abnormal states, fault diagnosis, correction reasoning, and repaired future execution.",
         },
         {
-          step: "03",
-          title: "Export correction supervision",
-          body: "Deliver diagnosis, reasoning traces, and corrected future actions or predicted videos.",
+          title: "Generate three canonical failure cases",
+          body: "From the successful source, construct three recoverable failures: hesitation loop, unstable grasp after contact, and early stagnation before reaching the target.",
+        },
+        {
+          title: "Package fault-to-recovery supervision",
+          body: "For each failure, export a unified sample that includes fault judgment, short chain-of-thought reasoning, recall of a better state, and a corrected continuation video.",
         },
       ],
-      outputTitle: "Final dataset sample",
-      outputQuestion: "Recovery task: The gripper missed the object. What should the robot do next?",
-      outputText: "Embodied recovery supervision with fault judgment, reasoning, and corrected future behavior.",
-      outputNote: "World-model data gets stronger when it includes what should happen after failure.",
-      gallery: [],
+      taskPoster: "./assets/case-embody/source.webp",
+      outputQuestion:
+        "Generate three embodied fault-recovery world-model samples from this robot operation clip.",
+      outputText: "",
+      outputSequence: [
+        {
+          type: "parallel-grid",
+          items: [
+            {
+              title: "Hesitation Loop",
+              taskVideo: "./assets/case-embody/hesitate-input.mp4",
+              recallImage: "./assets/case-embody/e1.webp",
+              prompt: "This is my current situation. What should I do?",
+              answer:
+                "The robot is stuck in a local hesitation loop. It should recover to the last better alignment and continue the approach from that corrected state.",
+              generatedVideo: "./assets/case-embody/hesitate-gen.mp4",
+            },
+            {
+              title: "Unstable Grasp",
+              taskVideo: "./assets/case-embody/unstable-input.mp4",
+              recallImage: "./assets/case-embody/e2.webp",
+              prompt: "This is my current situation. What should I do?",
+              answer:
+                "The robot made a grasping motion but failed to secure the object. It should return to the previous better posture and re-approach for a corrected grasp.",
+              generatedVideo: "./assets/case-embody/unstable-gen.mp4",
+            },
+            {
+              title: "Early Stagnation",
+              taskVideo: "./assets/case-embody/stagnant-input.mp4",
+              recallImage: "./assets/case-embody/e3.webp",
+              prompt: "This is my current situation. What should I do?",
+              answer:
+                "The robot stops too early before reaching the target. It should roll back to the last better local state and resume the approach from that corrected state.",
+              generatedVideo: "./assets/case-embody/stagnant-gen.mp4",
+            },
+          ],
+        },
+      ],
     },
   },
   editing: {
@@ -632,6 +661,10 @@ function setSpotlight(caseKey) {
       src: frame.src,
       alt: frame.alt,
     }));
+  caseOutputGallery.classList.toggle(
+    "is-wide",
+    outputSequence.some((item) => item.type === "parallel-grid"),
+  );
   caseOutputGallery.classList.toggle("is-empty", outputSequence.length === 0);
   outputSequence.forEach((item) => {
     if (item.type === "text") {
@@ -676,6 +709,87 @@ function setSpotlight(caseKey) {
 
       figure.appendChild(video);
       caseOutputGallery.appendChild(figure);
+      return;
+    }
+
+    if (item.type === "parallel-grid") {
+      const block = document.createElement("div");
+      block.className = "case-output-entry case-output-entry-parallel";
+
+      const grid = document.createElement("div");
+      grid.className = "case-output-parallel-grid";
+
+      (item.items || []).forEach((panelItem) => {
+        const panel = document.createElement("article");
+        panel.className = "case-output-panel";
+
+        const title = document.createElement("h5");
+        title.className = "case-output-panel-title";
+        title.textContent = panelItem.title || "";
+        panel.appendChild(title);
+
+        const taskLabel = document.createElement("span");
+        taskLabel.className = "case-output-panel-label";
+        taskLabel.textContent = "Task";
+        panel.appendChild(taskLabel);
+
+        if (panelItem.taskVideo) {
+          const taskVideo = document.createElement("video");
+          taskVideo.className = "case-output-panel-video";
+          taskVideo.src = panelItem.taskVideo;
+          taskVideo.controls = true;
+          taskVideo.loop = true;
+          taskVideo.muted = true;
+          taskVideo.playsInline = true;
+          taskVideo.preload = "metadata";
+          panel.appendChild(taskVideo);
+        }
+
+        if (panelItem.recallImage) {
+          const recall = document.createElement("img");
+          recall.className = "case-output-panel-image";
+          recall.src = panelItem.recallImage;
+          recall.alt = `${panelItem.title || "Recovery"} recall frame`;
+          recall.loading = "lazy";
+          panel.appendChild(recall);
+        }
+
+        if (panelItem.prompt) {
+          const prompt = document.createElement("p");
+          prompt.className = "case-output-panel-prompt";
+          prompt.textContent = panelItem.prompt;
+          panel.appendChild(prompt);
+        }
+
+        const solutionLabel = document.createElement("span");
+        solutionLabel.className = "case-output-panel-label";
+        solutionLabel.textContent = "Solution";
+        panel.appendChild(solutionLabel);
+
+        if (panelItem.answer) {
+          const answer = document.createElement("p");
+          answer.className = "case-output-panel-answer";
+          answer.textContent = panelItem.answer;
+          panel.appendChild(answer);
+        }
+
+        if (panelItem.generatedVideo) {
+          const outputVideo = document.createElement("video");
+          outputVideo.className = "case-output-panel-video";
+          outputVideo.src = panelItem.generatedVideo;
+          outputVideo.controls = true;
+          outputVideo.loop = true;
+          outputVideo.muted = true;
+          outputVideo.playsInline = true;
+          outputVideo.preload = "metadata";
+          panel.appendChild(outputVideo);
+        }
+
+        grid.appendChild(panel);
+      });
+
+      block.appendChild(grid);
+      caseOutputGallery.appendChild(block);
     }
   });
 
