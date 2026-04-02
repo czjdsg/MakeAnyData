@@ -328,6 +328,8 @@ const caseInputIntent = document.getElementById("case-input-intent");
 const caseThoughtGrid = document.getElementById("case-thought-grid");
 const caseOutputGallery = document.getElementById("case-output-gallery");
 const caseOutputCard = document.getElementById("case-output-card");
+const caseTaskPreview = document.getElementById("case-task-preview");
+const caseTaskPoster = document.getElementById("case-task-poster");
 const caseOutputQuestion = document.getElementById("case-output-question");
 const caseOutputText = document.getElementById("case-output-text");
 const caseTypingIndicator = document.getElementById("case-typing-indicator");
@@ -527,6 +529,17 @@ function setSpotlight(caseKey) {
   caseOutputText.textContent = pipeline.outputText || "";
   caseOutputQuestion.hidden = !caseOutputQuestion.textContent.trim();
   caseOutputText.hidden = !caseOutputText.textContent.trim();
+  if (caseTaskPreview && caseTaskPoster) {
+    const hasTaskPoster = Boolean(pipeline.inputPoster);
+    caseTaskPreview.hidden = !hasTaskPoster;
+
+    if (hasTaskPoster) {
+      caseTaskPoster.src = pipeline.inputPoster;
+      caseTaskPoster.alt = pipeline.inputFallbackTitle || "Task source frame";
+    } else {
+      caseTaskPoster.removeAttribute("src");
+    }
+  }
 
   caseThoughtGrid.innerHTML = "";
   (pipeline.thoughts || []).forEach((thought) => {
@@ -594,7 +607,7 @@ function setSpotlight(caseKey) {
       caseInputVideo.hidden = false;
       caseInputVideo.src = pipeline.inputVideo;
       caseInputVideo.poster = pipeline.inputPoster || "";
-      caseInputVideo.loop = false;
+      caseInputVideo.loop = true;
       caseInputVideo.setAttribute("aria-label", pipeline.inputFallbackTitle || "Uploaded video preview");
       caseInputVideo.load();
       caseInputPoster.hidden = true;

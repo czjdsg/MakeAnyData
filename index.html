@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=chatcase07" />
+    <link rel="stylesheet" href="./styles.css?v=chatcase08" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -260,6 +260,7 @@
                         id="case-input-video"
                         playsinline
                         muted
+                        loop
                         preload="metadata"
                       ></video>
                       <img class="case-input-poster" id="case-input-poster" alt="Uploaded video preview" hidden />
@@ -295,6 +296,9 @@
                     <div class="chat-sample-card" id="case-output-card">
                       <div class="case-output-field">
                         <span class="case-output-label">TASK</span>
+                        <div class="case-task-preview" id="case-task-preview" hidden>
+                          <img id="case-task-poster" alt="Task source frame" />
+                        </div>
                         <p class="case-output-question" id="case-output-question">How do I cook minced meat step by step?</p>
                       </div>
                       <div class="case-output-field">
@@ -379,6 +383,6 @@
       </section>
     </main>
 
-    <script src="./app.js?v=chatcase07"></script>
+    <script src="./app.js?v=chatcase08"></script>
   </body>
 </html>
