@@ -8,7 +8,7 @@
       name="description"
       content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
     />
-    <link rel="stylesheet" href="./styles.css?v=worldmodel01" />
+    <link rel="stylesheet" href="./styles.css?v=evaltable01" />
   </head>
   <body>
     <div class="cursor-glow" aria-hidden="true"></div>
@@ -359,70 +359,188 @@
 
       <section class="section validation-section" id="validation">
         <div class="section-head reveal">
-          <p class="eyebrow">Validation</p>
-          <h2>We validate alignment, structure, and downstream usefulness.</h2>
+          <p class="eyebrow">Evaluation</p>
+          <h2>We test both benchmark reconstruction and benchmark augmentation.</h2>
+          <p class="validation-intro">
+            The goal is not just to generate plausible outputs. The goal is to reconstruct benchmark-style
+            supervision from raw sources, and then show that newly constructed data can improve benchmark
+            performance after training.
+          </p>
         </div>
 
-        <div class="validation-grid">
-          <article class="validation-card reveal">
-            <span class="validation-index">01</span>
-            <h3>Intent Alignment</h3>
-            <p>Does the constructed data match what the user actually asked for, instead of merely following visual content?</p>
-          </article>
-          <article class="validation-card reveal">
-            <span class="validation-index">02</span>
-            <h3>Structural Quality</h3>
-            <p>Are the outputs well-formed, consistent, and reusable as standardized training samples?</p>
-          </article>
-          <article class="validation-card reveal">
-            <span class="validation-index">03</span>
-            <h3>Training Utility</h3>
-            <p>Can the constructed data improve downstream models rather than staying at the level of pretty demos?</p>
-          </article>
-          <article class="validation-card reveal">
-            <span class="validation-index">04</span>
-            <h3>Cross-Domain Generality</h3>
-            <p>Can one intent-driven pipeline support many domains without redesigning the entire workflow?</p>
-          </article>
-        </div>
-
-        <div class="validation-summary reveal">
-          <div class="summary-copy">
-            <p class="eyebrow">Evaluation Logic</p>
-            <h3>DataClaw is evaluated by what matters for data construction.</h3>
+        <div class="eval-setting-grid">
+          <article class="eval-setting-card reveal">
+            <span class="validation-index">Setting A</span>
+            <h3>Benchmark Reconstruction</h3>
             <p>
-              The core question is not whether outputs look plausible in isolation. The core question is
-              whether the system constructs the right data form for the right user intention, and whether
-              that data is actually useful for training.
+              Give the system raw materials, a user intent prompt, and target schema constraints. Then compare
+              the constructed output against the official benchmark ground truth.
+            </p>
+            <ul class="eval-pill-list">
+              <li>raw source</li>
+              <li>user intent</li>
+              <li>schema-aligned output</li>
+              <li>GT comparison</li>
+            </ul>
+          </article>
+          <article class="eval-setting-card reveal">
+            <span class="validation-index">Setting B</span>
+            <h3>Benchmark Augmentation</h3>
+            <p>
+              Give the system in-distribution but unlabeled raw materials, construct new data in the benchmark
+              schema, train with the augmented set, and evaluate on the official test split.
+            </p>
+            <ul class="eval-pill-list">
+              <li>unlabeled raw source</li>
+              <li>new benchmark-style data</li>
+              <li>train with augmentation</li>
+              <li>test on official split</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="eval-benchmark-board reveal">
+          <div class="summary-copy">
+            <p class="eyebrow">Benchmarks</p>
+            <h3>Source-linked benchmarks make reconstruction measurable.</h3>
+            <p>
+              We focus on benchmarks where the connection from benchmark sample back to raw source material is
+              explicit enough to support reconstruction, alignment, or augmentation experiments.
             </p>
           </div>
-          <div class="summary-bars">
-            <article>
-              <div class="summary-label-row">
-                <span>Intent alignment</span>
-                <span>High priority</span>
-              </div>
-              <span class="summary-bar"><span style="width: 94%"></span></span>
+          <div class="eval-benchmark-grid">
+            <article class="eval-benchmark-card">
+              <span class="eval-benchmark-tag">Video QA</span>
+              <h4>LongVideoBench</h4>
+              <p>Raw videos, subtitles, and annotations make it suitable for long-context reconstruction.</p>
             </article>
-            <article>
-              <div class="summary-label-row">
-                <span>Data structure quality</span>
-                <span>High priority</span>
-              </div>
-              <span class="summary-bar"><span style="width: 90%"></span></span>
+            <article class="eval-benchmark-card">
+              <span class="eval-benchmark-tag">Temporal</span>
+              <h4>TempCompass</h4>
+              <p>Temporal ordering and concurrency questions are well matched to structured reconstruction.</p>
             </article>
-            <article>
-              <div class="summary-label-row">
-                <span>Downstream training value</span>
-                <span>Critical</span>
-              </div>
-              <span class="summary-bar"><span style="width: 96%"></span></span>
+            <article class="eval-benchmark-card">
+              <span class="eval-benchmark-tag">Video QA</span>
+              <h4>Video-MME</h4>
+              <p>Video source linkage is clear enough to test benchmark-style QA recovery from raw videos.</p>
             </article>
+            <article class="eval-benchmark-card">
+              <span class="eval-benchmark-tag">Motion</span>
+              <h4>MotionBench</h4>
+              <p>Its mapping and clip provenance design makes it a strong reconstruction-friendly reference.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="eval-table-shell reveal">
+          <div class="eval-table-head">
+            <div>
+              <p class="eyebrow">Comparison Table</p>
+              <h3>Results can be organized by benchmark and evaluation setting.</h3>
+            </div>
+            <span class="eval-table-note">Numbers can be filled in later.</span>
+          </div>
+
+          <div class="eval-table-wrap">
+            <table class="eval-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Method</th>
+                  <th rowspan="2">Family</th>
+                  <th colspan="4">Setting A: Benchmark Reconstruction</th>
+                  <th colspan="4">Setting B: Benchmark Augmentation</th>
+                </tr>
+                <tr>
+                  <th>LongVideoBench</th>
+                  <th>TempCompass</th>
+                  <th>Video-MME</th>
+                  <th>MotionBench</th>
+                  <th>LongVideoBench</th>
+                  <th>TempCompass</th>
+                  <th>Video-MME</th>
+                  <th>MotionBench</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="is-primary">
+                  <th scope="row"><span class="eval-method-badge">DataClaw</span></th>
+                  <td>Intent-driven data construction</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                </tr>
+                <tr>
+                  <th scope="row">Qwen3.5</th>
+                  <td>Direct multimodal generation</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                </tr>
+                <tr>
+                  <th scope="row">Gemini</th>
+                  <td>Direct multimodal generation</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                </tr>
+                <tr>
+                  <th scope="row">GPT-4o</th>
+                  <td>Direct multimodal generation</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                </tr>
+                <tr>
+                  <th scope="row">InternVL</th>
+                  <td>General VLM baseline</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                </tr>
+                <tr>
+                  <th scope="row">Rule Pipeline</th>
+                  <td>Hand-crafted data synthesis</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                  <td class="eval-cell-empty">—</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
     </main>
 
-    <script src="./app.js?v=worldmodel01"></script>
+    <script src="./app.js?v=evaltable01"></script>
   </body>
 </html>
