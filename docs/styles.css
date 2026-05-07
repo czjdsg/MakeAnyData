@@ -1321,10 +1321,31 @@ button {
 }
 
 .chat-avatar-ai {
-  min-width: 98px;
+  min-width: 140px;
+  padding: 0 14px 0 10px;
+  gap: 8px;
   background: rgba(255, 143, 76, 0.12);
   border: 1px solid rgba(255, 143, 76, 0.28);
-  color: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.92rem;
+}
+
+.chat-avatar-mascot {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 2px 6px rgba(211, 90, 24, 0.18));
+}
+
+.brand-wordmark {
+  font-family: "Fraunces", "Spectral", "Iowan Old Style", "Palatino Linotype",
+    Georgia, serif;
+  font-weight: 900;
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+  letter-spacing: -0.02em;
+  font-feature-settings: "ss01" 1, "ss02" 1;
 }
 
 .chat-bubble {
@@ -2784,7 +2805,13 @@ button {
   }
 
   .chat-avatar-ai {
-    min-width: 86px;
+    min-width: 118px;
+    font-size: 0.78rem;
+  }
+
+  .chat-avatar-mascot {
+    width: 22px;
+    height: 22px;
   }
 
   .chat-bubble {
