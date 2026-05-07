@@ -34,45 +34,46 @@
     <main>
       <section class="section hero" id="intro">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Intent-driven multimodal data</p>
+          <p class="eyebrow">Agentic Data Tailoring</p>
           <h1 class="hero-title">
             DataClaw:
             <span>Make ANY Data You Want</span>
           </h1>
           <p class="hero-subtitle">
-            Turn raw inputs into user-intent-aligned, trainable multimodal data.
+            Refine raw multimodal streams into intent-aligned, schema-conformant training data.
           </p>
           <p class="hero-text">
-            DataClaw is built around a simple premise: users do not want a fixed dataset recipe.
-            They want the exact data form that matches their downstream goal. From videos, images,
-            GUI traces, robot trajectories, and more, DataClaw infers intent and composes the right
-            trainable output.
+            DataClaw elevates data processing to a learnable, high-order capability. Given a user
+            intent or downstream objective, a 9B tailoring agent filters redundant signal from
+            long videos, GUI traces, embodied trajectories, and editing sequences, then reorganizes
+            the residual into dense, verifiable, application-specific supervision &mdash; trained
+            with SFT + rule-driven GRPO, deployed as a single Omni model or a panel of domain Experts.
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#cases">Explore cases</a>
           </div>
           <p class="hero-release-note">
-            <span class="hero-release-tag">Forthcoming</span>
-            <span>Paper, dataset, and benchmark numbers release with v2.</span>
+            <span class="hero-release-tag">v1</span>
+            <span>Method paper drafted &middot; code, dataset, and DataClaw-val release with v2.</span>
           </p>
         </div>
 
         <aside class="hero-stage reveal" aria-label="DataClaw at a glance">
           <ol class="hero-flow">
             <li>
-              <span class="hero-flow-tag">Raw Inputs</span>
-              <p class="hero-flow-title">Video, image, GUI trace, robot demo, drawing sequence.</p>
-              <p>Ordinary materials enter the system without being pre-shaped into a single dataset template.</p>
+              <span class="hero-flow-tag">Raw Streams + Intent</span>
+              <p class="hero-flow-title">High-entropy video, GUI trace, embodied trajectory, or editing sequence, paired with a user intent or downstream objective.</p>
+              <p>Long, noisy multimodal streams with no fixed schema, plus a free-form description of the data the user actually wants.</p>
             </li>
             <li>
-              <span class="hero-flow-tag">User Intent</span>
-              <p class="hero-flow-title">What kind of data does the user actually want to build from this material?</p>
-              <p>An intent agent infers candidate task types and rewrites each into a synthesis-ready instruction.</p>
+              <span class="hero-flow-tag">Factual Anchors</span>
+              <p class="hero-flow-title">Lightweight experts extract timestamps, spatial positions, and local semantic content as deterministic anchors.</p>
+              <p>Bottom-up grounding signals, including key frames, OCR, action steps, and trajectory points, fix what the synthesis stage is allowed to claim.</p>
             </li>
             <li>
-              <span class="hero-flow-tag">Constructed Outputs</span>
-              <p class="hero-flow-title">Interleaved tutorials, temporal QA, long-horizon GUI tasks, world-model samples, editing data.</p>
-              <p>Per-task synthesis agents emit data in the schema each downstream task expects.</p>
+              <span class="hero-flow-tag">Tailored Outputs</span>
+              <p class="hero-flow-title">A strong VLM, supervised on factual anchors, emits structured data conforming to a per-domain schema.</p>
+              <p>Interleaved tutorials, temporal QA, long-horizon GUI plans, world-model samples, and image-edit triplets, ready for SFT or RL post-training.</p>
             </li>
           </ol>
         </aside>
@@ -81,10 +82,14 @@
       <section class="section method-section" id="method">
         <div class="section-head reveal">
           <p class="eyebrow">Method</p>
-          <h2>Raw video and user intent are merged once, then dispatched by task type.</h2>
+          <h2>Bottom-up factual anchors, top-down agentic synthesis &mdash; trained with SFT + GRPO.</h2>
           <p class="section-copy">
-            DataClaw first resolves user intent into typed instructions, then combines that instruction with the raw
-            video context in one shared route before dispatching parallel synthesis models.
+            A lightweight expert ensemble first extracts deterministic anchors &mdash; key frames,
+            steps, actions, trajectories, scenes &mdash; from raw multimodal streams. A strong VLM
+            then synthesises schema-aligned, intent-conditioned supervision on top of those
+            anchors. The resulting corpus trains DataClaw-9B with supervised fine-tuning followed
+            by rule-driven GRPO; at inference time it is served either as a unified Omni model or
+            as a routed panel of domain Experts.
           </p>
         </div>
 
@@ -375,141 +380,276 @@
       <section class="section validation-section" id="validation">
         <div class="section-head reveal">
           <p class="eyebrow">Evaluation</p>
-          <h2>We test both benchmark reconstruction and benchmark augmentation.</h2>
+          <h2>Two evaluation regimes: refinement quality and downstream training utility.</h2>
           <p class="validation-intro">
-            The goal is not just to generate plausible outputs. The goal is to reconstruct benchmark-style
-            supervision from raw sources, and then show that newly constructed data can improve benchmark
-            performance after training.
+            DataClaw-val measures whether the agent itself can produce well-formed,
+            grounded, schema-aligned structured data. Targeted Refinement asks the harder
+            question: can downstream models trained on DataClaw outputs match or beat
+            models trained on annotations from frontier proprietary VLMs &mdash; under the
+            same data budget?
           </p>
         </div>
 
         <div class="eval-setting-grid">
           <article class="eval-setting-card reveal">
             <span class="validation-index">Setting A</span>
-            <h3>Benchmark Reconstruction</h3>
+            <h3>Refinement Quality &mdash; DataClaw-val</h3>
             <p>
-              Give the system raw materials, a user intent prompt, and target schema constraints. Then compare
-              the constructed output against the official benchmark ground truth.
+              200 diversity-sampled examples spanning five domains plus a fuzzy-intent
+              stress subset. Outputs are scored by JSON validity, then by Field, Semantic,
+              and Sequence metrics over the target schema.
             </p>
             <ul class="eval-pill-list">
-              <li>raw source</li>
-              <li>user intent</li>
-              <li>schema-aligned output</li>
-              <li>GT comparison</li>
+              <li>5 domains + fuzzy intent</li>
+              <li>schema-aware metrics</li>
+              <li>Field / Semantic / Sequence</li>
+              <li>vs. proprietary VLMs</li>
             </ul>
           </article>
           <article class="eval-setting-card reveal">
             <span class="validation-index">Setting B</span>
-            <h3>Benchmark Augmentation</h3>
+            <h3>Targeted Refinement &mdash; downstream SFT</h3>
             <p>
-              Give the system in-distribution but unlabeled raw materials, construct new data in the benchmark
-              schema, train with the augmented set, and evaluate on the official test split.
+              Identical raw streams are tailored by Qwen3.5-9B, Gemini-3.1-Pro, and
+              DataClaw. Equal-size SFT subsets are sampled from each pool, used to
+              fine-tune a base model, and evaluated on the task's official test split.
             </p>
             <ul class="eval-pill-list">
-              <li>unlabeled raw source</li>
-              <li>new benchmark-style data</li>
-              <li>train with augmentation</li>
-              <li>test on official split</li>
+              <li>volume-aligned</li>
+              <li>data-quality isolation</li>
+              <li>3 downstream tasks</li>
+              <li>end-to-end success</li>
             </ul>
           </article>
         </div>
 
         <div class="eval-benchmark-board reveal">
           <div class="summary-copy">
-            <p class="eyebrow">Benchmarks</p>
-            <h3>Source-linked benchmarks make reconstruction measurable.</h3>
+            <p class="eyebrow">Headline numbers</p>
+            <h3>DataClaw-E matches frontier VLMs on schema, leads on end-to-end downstream metrics.</h3>
             <p>
-              We focus on benchmarks where the connection from benchmark sample back to raw source material is
-              explicit enough to support reconstruction, alignment, or augmentation experiments.
+              Scores below are taken from the v1 paper. DataClaw-E is the routed expert
+              configuration; DataClaw-O is the unified omni model. Best per row in <strong>bold</strong>.
             </p>
           </div>
           <div class="eval-benchmark-grid">
             <article class="eval-benchmark-card">
-              <span class="eval-benchmark-tag">Video QA</span>
-              <h4>LongVideoBench</h4>
-              <p>Raw videos, subtitles, and annotations make it suitable for long-context reconstruction.</p>
+              <span class="eval-benchmark-tag">Refinement</span>
+              <h4>DataClaw-val (Field / Sem / Seq)</h4>
+              <p><strong>DataClaw-E</strong>: 97.53 / 74.94 / 48.86 &middot; Gemini-3.1-Pro: 98.12 / 73.85 / 58.50 &middot; GPT-4o: 97.27 / 75.15 / 49.43.</p>
             </article>
             <article class="eval-benchmark-card">
-              <span class="eval-benchmark-tag">Temporal</span>
-              <h4>TempCompass</h4>
-              <p>Temporal ordering and concurrency questions are well matched to structured reconstruction.</p>
+              <span class="eval-benchmark-tag">GUI navigation</span>
+              <h4>AgentNet (SSR / TSR)</h4>
+              <p>Base Qwen3.5-4B. SFT on Gemini data: 39.5 / 14.2. SFT on <strong>DataClaw</strong>: 38.2 / <strong>15.6</strong> &mdash; higher end-to-end task success.</p>
             </article>
             <article class="eval-benchmark-card">
-              <span class="eval-benchmark-tag">Video QA</span>
-              <h4>Video-MME</h4>
-              <p>Video source linkage is clear enough to test benchmark-style QA recovery from raw videos.</p>
+              <span class="eval-benchmark-tag">Video generation</span>
+              <h4>Ego4D action gen (FVD &darr; / Contact mAP &uarr;)</h4>
+              <p>Base Wan2.2-I2V-5B. SFT on Gemini: 295.4 / 48.5. SFT on <strong>DataClaw</strong>: <strong>288.6</strong> / <strong>51.2</strong>.</p>
             </article>
             <article class="eval-benchmark-card">
-              <span class="eval-benchmark-tag">Motion</span>
-              <h4>MotionBench</h4>
-              <p>Its mapping and clip provenance design makes it a strong reconstruction-friendly reference.</p>
+              <span class="eval-benchmark-tag">Spatio-temporal VQA</span>
+              <h4>ReMoT (Partial / Overall)</h4>
+              <p>Base Qwen3.5-4B. SFT on Gemini: 53.4 / 31.5. SFT on <strong>DataClaw</strong>: 52.1 / <strong>33.2</strong>.</p>
             </article>
+          </div>
+        </div>
+
+        <div class="eval-results reveal" aria-labelledby="eval-results-heading">
+          <div class="eval-results-head">
+            <p class="eyebrow">Main results</p>
+            <h3 id="eval-results-heading">DataClaw-val &mdash; structured-output quality across five domains and a fuzzy-intent subset.</h3>
+            <p>
+              Field measures schema completeness, Semantic measures content correctness,
+              Sequence measures ordering and structural consistency. Best per column in
+              <strong>bold</strong>. Numbers from the v1 paper.
+            </p>
+          </div>
+
+          <div class="eval-table-wrap">
+            <table class="eval-table">
+              <thead>
+                <tr>
+                  <th class="eval-table-model">Model</th>
+                  <th class="eval-table-metric">Metric</th>
+                  <th>GUI</th>
+                  <th>Embodied</th>
+                  <th>AIGC</th>
+                  <th>Daily</th>
+                  <th>Education</th>
+                  <th>Fuzzy</th>
+                  <th>Overall</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="eval-table-group-start">
+                  <td class="eval-table-model" rowspan="3">Claude-Sonnet-4-6</td>
+                  <td class="eval-table-metric">Field</td>
+                  <td>57.50</td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td>76.35</td><td>88.98</td>
+                </tr>
+                <tr><td class="eval-table-metric">Semantic</td><td>50.05</td><td>84.83</td><td>74.26</td><td>54.46</td><td>54.46</td><td>65.72</td><td>63.96</td></tr>
+                <tr><td class="eval-table-metric">Sequence</td><td>54.06</td><td>50.11</td><td>33.38</td><td>41.07</td><td>41.07</td><td>36.48</td><td>42.70</td></tr>
+
+                <tr class="eval-table-group-start">
+                  <td class="eval-table-model" rowspan="3">GPT-4o (1120-global)</td>
+                  <td class="eval-table-metric">Field</td>
+                  <td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td>83.61</td><td>97.27</td>
+                </tr>
+                <tr><td class="eval-table-metric">Semantic</td><td>84.81</td><td>87.55</td><td>69.38</td><td>54.58</td><td><strong>80.21</strong></td><td>74.39</td><td><strong>75.15</strong></td></tr>
+                <tr><td class="eval-table-metric">Sequence</td><td>80.69</td><td>46.33</td><td><strong>46.95</strong></td><td>29.33</td><td><strong>50.71</strong></td><td>42.57</td><td>49.43</td></tr>
+
+                <tr class="eval-table-group-start">
+                  <td class="eval-table-model" rowspan="3">Gemini-3.1-Pro-Preview</td>
+                  <td class="eval-table-metric">Field</td>
+                  <td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>88.74</strong></td><td><strong>98.12</strong></td>
+                </tr>
+                <tr><td class="eval-table-metric">Semantic</td><td><strong>90.01</strong></td><td><strong>89.17</strong></td><td>75.26</td><td>54.51</td><td>54.51</td><td><strong>79.63</strong></td><td>73.85</td></tr>
+                <tr><td class="eval-table-metric">Sequence</td><td><strong>99.67</strong></td><td>67.97</td><td>33.14</td><td><strong>51.48</strong></td><td>51.48</td><td>47.25</td><td><strong>58.50</strong></td></tr>
+
+                <tr class="eval-table-group-start">
+                  <td class="eval-table-model" rowspan="3">MiniMax-M2.7</td>
+                  <td class="eval-table-metric">Field</td>
+                  <td>92.50</td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td>97.50</td><td>95.00</td><td>73.29</td><td>93.05</td>
+                </tr>
+                <tr><td class="eval-table-metric">Semantic</td><td>78.93</td><td>79.28</td><td>69.07</td><td>44.38</td><td>43.52</td><td>61.85</td><td>62.84</td></tr>
+                <tr><td class="eval-table-metric">Sequence</td><td>77.86</td><td>51.84</td><td>6.83</td><td>32.89</td><td>17.54</td><td>32.16</td><td>36.52</td></tr>
+
+                <tr class="eval-table-group-start">
+                  <td class="eval-table-model" rowspan="3">Qwen3.6-plus</td>
+                  <td class="eval-table-metric">Field</td>
+                  <td>70.00</td><td><strong>100.00</strong></td><td>95.00</td><td>95.00</td><td>82.50</td><td>77.58</td><td>86.68</td>
+                </tr>
+                <tr><td class="eval-table-metric">Semantic</td><td>62.64</td><td>87.40</td><td>67.82</td><td>51.20</td><td>62.14</td><td>64.37</td><td>65.93</td></tr>
+                <tr><td class="eval-table-metric">Sequence</td><td>66.96</td><td>60.33</td><td>39.71</td><td>42.44</td><td>30.85</td><td>35.92</td><td>46.04</td></tr>
+
+                <tr class="eval-table-group-start">
+                  <td class="eval-table-model" rowspan="3">Qwen3.5-9B</td>
+                  <td class="eval-table-metric">Field</td>
+                  <td>94.87</td><td><strong>100.00</strong></td><td>95.00</td><td>87.50</td><td>90.00</td><td>70.46</td><td>89.64</td>
+                </tr>
+                <tr><td class="eval-table-metric">Semantic</td><td>72.72</td><td>77.48</td><td>65.27</td><td>45.66</td><td>43.41</td><td>58.24</td><td>60.46</td></tr>
+                <tr><td class="eval-table-metric">Sequence</td><td>72.71</td><td>59.35</td><td>3.29</td><td>27.70</td><td>24.75</td><td>29.63</td><td>36.24</td></tr>
+
+                <tr class="eval-table-group-start eval-table-row-ours">
+                  <td class="eval-table-model" rowspan="3">DataClaw-O <span class="eval-table-tag">Ours</span></td>
+                  <td class="eval-table-metric">Field</td>
+                  <td><strong>100.00</strong></td><td><strong>100.00</strong></td><td>85.00</td><td>92.50</td><td>70.00</td><td>78.42</td><td>87.65</td>
+                </tr>
+                <tr class="eval-table-row-ours"><td class="eval-table-metric">Semantic</td><td>80.01</td><td>63.37</td><td>55.70</td><td>62.61</td><td>45.71</td><td>67.35</td><td>62.46</td></tr>
+                <tr class="eval-table-row-ours"><td class="eval-table-metric">Sequence</td><td>85.70</td><td>67.01</td><td>23.90</td><td>35.05</td><td>17.41</td><td>39.84</td><td>44.82</td></tr>
+
+                <tr class="eval-table-group-start eval-table-row-ours">
+                  <td class="eval-table-model" rowspan="3">DataClaw-E <span class="eval-table-tag">Ours</span></td>
+                  <td class="eval-table-metric">Field</td>
+                  <td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td><strong>100.00</strong></td><td>85.17</td><td>97.53</td>
+                </tr>
+                <tr class="eval-table-row-ours"><td class="eval-table-metric">Semantic</td><td>88.90</td><td>82.93</td><td><strong>75.36</strong></td><td>49.72</td><td>76.43</td><td>76.28</td><td>74.94</td></tr>
+                <tr class="eval-table-row-ours"><td class="eval-table-metric">Sequence</td><td>93.62</td><td><strong>71.60</strong></td><td>15.26</td><td>42.59</td><td>19.75</td><td><strong>50.31</strong></td><td>48.86</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="eval-results-head" style="margin-top: 32px;">
+            <p class="eyebrow">Downstream application</p>
+            <h3>Targeted Refinement &mdash; same raw streams, same SFT budget, only the annotator changes.</h3>
+            <p>
+              Three downstream tasks fine-tuned on identical sample counts drawn from each
+              annotator's pool. DataClaw matches Gemini overall and leads on the
+              end-to-end task-success metrics.
+            </p>
+          </div>
+
+          <div class="eval-table-wrap">
+            <table class="eval-table eval-table-downstream">
+              <thead>
+                <tr>
+                  <th class="eval-table-model">Data source for SFT</th>
+                  <th colspan="2">GUI Navigation<span class="eval-table-base">Base: Qwen3.5-4B</span></th>
+                  <th colspan="3">Action Video Generation<span class="eval-table-base">Base: Wan2.2-I2V-5B</span></th>
+                  <th colspan="2">Spatio-temporal VQA<span class="eval-table-base">Base: Qwen3.5-4B</span></th>
+                </tr>
+                <tr class="eval-table-subhead">
+                  <th></th>
+                  <th>SSR &uarr;</th><th>TSR &uarr;</th>
+                  <th>FVD &darr;</th><th>Consis. &uarr;</th><th>Contact mAP &uarr;</th>
+                  <th>Partial &uarr;</th><th>Overall &uarr;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="eval-table-model"><em>Zero-shot base model</em></td><td>12.4</td><td>1.2</td><td>385.2</td><td>68.4</td><td>18.5</td><td>28.3</td><td>9.8</td></tr>
+                <tr><td class="eval-table-model">Processed by base model</td><td>16.8</td><td>3.5</td><td>362.1</td><td>69.1</td><td>24.2</td><td>33.5</td><td>14.2</td></tr>
+                <tr><td class="eval-table-model">Processed by Gemini-3.1-Pro</td><td><strong>39.5</strong></td><td>14.2</td><td>295.4</td><td><strong>76.2</strong></td><td>48.5</td><td><strong>53.4</strong></td><td>31.5</td></tr>
+                <tr class="eval-table-row-ours"><td class="eval-table-model">Processed by DataClaw <span class="eval-table-tag">Ours</span></td><td>38.2</td><td><strong>15.6</strong></td><td><strong>288.6</strong></td><td>75.8</td><td><strong>51.2</strong></td><td>52.1</td><td><strong>33.2</strong></td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
         <div class="eval-roadmap reveal" aria-labelledby="eval-roadmap-heading">
           <div class="eval-roadmap-head">
             <p class="eyebrow">Release roadmap</p>
-            <h3 id="eval-roadmap-heading">Validation is in progress.</h3>
+            <h3 id="eval-roadmap-heading">v1 reports the numbers; v2 ships code, weights, and DataClaw-val.</h3>
             <p>
-              DataClaw will be evaluated under both settings across the four benchmarks above.
-              Numbers, code, and dataset release with v2.
+              The v1 method paper covers the full pipeline, ablations, scaling curves, and
+              t-SNE diversity analysis. Code, model weights, dataset, and the DataClaw-val
+              benchmark are forthcoming with v2.
             </p>
           </div>
           <ol class="eval-roadmap-tracks" aria-label="Validation tracks">
             <li class="eval-roadmap-track">
               <p class="eval-roadmap-track-label">
                 <span class="eval-roadmap-track-tag">Setting A</span>
-                <span class="eval-roadmap-track-name">Benchmark reconstruction</span>
+                <span class="eval-roadmap-track-name">DataClaw-val refinement quality</span>
               </p>
               <p class="eval-roadmap-track-copy">
-                Reconstruct benchmark-style supervision from raw sources, then compare against the
-                official ground truth.
+                Score the agent's structured outputs against schema-aware Field, Semantic,
+                and Sequence metrics across five domains and a fuzzy-intent subset.
               </p>
               <ul class="eval-roadmap-coverage">
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">LongVideoBench</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">DataClaw-val (5 domains)</span>
+                  <span class="eval-roadmap-coverage-state">v1 paper</span>
                 </li>
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">TempCompass</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">DataClaw-Intent (fuzzy)</span>
+                  <span class="eval-roadmap-coverage-state">v1 paper</span>
                 </li>
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">Video-MME</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">Reward / routing ablations</span>
+                  <span class="eval-roadmap-coverage-state">v1 paper</span>
                 </li>
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">MotionBench</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">Public benchmark release</span>
+                  <span class="eval-roadmap-coverage-state">Forthcoming &middot; v2</span>
                 </li>
               </ul>
             </li>
             <li class="eval-roadmap-track">
               <p class="eval-roadmap-track-label">
                 <span class="eval-roadmap-track-tag">Setting B</span>
-                <span class="eval-roadmap-track-name">Benchmark augmentation</span>
+                <span class="eval-roadmap-track-name">Targeted Refinement &mdash; downstream SFT</span>
               </p>
               <p class="eval-roadmap-track-copy">
-                Construct new benchmark-style data from in-distribution unlabeled sources, train with
-                the augmented set, and report on the official test split.
+                Hold raw streams fixed, vary only the annotator. Evaluate on three
+                downstream tasks under volume-aligned SFT.
               </p>
               <ul class="eval-roadmap-coverage">
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">LongVideoBench</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">AgentNet &mdash; GUI navigation</span>
+                  <span class="eval-roadmap-coverage-state">v1 paper</span>
                 </li>
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">TempCompass</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">Ego4D &mdash; action video gen</span>
+                  <span class="eval-roadmap-coverage-state">v1 paper</span>
                 </li>
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">Video-MME</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">ReMoT &mdash; spatio-temporal VQA</span>
+                  <span class="eval-roadmap-coverage-state">v1 paper</span>
                 </li>
                 <li class="eval-roadmap-coverage-item">
-                  <span class="eval-roadmap-coverage-bench">MotionBench</span>
-                  <span class="eval-roadmap-coverage-state">Forthcoming</span>
+                  <span class="eval-roadmap-coverage-bench">Reproduction recipes</span>
+                  <span class="eval-roadmap-coverage-state">Forthcoming &middot; v2</span>
                 </li>
               </ul>
             </li>
