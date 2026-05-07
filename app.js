@@ -774,7 +774,6 @@ const caseData = {
 };
 
 const revealItems = document.querySelectorAll(".reveal");
-const cursorGlow = document.querySelector(".cursor-glow");
 
 const methodArchitecture = document.getElementById("method-architecture");
 const flowFocusables = Array.from(document.querySelectorAll("[data-flow-focus]"));
@@ -833,6 +832,75 @@ const caseVariantState = {
 if (methodArchitecture) {
   methodArchitecture.classList.remove("is-focused");
 }
+
+function attachVideoErrorFallback(video, fallbackText) {
+  if (!video || video.dataset.errorAttached === "1") {
+    return;
+  }
+  video.dataset.errorAttached = "1";
+  video.addEventListener("error", () => {
+    video.hidden = true;
+    try {
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+    } catch (_) {}
+    const parent = video.parentElement;
+    if (!parent || parent.querySelector(".case-media-error")) {
+      return;
+    }
+    const message = document.createElement("p");
+    message.className = "case-media-error";
+    message.textContent = fallbackText || "Source media unavailable.";
+    parent.appendChild(message);
+  });
+}
+
+function attachInputVideoErrorFallback() {
+  if (!caseInputVideo || caseInputVideo.dataset.errorAttached === "1") {
+    return;
+  }
+  caseInputVideo.dataset.errorAttached = "1";
+  caseInputVideo.addEventListener("error", () => {
+    caseInputVideo.hidden = true;
+    try {
+      caseInputVideo.pause();
+    } catch (_) {}
+    if (caseInputPoster && caseInputPoster.getAttribute("src")) {
+      caseInputPoster.hidden = false;
+      return;
+    }
+    if (caseInputPreview) {
+      caseInputPreview.hidden = true;
+    }
+    if (caseInputFallback) {
+      caseInputFallback.hidden = false;
+      if (caseInputFallbackCopy && !caseInputFallbackCopy.textContent.trim()) {
+        caseInputFallbackCopy.textContent =
+          "Source video could not be loaded. The case description still applies.";
+      }
+    }
+  });
+}
+
+function attachTaskVideoErrorFallback() {
+  if (!caseTaskVideo || caseTaskVideo.dataset.errorAttached === "1") {
+    return;
+  }
+  caseTaskVideo.dataset.errorAttached = "1";
+  caseTaskVideo.addEventListener("error", () => {
+    caseTaskVideo.hidden = true;
+    try {
+      caseTaskVideo.pause();
+    } catch (_) {}
+    if (caseTaskPoster && caseTaskPoster.getAttribute("src")) {
+      caseTaskPoster.hidden = false;
+    }
+  });
+}
+
+attachInputVideoErrorFallback();
+attachTaskVideoErrorFallback();
 
 function sanitizePrompt(text) {
   return (text || "")
@@ -896,17 +964,6 @@ function resetCaseInputVideo() {
   caseInputVideo.currentTime = 0;
 }
 
-function playCaseInputVideo() {
-  if (!caseInputVideo || caseInputVideo.hidden || !caseInputVideo.src) {
-    return;
-  }
-
-  const playAttempt = caseInputVideo.play();
-  if (playAttempt && typeof playAttempt.catch === "function") {
-    playAttempt.catch(() => {});
-  }
-}
-
 function pauseAssetVideos() {
   if (!caseInputAssets) {
     return;
@@ -918,19 +975,6 @@ function pauseAssetVideos() {
   });
 }
 
-function playAssetVideos() {
-  if (!caseInputAssets || caseInputAssets.hidden) {
-    return;
-  }
-
-  caseInputAssets.querySelectorAll("video").forEach((video) => {
-    const playAttempt = video.play();
-    if (playAttempt && typeof playAttempt.catch === "function") {
-      playAttempt.catch(() => {});
-    }
-  });
-}
-
 function mountAndReveal(node) {
   if (!node) {
     return;
@@ -939,12 +983,6 @@ function mountAndReveal(node) {
   node.classList.add("is-mounted");
   window.requestAnimationFrame(() => {
     node.classList.add("is-visible");
-    node.querySelectorAll("video[autoplay]").forEach((video) => {
-      const playAttempt = video.play();
-      if (playAttempt && typeof playAttempt.catch === "function") {
-        playAttempt.catch(() => {});
-      }
-    });
   });
 }
 
@@ -963,13 +1001,6 @@ function showChatConversationFully() {
 
   caseOutputGallery.querySelectorAll(".case-output-entry").forEach((entry) => {
     entry.classList.add("is-mounted", "is-visible");
-  });
-
-  caseOutputGallery.querySelectorAll("video[autoplay]").forEach((video) => {
-    const playAttempt = video.play();
-    if (playAttempt && typeof playAttempt.catch === "function") {
-      playAttempt.catch(() => {});
-    }
   });
 
   if (caseTypingIndicator) {
@@ -1026,7 +1057,7 @@ function renderCasePlayback() {
   replayChatConversation(activePipeline, activeCaseInstanceKey);
 }
 
-function replayChatConversation(pipeline, caseKey) {
+function replayChatConversation(_pipeline, caseKey) {
   const userMessage = chatMessages[0];
   const thinkingMessage = chatMessages[1];
   const outputMessage = chatMessages[2];
@@ -1039,8 +1070,6 @@ function replayChatConversation(pipeline, caseKey) {
 
   scheduleChatReplay(() => {
     mountAndReveal(userMessage);
-    playCaseInputVideo();
-    playAssetVideos();
   }, 140);
 
   scheduleChatReplay(() => {
@@ -1247,7 +1276,7 @@ function setSpotlight(caseKey) {
       video.src = item.src || "";
       video.poster = item.poster || "";
       video.controls = true;
-      video.autoplay = true;
+      video.autoplay = false;
       video.loop = true;
       video.muted = true;
       video.playsInline = true;
@@ -1256,6 +1285,7 @@ function setSpotlight(caseKey) {
       video.load();
 
       figure.appendChild(video);
+      attachVideoErrorFallback(video, "Output video unavailable.");
       caseOutputGallery.appendChild(figure);
       return;
     }
@@ -1289,13 +1319,14 @@ function setSpotlight(caseKey) {
           taskVideo.src = panelItem.taskVideo;
           taskVideo.poster = panelItem.taskVideoPoster || panelItem.taskImage || "";
           taskVideo.controls = true;
-          taskVideo.autoplay = true;
+          taskVideo.autoplay = false;
           taskVideo.loop = true;
           taskVideo.muted = true;
           taskVideo.playsInline = true;
           taskVideo.preload = "auto";
           taskVideo.load();
           panel.appendChild(taskVideo);
+          attachVideoErrorFallback(taskVideo, "Task video unavailable.");
         }
 
         const taskImageSrc = panelItem.taskImage || panelItem.recallImage;
@@ -1374,13 +1405,14 @@ function setSpotlight(caseKey) {
               video.src = stepItem.src;
               video.poster = stepItem.poster || "";
               video.controls = true;
-              video.autoplay = true;
+              video.autoplay = false;
               video.loop = true;
               video.muted = true;
               video.playsInline = true;
               video.preload = "auto";
               video.load();
               panel.appendChild(video);
+              attachVideoErrorFallback(video, "Solution video unavailable.");
             }
           });
         } else if (panelItem.generatedVideo) {
@@ -1389,13 +1421,14 @@ function setSpotlight(caseKey) {
           outputVideo.src = panelItem.generatedVideo;
           outputVideo.poster = panelItem.generatedVideoPoster || "";
           outputVideo.controls = true;
-          outputVideo.autoplay = true;
+          outputVideo.autoplay = false;
           outputVideo.loop = true;
           outputVideo.muted = true;
           outputVideo.playsInline = true;
           outputVideo.preload = "auto";
           outputVideo.load();
           panel.appendChild(outputVideo);
+          attachVideoErrorFallback(outputVideo, "Generated video unavailable.");
         } else if (panelItem.answer) {
           const answer = document.createElement("p");
           answer.className = "case-output-panel-answer";
@@ -1455,10 +1488,11 @@ function setSpotlight(caseKey) {
         video.src = asset.src || "";
         video.muted = true;
         video.loop = true;
-        video.autoplay = true;
+        video.autoplay = false;
         video.playsInline = true;
         video.preload = "metadata";
         tile.appendChild(video);
+        attachVideoErrorFallback(video, "Asset video unavailable.");
       } else {
         const image = document.createElement("img");
         image.src = asset.src || "";
@@ -1546,14 +1580,6 @@ function setSpotlight(caseKey) {
 }
 
 caseNavItems.forEach((itemNode) => {
-  itemNode.addEventListener("mouseenter", () => {
-    setSpotlight(itemNode.dataset.caseTarget);
-  });
-
-  itemNode.addEventListener("focus", () => {
-    setSpotlight(itemNode.dataset.caseTarget);
-  });
-
   itemNode.addEventListener("click", () => {
     setSpotlight(itemNode.dataset.caseTarget);
   });
@@ -1625,22 +1651,5 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => revealObserver.observe(item));
-
-window.addEventListener("pointermove", (event) => {
-  if (!cursorGlow) {
-    return;
-  }
-
-  cursorGlow.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
-  cursorGlow.style.opacity = "1";
-});
-
-window.addEventListener("pointerleave", () => {
-  if (!cursorGlow) {
-    return;
-  }
-
-  cursorGlow.style.opacity = "0";
-});
 
 setSpotlight("cooking");

@@ -1,3 +1,4 @@
 .runtime/
 deploy/frp/frp.token
 deploy/frp-deploy.tar.gz
+site_publish/
