@@ -239,7 +239,8 @@ button {
   color: rgba(255, 255, 255, 0.78);
   text-decoration: none;
   line-height: 1;
-  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease,
+    filter 160ms ease, opacity 160ms ease;
 }
 
 .icon-link svg {
@@ -250,6 +251,25 @@ button {
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.95);
   border-color: rgba(255, 255, 255, 0.22);
+}
+
+.icon-link-glyph {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
+}
+
+.icon-link-glyph .icon-link-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+.icon-link-glyph .icon-link-img-wordmark {
+  width: 28px;
+  height: auto;
 }
 
 .icon-link.is-disabled {
@@ -264,6 +284,14 @@ button {
   background: rgba(255, 255, 255, 0.025);
   color: rgba(255, 255, 255, 0.38);
   border-color: rgba(255, 255, 255, 0.08);
+}
+
+.icon-link.is-disabled .icon-link-img {
+  filter: grayscale(1) brightness(1.4) opacity(0.45);
+}
+
+.icon-link:not(.is-disabled) .icon-link-img {
+  filter: none;
 }
 
 .hero-release-note {
