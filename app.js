@@ -1,7 +1,7 @@
 const caseData = {
   cooking: {
     index: "01",
-    domain: "Everyday Tutorials",
+    domain: "Daily Life",
     title: "Cooking Tutorial from Raw Video",
     summary:
       "A single cooking clip is replayed as a live chat session: user upload, model reasoning, and the final tutorial-ready dataset.",
@@ -376,7 +376,7 @@ const caseData = {
   },
   embodied: {
     index: "04",
-    domain: "World Model",
+    domain: "Embodied",
     variants: [
       {
         variantLabel: "Robot Recovery",
@@ -619,7 +619,7 @@ const caseData = {
   },
   editing: {
     index: "05",
-    domain: "Generation",
+    domain: "AIGC",
     variants: [
       {
         variantLabel: "Game Generation",

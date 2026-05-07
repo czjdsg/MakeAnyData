@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DataClaw | Make ANY Data You Want</title>
+    <title>DataClaw | Agentic Multimodal Data Tailoring</title>
     <meta
       name="description"
-      content="DataClaw turns raw inputs into user-intent-aligned, trainable multimodal data."
+      content="DataClaw is a universal framework for agentic multimodal data tailoring: refine raw multimodal streams into intent-aligned, schema-conformant training data."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,7 +26,7 @@
         <a href="#intro">Intro</a>
         <a href="#method">Method</a>
         <a href="#cases">Cases</a>
-        <a href="#validation">Validation</a>
+        <a href="#validation">Experiments</a>
         <a href="#resources">Resources</a>
       </nav>
     </header>
@@ -34,13 +34,13 @@
     <main>
       <section class="section hero" id="intro">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Agentic Data Tailoring</p>
+          <p class="eyebrow">A universal framework for agentic multimodal data tailoring</p>
           <h1 class="hero-title">
             DataClaw:
-            <span>Make ANY Data You Want</span>
+            <span>Agentic Multimodal Data Tailoring</span>
           </h1>
           <p class="hero-subtitle">
-            Refine raw multimodal streams into intent-aligned, schema-conformant training data.
+            Actively refining and structuring data to align with diverse user and downstream intents.
           </p>
           <p class="hero-text">
             DataClaw elevates data processing to a learnable, high-order capability. Given a user
@@ -82,14 +82,15 @@
       <section class="section method-section" id="method">
         <div class="section-head reveal">
           <p class="eyebrow">Method</p>
-          <h2>Bottom-up factual anchors, top-down agentic synthesis &mdash; trained with SFT + GRPO.</h2>
+          <h2>Bottom-up factual anchors, top-down semantic synthesis.</h2>
           <p class="section-copy">
-            A lightweight expert ensemble first extracts deterministic anchors &mdash; key frames,
-            steps, actions, trajectories, scenes &mdash; from raw multimodal streams. A strong VLM
-            then synthesises schema-aligned, intent-conditioned supervision on top of those
-            anchors. The resulting corpus trains DataClaw-9B with supervised fine-tuning followed
-            by rule-driven GRPO; at inference time it is served either as a unified Omni model or
-            as a routed panel of domain Experts.
+            DataClaw constructs training data by extracting bottom-up factual anchors from raw
+            multimodal data &mdash; including key frames, steps, actions, trajectories, and scenes
+            &mdash; and then combining them with domain-specific intents for top-down semantic
+            synthesis by a strong VLM. The constructed data trains DataClaw under two paradigms:
+            an Omni model trained on mixed-domain data and Expert models trained on per-domain
+            subsets. Optimization synergises supervised fine-tuning (SFT) with rule-driven Group
+            Relative Policy Optimization (GRPO).
           </p>
         </div>
 
@@ -225,14 +226,14 @@
 
       <section class="section cases-section" id="cases">
         <div class="section-head reveal">
-          <p class="eyebrow">Case Gallery</p>
-          <h2>One system, many kinds of data users may ask for.</h2>
+          <p class="eyebrow">Qualitative cases</p>
+          <h2>Five representative domains: daily life, education, embodied, GUI agents, and AIGC.</h2>
         </div>
 
         <div class="cases-layout">
           <nav class="case-nav reveal" id="case-filter" aria-label="Case categories">
             <button class="case-nav-item is-active" type="button" data-case-target="cooking" aria-controls="case-spotlight">
-              <span class="case-nav-title">Everyday Tutorials</span>
+              <span class="case-nav-title">Daily Life</span>
             </button>
             <button class="case-nav-item" type="button" data-case-target="geometry" aria-controls="case-spotlight">
               <span class="case-nav-title">Education</span>
@@ -241,10 +242,10 @@
               <span class="case-nav-title">GUI Agents</span>
             </button>
             <button class="case-nav-item" type="button" data-case-target="embodied" aria-controls="case-spotlight">
-              <span class="case-nav-title">World Model</span>
+              <span class="case-nav-title">Embodied</span>
             </button>
             <button class="case-nav-item" type="button" data-case-target="editing" aria-controls="case-spotlight">
-              <span class="case-nav-title">Generation</span>
+              <span class="case-nav-title">AIGC</span>
             </button>
           </nav>
 
@@ -252,7 +253,7 @@
             <div class="spotlight-header">
               <div class="spotlight-meta">
                 <span class="spotlight-index" id="spotlight-index">01</span>
-                <span class="spotlight-domain" id="spotlight-domain">Everyday Tutorials</span>
+                <span class="spotlight-domain" id="spotlight-domain">Daily Life</span>
               </div>
               <div class="spotlight-copy">
                 <h3 id="spotlight-title">Cooking Tutorial from Raw Video</h3>
@@ -379,14 +380,15 @@
 
       <section class="section validation-section" id="validation">
         <div class="section-head reveal">
-          <p class="eyebrow">Evaluation</p>
-          <h2>Two evaluation regimes: refinement quality and downstream training utility.</h2>
+          <p class="eyebrow">Experiments</p>
+          <h2>DataClaw-val and Targeted Refinement: structured-output quality, then downstream training utility.</h2>
           <p class="validation-intro">
-            DataClaw-val measures whether the agent itself can produce well-formed,
-            grounded, schema-aligned structured data. Targeted Refinement asks the harder
-            question: can downstream models trained on DataClaw outputs match or beat
-            models trained on annotations from frontier proprietary VLMs &mdash; under the
-            same data budget?
+            We evaluate two complementary aspects of agentic data tailoring. First,
+            DataClaw-val: a benchmark dedicated to data refinement, scoring outputs by JSON
+            validity, schema-field correctness, textual semantic alignment, and visual
+            consistency. Second, Targeted Refinement: post-training as the ultimate
+            validation touchstone &mdash; downstream SFT on DataClaw-tailored data is
+            compared against frontier-VLM annotations under volume-aligned budgets.
           </p>
         </div>
 
