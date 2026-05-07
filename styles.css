@@ -253,23 +253,22 @@ button {
   border-color: rgba(255, 255, 255, 0.22);
 }
 
-.icon-link-glyph {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  justify-content: center;
-}
-
-.icon-link-glyph .icon-link-img {
-  width: 22px;
-  height: 22px;
+.icon-link-img {
+  width: 18px;
+  height: 18px;
   object-fit: contain;
   display: block;
+  flex: 0 0 auto;
 }
 
-.icon-link-glyph .icon-link-img-wordmark {
-  width: 28px;
+.icon-link-img-wordmark {
+  width: 22px;
   height: auto;
+}
+
+.icon-link-label {
+  display: inline-block;
+  line-height: 1;
 }
 
 .icon-link.is-disabled {
