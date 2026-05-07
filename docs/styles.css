@@ -388,6 +388,43 @@ button {
   font-size: 1.04rem;
 }
 
+.method-overview-figure {
+  margin: 28px 0 0;
+  padding: 28px;
+  border-radius: var(--radius-xl);
+  background: rgba(10, 18, 28, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.method-overview-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 16px;
+}
+
+.method-overview-figure figcaption {
+  margin: 18px 4px 0;
+  font-size: 0.86rem;
+  line-height: 1.78;
+  color: var(--text-muted);
+}
+
+.method-overview-figure figcaption strong {
+  color: var(--text);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.method-overview-figure figcaption em {
+  color: var(--accent-soft);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
 .method-stage-rail {
   display: flex;
   align-items: center;
