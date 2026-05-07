@@ -77,23 +77,29 @@
         </div>
 
         <aside class="hero-stage reveal" aria-label="DataClaw at a glance">
-          <ol class="hero-flow">
-            <li>
-              <span class="hero-flow-tag">Raw Streams + Intent</span>
-              <p class="hero-flow-title">High-entropy video, GUI trace, embodied trajectory, or editing sequence, paired with a user intent or downstream objective.</p>
-              <p>Long, noisy multimodal streams with no fixed schema, plus a free-form description of the data the user actually wants.</p>
-            </li>
-            <li>
-              <span class="hero-flow-tag">Factual Anchors</span>
-              <p class="hero-flow-title">Lightweight experts extract timestamps, spatial positions, and local semantic content as deterministic anchors.</p>
-              <p>Bottom-up grounding signals, including key frames, OCR, action steps, and trajectory points, fix what the synthesis stage is allowed to claim.</p>
-            </li>
-            <li>
-              <span class="hero-flow-tag">Tailored Outputs</span>
-              <p class="hero-flow-title">A strong VLM, supervised on factual anchors, emits structured data conforming to a per-domain schema.</p>
-              <p>Interleaved tutorials, temporal QA, long-horizon GUI plans, world-model samples, and image-edit triplets, ready for SFT or RL post-training.</p>
-            </li>
-          </ol>
+          <figure class="hero-mascot">
+            <img
+              src="./assets/mascot.png"
+              alt="DataClaw mascot: a red lobster pinching high-entropy raw multimodal inputs (video, web, GUI, robot, education) on the left and producing structured outputs (JSON, document, dataset) on the right."
+              loading="eager"
+            />
+            <figcaption class="hero-mascot-caption">
+              <span class="hero-mascot-step">
+                <span class="hero-mascot-step-tag">Raw streams</span>
+                <span class="hero-mascot-step-copy">Video, web, GUI, embodied, education &mdash; high-entropy and noisy.</span>
+              </span>
+              <span class="hero-mascot-arrow" aria-hidden="true">&rarr;</span>
+              <span class="hero-mascot-step">
+                <span class="hero-mascot-step-tag">DataClaw</span>
+                <span class="hero-mascot-step-copy">Bottom-up anchors, top-down semantic synthesis.</span>
+              </span>
+              <span class="hero-mascot-arrow" aria-hidden="true">&rarr;</span>
+              <span class="hero-mascot-step">
+                <span class="hero-mascot-step-tag">Tailored outputs</span>
+                <span class="hero-mascot-step-copy">JSON, structured documents, training-ready datasets.</span>
+              </span>
+            </figcaption>
+          </figure>
         </aside>
       </section>
 

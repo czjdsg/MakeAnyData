@@ -371,6 +371,73 @@ button {
   width: 100%;
 }
 
+.hero-mascot {
+  margin: 0;
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+  display: grid;
+  gap: 18px;
+}
+
+.hero-mascot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.hero-mascot-caption {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: start;
+  gap: 12px;
+  padding: 4px 6px 0;
+}
+
+.hero-mascot-step {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.hero-mascot-step-tag {
+  display: inline-block;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+.hero-mascot-step-copy {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.hero-mascot-arrow {
+  align-self: center;
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 1rem;
+  padding-top: 14px;
+}
+
+@media (max-width: 720px) {
+  .hero-mascot-caption {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-mascot-arrow {
+    transform: rotate(90deg);
+    padding-top: 0;
+    justify-self: center;
+  }
+}
+
 .hero-flow {
   display: grid;
   grid-template-columns: 1fr;
