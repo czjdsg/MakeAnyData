@@ -35,7 +35,10 @@
         <div class="hero-copy reveal">
           <p class="eyebrow">A universal framework for agentic multimodal data tailoring</p>
           <h1 class="hero-title">
-            DataClaw:
+            <span class="hero-title-line">
+              <img class="hero-title-mascot" src="./assets/mascot.png" alt="" />
+              DataClaw:
+            </span>
             <span>Agentic Multimodal Data Tailoring</span>
           </h1>
           <p class="hero-subtitle">
@@ -76,31 +79,6 @@
           </p>
         </div>
 
-        <aside class="hero-stage reveal" aria-label="DataClaw at a glance">
-          <figure class="hero-mascot">
-            <img
-              src="./assets/mascot.png"
-              alt="DataClaw mascot: a red lobster pinching high-entropy raw multimodal inputs (video, web, GUI, robot, education) on the left and producing structured outputs (JSON, document, dataset) on the right."
-              loading="eager"
-            />
-            <figcaption class="hero-mascot-caption">
-              <span class="hero-mascot-step">
-                <span class="hero-mascot-step-tag">Raw streams</span>
-                <span class="hero-mascot-step-copy">Video, web, GUI, embodied, education &mdash; high-entropy and noisy.</span>
-              </span>
-              <span class="hero-mascot-arrow" aria-hidden="true">&rarr;</span>
-              <span class="hero-mascot-step">
-                <span class="hero-mascot-step-tag">DataClaw</span>
-                <span class="hero-mascot-step-copy">Bottom-up anchors, top-down semantic synthesis.</span>
-              </span>
-              <span class="hero-mascot-arrow" aria-hidden="true">&rarr;</span>
-              <span class="hero-mascot-step">
-                <span class="hero-mascot-step-tag">Tailored outputs</span>
-                <span class="hero-mascot-step-copy">JSON, structured documents, training-ready datasets.</span>
-              </span>
-            </figcaption>
-          </figure>
-        </aside>
       </section>
 
       <section class="section method-section" id="method">
@@ -108,38 +86,20 @@
           <p class="eyebrow">Method</p>
           <h2>Overview.</h2>
           <p class="section-copy">
-            The pipeline consists of two parts. First, DataClaw constructs training data by
-            extracting bottom-up factual anchors from raw multimodal data, including key frames,
-            steps, actions, trajectories, and scenes, and then combining them with domain-specific
-            intents for top-down semantic synthesis by a strong VLM. This produces large-scale
-            structured data across daily life, education, embodied, GUI-agent, and AIGC domains.
-            Second, the constructed data is used to train DataClaw models under two paradigms:
-            an omni model trained on mixed-domain data and expert models trained on per-domain
-            subsets. During inference, user intents are handled either directly by the omni model
-            or routed to domain experts, yielding refined structured data for downstream
-            multimodal tasks.
+            DataClaw extracts bottom-up factual anchors from raw multimodal data and combines
+            them with domain-specific intents for top-down semantic synthesis by a strong VLM,
+            producing structured training data across five domains. The corpus then trains
+            DataClaw under two paradigms &mdash; an Omni model and per-domain Experts &mdash;
+            with SFT followed by rule-driven GRPO.
           </p>
         </div>
 
-        <figure class="method-overview-figure reveal" aria-labelledby="method-overview-caption">
+        <figure class="method-overview-figure reveal">
           <img
             src="./assets/method/overview.png"
             alt="DataClaw overview: data construction via bottom-up factual anchor extraction and top-down semantic synthesis, followed by training under Omni and Expert paradigms, inference, and downstream utilization."
             loading="lazy"
           />
-          <figcaption id="method-overview-caption">
-            <strong>Figure 1.</strong> Overview of DataClaw.
-            <em>I. Data Construction</em> &mdash; Stage 1 extracts deterministic factual anchors
-            (key frames, OCR text, action steps, scene transitions, key trajectories);
-            Stage 2 conditions a strong VLM synthesis engine on those anchors and a
-            domain-specific intent to emit structured supervision across five domains.
-            <em>II. Training, Inference, and Downstream Utilization</em> &mdash; the corpus
-            trains DataClaw-O (joint, all data) and DataClaw-E (per-domain experts) with
-            SFT followed by rule-driven RL GRPO; at inference the user intent is routed
-            either to the omni model or to the matching expert; the refined high-quality
-            training set is then consumed by downstream models for editing, VQA, and agent
-            tasks.
-          </figcaption>
         </figure>
       </section>
 

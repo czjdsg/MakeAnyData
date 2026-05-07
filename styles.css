@@ -175,7 +175,8 @@ button {
 
 .hero {
   display: grid;
-  grid-template-columns: 1.04fr 0.96fr;
+  grid-template-columns: minmax(0, 920px);
+  justify-content: start;
   gap: 52px;
   align-items: center;
   min-height: calc(100vh - 110px);
@@ -189,6 +190,23 @@ button {
   font-size: clamp(3.3rem, 9vw, 7rem);
   line-height: 0.94;
   letter-spacing: -0.06em;
+}
+
+.hero-title-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18em;
+  flex-wrap: wrap;
+}
+
+.hero-title-mascot {
+  width: 0.95em;
+  height: 0.95em;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  filter: drop-shadow(0 6px 18px rgba(255, 60, 60, 0.18));
 }
 
 .hero-title span {
